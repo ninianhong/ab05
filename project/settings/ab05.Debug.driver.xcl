@@ -1,0 +1,19 @@
+"--endian=little" 
+
+"--cpu=Cortex-A5" 
+
+"--fpu=VFPv4Neon" 
+
+"-p" 
+
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\CONFIG\debugger\Atmel\ATSAMA5D27.ddf" 
+
+"--semihosting" 
+
+"--device=ATSAMA5D27" 
+
+"--multicore_nr_of_cores=1" 
+
+
+
+
