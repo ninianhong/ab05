@@ -139,11 +139,11 @@
 #include "usart.h"
 #endif
 
-#include "usb/device/cdc/cdcd_serial_driver.h"
-#include "usb/device/usbd.h"
-#include "usb/device/usbd_hal.h"
+#include "cdcd_serial_driver.h"
+#include "usbd.h"
+#include "usbd_hal.h"
 
-#include "../usb_common/main_usb_common.h"
+#include "main_usb_common.h"
 
 #include <assert.h>
 #include <string.h>

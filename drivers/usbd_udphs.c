@@ -62,7 +62,7 @@
 #include "pmc.h"
 #endif
 #include "trace.h"
-#include "usb/device/usbd_hal.h"
+#include "usbd_hal.h"
 
 /*---------------------------------------------------------------------------
  *      Definitions

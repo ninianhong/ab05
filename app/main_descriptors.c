@@ -38,9 +38,9 @@
  *------------------------------------------------------------------------------*/
 
 #include "board.h"
-#include "usb/common/usb_descriptors.h"
-#include "usb/device/cdc/cdcd_serial_driver.h"
-#include "usb/device/usbd_driver.h"
+#include "usb_descriptors.h"
+#include "cdcd_serial_driver.h"
+#include "usbd_driver.h"
 
 /*------------------------------------------------------------------------------
  *         Definitions

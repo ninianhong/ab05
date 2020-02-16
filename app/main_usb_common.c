@@ -47,7 +47,7 @@
 #else
 #include "pio.h"
 #endif
-#include "usb/device/usbd.h"
+#include "usbd.h"
 
 #include "main_usb_common.h"
 

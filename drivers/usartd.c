@@ -37,17 +37,40 @@
 
 #include "callback.h"
 #include "chip.h"
+#if 0
 #include "dma/dma.h"
+#else
+#include "dma.h"
+#endif
 #include "io.h"
+
+#if 0
 #include "irq/irq.h"
 #include "mm/cache.h"
+#else
+#include "irq.h"
+#include "cache.h"
+#endif
+
 #include "mutex.h"
+
+#if 0
 #ifdef CONFIG_HAVE_FLEXCOM
 #include "peripherals/flexcom.h"
 #endif
 #include "peripherals/pmc.h"
 #include "serial/usart.h"
 #include "serial/usartd.h"
+#else
+
+#ifdef CONFIG_HAVE_FLEXCOM
+#include "flexcom.h"
+#endif
+#include "pmc.h"
+#include "usart.h"
+#include "usartd.h"
+
+#endif
 #include "trace.h"
 
 /*----------------------------------------------------------------------------
