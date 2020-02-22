@@ -259,6 +259,7 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsFS = {
 				USBEndpointDescriptor_MAXBULKSIZE_FS),
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
+
 	// Bulk-OUT endpoint standard descriptor   --cmdout
 	{
 		sizeof(USBEndpointDescriptor),
@@ -281,6 +282,7 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsFS = {
 				USBEndpointDescriptor_MAXBULKSIZE_FS),
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
+        
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -302,7 +304,8 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsFS = {
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_AUDIO_1_DATAIN),
 				USBEndpointDescriptor_MAXBULKSIZE_FS),
 		0 // Must be 0 for full-speed bulk endpoints 
-	},        
+	},
+        
 	{
 		sizeof(USBEndpointDescriptor),
 		USBGenericDescriptor_ENDPOINT,
@@ -437,9 +440,10 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsFS = {
 				CDCDSerialDriverDescriptors_AUDIO_0_DATAIN),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_AUDIO_0_DATAIN),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
+       
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -448,7 +452,7 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsFS = {
 				CDCDSerialDriverDescriptors_CMDDATAOUT),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_CMDDATAOUT),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
 	// Bulk-IN endpoint descriptor 
@@ -459,9 +463,10 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsFS = {
 				CDCDSerialDriverDescriptors_CMDDATAIN),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_CMDDATAIN),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
+ 
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -483,7 +488,8 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsFS = {
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_AUDIO_1_DATAIN),
 				USBEndpointDescriptor_MAXBULKSIZE_HS),
 		0  // Must be 0 for full-speed bulk endpoints 
-	}, 
+	},
+ 
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -492,7 +498,7 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsFS = {
 				CDCDSerialDriverDescriptors_SPI_DATAOUT),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_SPI_DATAOUT),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
 	// Bulk-IN endpoint descriptor 
@@ -503,7 +509,7 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsFS = {
 				CDCDSerialDriverDescriptors_SPI_DATAIN),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_SPI_DATAIN),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0  // Must be 0 for full-speed bulk endpoints 
 	},        
 	// Bulk-IN endpoint descriptor 
@@ -514,7 +520,7 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsFS = {
 				CDCDSerialDriverDescriptors_MCU_LOG),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_MCU_LOG),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	}                  
 };
@@ -608,7 +614,7 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsHS = {
 				CDCDSerialDriverDescriptors_AUDIO_0_DATAOUT),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_AUDIO_0_DATAOUT),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
 	// Bulk-IN endpoint descriptor 
@@ -619,9 +625,10 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsHS = {
 				CDCDSerialDriverDescriptors_AUDIO_0_DATAIN),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_AUDIO_0_DATAIN),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
+      
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -630,7 +637,7 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsHS = {
 				CDCDSerialDriverDescriptors_CMDDATAOUT),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_CMDDATAOUT),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
 	// Bulk-IN endpoint descriptor 
@@ -641,9 +648,10 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsHS = {
 				CDCDSerialDriverDescriptors_CMDDATAIN),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_CMDDATAIN),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
+         
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -665,7 +673,8 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsHS = {
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_AUDIO_1_DATAIN),
 				USBEndpointDescriptor_MAXBULKSIZE_HS),
 		0 // Must be 0 for full-speed bulk endpoints 
-	},        
+	},
+        
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -674,7 +683,7 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsHS = {
 				CDCDSerialDriverDescriptors_SPI_DATAOUT),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_SPI_DATAOUT),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
 	// Bulk-IN endpoint descriptor 
@@ -685,7 +694,7 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsHS = {
 				CDCDSerialDriverDescriptors_SPI_DATAIN),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_SPI_DATAIN),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	}, 
 	// Bulk-IN endpoint descriptor 
@@ -696,7 +705,7 @@ const CDCDSerialDriverConfigurationDescriptors configurationDescriptorsHS = {
 				CDCDSerialDriverDescriptors_MCU_LOG),
 		USBEndpointDescriptor_BULK,
 		MIN(CHIP_USB_ENDPOINT_MAXPACKETSIZE(CDCDSerialDriverDescriptors_MCU_LOG),
-				USBEndpointDescriptor_MAXBULKSIZE_HS),
+				USBEndpointDescriptor_MAXBULKSIZE_FS),          //HS
 		0 // Must be 0 for full-speed bulk endpoints 
 	}          
 };
@@ -804,6 +813,8 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsHS = {
 				USBEndpointDescriptor_MAXBULKSIZE_FS),
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
+
+       
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -826,6 +837,7 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsHS = {
 				USBEndpointDescriptor_MAXBULKSIZE_FS),
 		0 // Must be 0 for full-speed bulk endpoints 
 	},
+         
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),
@@ -848,6 +860,7 @@ const CDCDSerialDriverConfigurationDescriptors otherSpeedDescriptorsHS = {
 				USBEndpointDescriptor_MAXBULKSIZE_FS),
 		0 // Must be 0 for full-speed bulk endpoints 
 	}, 
+
 	// Bulk-OUT endpoint standard descriptor 
 	{
 		sizeof(USBEndpointDescriptor),

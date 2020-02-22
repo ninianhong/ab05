@@ -144,6 +144,7 @@
 #include "usbd_hal.h"
 
 #include "main_usb_common.h"
+#include "tcd.h"
 
 #include <assert.h>
 #include <string.h>
@@ -357,17 +358,18 @@ static void _usb_data_received(void *read, uint8_t status,
 {
 	/* Check that data has been received successfully */
 	if (status == USBD_STATUS_SUCCESS) {
+                printf("-- data received at %d --\n\r",__LINE__);
 		*(uint8_t *)read = 1;
 		/* Send back CDC data */
-		if (is_cdc_echo_on){
+		//if (is_cdc_echo_on){
 
 			cdcd_serial_driver_write(usb_buffer, received, 0, 0);
-		}
+		//}
 		/* Send data through USART */
-		if (is_cdc_serial_on) {
+		//if (is_cdc_serial_on) {
 
-			_usart_dma_tx( usb_buffer, received );
-		}
+		//	_usart_dma_tx( usb_buffer, received );
+		//}
 
 		/* Check if bytes have been discarded */
 		if ((received == DATAPACKETSIZE) && (remaining > 0)) {
@@ -449,6 +451,74 @@ static void _send_text(void)
 	_usart_dma_tx(test_buffer, TEST_BUFFER_SIZE);
 }
 
+/** define timer/counter */
+#define EXAMPLE_TC TC0
+/** define channel for timer/counter */
+#define EXAMPLE_TC_CHANNEL_COUNTER 1
+#define COUNTER_FREQ    1000
+
+static uint32_t _tick = 0;
+static bool is_Tc_started = false;
+volatile static int initial_dealy = 0;
+/** define Timer Counter descriptor for counter/timer */
+static struct _tcd_desc tc_counter = {
+	.addr = EXAMPLE_TC,
+	.channel = EXAMPLE_TC_CHANNEL_COUNTER,
+};
+
+/**
+ * Callback invoked when data has been received on the USB.
+ */
+static void _usb_data_received1(void *read, uint8_t status,
+		uint32_t received, uint32_t remaining)
+{
+	/* Check that data has been received successfully */
+	if (status == USBD_STATUS_SUCCESS) {
+                printf("data received --\n\r");
+		*(uint8_t *)read = 1;
+
+		/* Check if bytes have been discarded */
+		if ((received == DATAPACKETSIZE) && (remaining > 0)) {
+
+			trace_warning(
+				"_usb_data_received: %u bytes discarded\n\r",
+					(unsigned int)remaining);
+		}
+                } else {
+
+		trace_warning( "_usb_data_received: Transfer error\n\r");
+              }
+}
+
+static  uint8_t usb_serial_read1 = 0;
+static int _tc_counter_callback(void* arg, void* arg2)
+{
+	const int div = 4;
+
+        _tick++;
+
+	if (_tick % div == 0)
+		//printf("time: %us\r\n", (unsigned)_tick / div);
+                usb_serial_read1 = 1;
+	return 0;
+}
+
+
+static void _tc_counter_initialize(uint32_t freq)
+{
+	uint32_t frequency;
+	struct _callback _cb;
+
+	printf("* Configure TC: channel %d: counter mode\r\n", tc_counter.channel);
+
+	frequency = tcd_configure_counter(&tc_counter, freq, freq);
+
+	printf("  - Required frequency = %uHz\r\n", (unsigned)freq);
+	printf("  - Configured frequency = %uHz\r\n", (unsigned)frequency);
+	callback_set(&_cb, _tc_counter_callback, NULL);
+	tcd_start(&tc_counter, &_cb);
+}
+
 /*----------------------------------------------------------------------------
  *          Main
  *----------------------------------------------------------------------------*/
@@ -480,6 +550,8 @@ int main(void)
 
 	/* connect if needed */
 	usb_vbus_configure();
+        
+        //_tc_counter_initialize(COUNTER_FREQ);
 
 	/* Driver loop */
 	while (1) {
@@ -494,9 +566,51 @@ int main(void)
 
 		} else if (is_usb_connected == 0) {
 				is_usb_connected = 1;
+                                /*
+                                if( 1 == is_usb_connected )
+                                {
+                                  if( false == is_Tc_started )
+                                  {
+                                    if(initial_dealy++ > 100){
+                                          _tc_counter_initialize(COUNTER_FREQ);
+                                          is_Tc_started = true;
+                                      }
+                                  }
+                                }
+                                else
+                                {
+                  
+                                }*/
 		}
+                
+                if( 1 == is_usb_connected )
+                {
+                    if( false == is_Tc_started )
+                    {
+                        if(initial_dealy++ > 500){
+                            _tc_counter_initialize(COUNTER_FREQ);
+                            is_Tc_started = true;
+                        }
+                    }
+                }
+                else
+                {
+                  
+                }
+                if(usb_serial_read1 == 1) 
+                {
+                    usb_serial_read1 = 0;
+		    /* Start receiving data on the USB */
+		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
+                    //                        _usb_data_received1, &usb_serial_read1);
+		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
+                    //                        _usb_data_received, &usb_serial_read); 
+		    cdcd_serial_driver_write((char*)"Alive\n\r", 8,
+		    				NULL, NULL);
+                }
 
-		/* Serial port ON/OFF */
+#ifdef ORIGIN_CODE                
+		// Serial port ON/OFF 
 		if (cdcd_serial_driver_get_control_line_state()
 					& CDCControlLineState_DTR) {
 			if (!is_cdc_serial_on) {
@@ -539,7 +653,22 @@ int main(void)
 				_usart_dma_tx((uint8_t*)"Alive\n\r", 8);
 				_debug_help();
 			}
-		}
-	}
+		}//if (console_is_rx_ready())
+#else    
+                //uint8_t key = console_get_char();
+                //printf("input char = %d\n",key);
+                //if ('n'==key) {
+                  /*
+			if(usb_serial_read == 1) {
+				usb_serial_read = 0;
+				// Start receiving data on the USB 
+				cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
+							_usb_data_received, &usb_serial_read);
+			}*/
+                //  	cdcd_serial_driver_write((char*)"aaaaa\n\r", 8,
+		//				NULL, NULL);
+                //}
+#endif                
+	}//while(1)
 }
 /** \endcond */

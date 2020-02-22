@@ -1,0 +1,1279 @@
+###############################################################################
+#
+# IAR ELF Linker V8.20.1.14183/W32 for ARM                22/Feb/2020  13:51:00
+# Copyright 2007-2017 IAR Systems AB.
+#
+#    Output file  =  
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Exe\ab05.out
+#    Map file     =  
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\List\ab05.map
+#    Command line =  
+#        -f C:\Users\Leo\AppData\Local\Temp\EW2331.tmp
+#        (E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\aic5.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\board_console.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\board_sama5d2-xplained.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\board_support.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\board_timer.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\bus.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\cache.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\callback.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\chip.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\chip_common.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\console.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\cstartup.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\ddram.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\dma.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\dma_xdmac.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\fault_handlers.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\flexcom.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\intmath.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\irq.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\l1cache_cp15.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\l2cache_l2cc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\main.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\main_descriptors.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\main_usb_common.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\matrix.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\mmu_cp15.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\mpddrc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\mutex.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\nfc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\pio4.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\piobu.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\pit.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\pmc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\pwmc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\rand.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\rstc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\rtc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\secumod.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\seriald.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\sfc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\sfrbu.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\shdwc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\slowclock_sckc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\smc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\syscalls.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\tc.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\tcd.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\timer.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\trace.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\uart.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\usart.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\usartd.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\usbd_udphs.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\wdt.o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\xdmac.o -o
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Exe\ab05.out
+#        --map
+#        E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\List\ab05.map
+#        --config
+#        E:\AB05-Test\atmel-software-package\target\sama5d2\toolchain\iar\ddram.icf
+#        --semihosting
+#        E:\AB05-Test\github-atmel\usb_devices\build\Debug\Exe\usb_device.a
+#        --entry __iar_program_start --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because no calls to memory allocation
+functions were found in the application outside of system library
+functions, and there are calls to deallocation functions in the
+application.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at start of [from 0x00200000 to 0x0021ffff] { section .vectors };
+"A1":  place at start of [from 0x20000000 to 0x23ffffff] { section .cstartup };
+"P2":  place in [from 0x20000000 to 0x23ffffff] { ro };
+"P3":  place in [from 0x20000000 to 0x23ffffff] { rw };
+define block CACHE_ALIGNED_CONST
+   with alignment = 32 { section .region_cache_aligned_const };
+"P4":  place in [from 0x20000000 to 0x23ffffff] { block CACHE_ALIGNED_CONST };
+"P5":  place in [from 0x20000000 to 0x23ffffff] { zi };
+define block CACHE_ALIGNED
+   with alignment = 32 { section .region_cache_aligned };
+"P6":  place in [from 0x20000000 to 0x23ffffff] { block CACHE_ALIGNED };
+define block DDRAM { section .region_ddr };
+"P7":  place in [from 0x20000000 to 0x23ffffff] { block DDRAM };
+define block HEAP with size = 512, alignment = 4 { };
+"P8":  place in [from 0x20000000 to 0x23ffffff] { block HEAP };
+define block IRQ_STACK with size = 96, alignment = 8 { };
+"P9":  place in [from 0x20000000 to 0x23ffffff] { block IRQ_STACK };
+define block FIQ_STACK with size = 96, alignment = 8 { };
+"P10": place in [from 0x20000000 to 0x23ffffff] { block FIQ_STACK };
+define block ABT_STACK with size = 64, alignment = 8 { };
+"P11": place in [from 0x20000000 to 0x23ffffff] { block ABT_STACK };
+define block UND_STACK with size = 64, alignment = 8 { };
+"P12": place in [from 0x20000000 to 0x23ffffff] { block UND_STACK };
+define block SYS_STACK with size = 64, alignment = 8 { };
+"P13": place in [from 0x20000000 to 0x23ffffff] { block SYS_STACK };
+define block CSTACK with size = 2K, alignment = 8 { };
+"P14": place in [from 0x20000000 to 0x23ffffff] { block CSTACK };
+do not initialize { section .region_cache_aligned };
+initialize by copy with packing = copy, complex ranges { section .vectors };
+
+No sections matched the following patterns:
+
+  section .region_cache_aligned_const  in block CACHE_ALIGNED_CONST
+  section .region_ddr                  in block DDRAM
+  section .region_nocache              in block NO_CACHE
+  section .region_sram                 in block SRAM
+
+
+  Section                 Kind        Address    Size  Object
+  -------                 ----        -------    ----  ------
+"A0":                                            0x3c
+  section .vectors-1               0x00200000    0x3c  <Init block>
+    .vectors              inited   0x00200000    0x3c  cstartup.o [1]
+                                 - 0x0020003c    0x3c
+
+"A1":                                            0xe0
+  .cstartup               ro code  0x20000000    0xe0  cstartup.o [1]
+                                 - 0x200000e0    0xe0
+
+"P2-P14", part 1 of 3:                         0x854c
+  .text                   ro code  0x200000e0  0x1220  usbd_udphs.o [1]
+  .text                   ro code  0x20001300   0xcd4  pmc.o [1]
+  .text                   ro code  0x20001fd4    0x22  ABIassert.o [6]
+  .text                   ro code  0x20001ff8   0x1a8  I32DivMod.o [5]
+  .text                   ro code  0x200021a0    0x2a  printf.o [3]
+  .text                   ro code  0x200021cc   0x1c2  usbd.o [7]
+  .text                   ro code  0x2000238e    0x54  cache.o [1]
+  .text                   ro code  0x200023e2   0x10e  usb_descriptors.o [7]
+  .text                   ro code  0x200024f0   0x10c  irq.o [1]
+  .text                   ro code  0x200025fc    0x30  slowclock_sckc.o [1]
+  .text                   ro code  0x2000262c   0x254  chip.o [1]
+  .text                   ro code  0x20002880   0x130  I64DivMod.o [5]
+  .text                   ro code  0x200029b0     0x6  abort.o [3]
+  .text                   ro code  0x200029b8     0x4  IntDivZer.o [5]
+  .text                   ro code  0x200029bc   0x4c4  xprintfsmall_nomb.o [3]
+  .text                   ro code  0x20002e80     0x2  usbd_callbacks.o [7]
+  .text                   ro code  0x20002e82     0x2  usbd_callbacks.o [7]
+  .text                   ro code  0x20002e84     0x2  usbd_callbacks.o [7]
+  .text                   ro code  0x20002e88   0x1f8  main.o [1]
+  .text                   ro code  0x20003080     0x2  usbd_callbacks.o [7]
+  .text                   ro code  0x20003084   0x14c  l1cache_cp15.o [1]
+  .text                   ro code  0x200031d0    0xe4  l2cache_l2cc.o [1]
+  .text                   ro code  0x200032b4    0xcc  aic5.o [1]
+  .text                   ro code  0x20003380   0x1a0  chip_common.o [1]
+  .text                   ro code  0x20003520   0x274  matrix.o [1]
+  .text                   ro code  0x20003794     0x4  I64DivZer.o [5]
+  .text                   ro code  0x20003798    0x14  exit.o [6]
+  .text                   ro code  0x200037ac    0x20  strchr.o [5]
+  .text                   ro code  0x200037cc    0x2e  xfail_s.o [3]
+  .text                   ro code  0x200037fc    0x54  strlen.o [5]
+  .text                   ro code  0x20003850    0x94  memchr.o [5]
+  .text                   ro code  0x200038e4    0x84  cdcd_serial.o [7]
+  .text                   ro code  0x20003968   0x130  usart.o [1]
+  .text                   ro code  0x20003a98    0x42  cdcd_serial_driver.o [7]
+  .text                   ro code  0x20003adc   0x344  usartd.o [1]
+  .text                   ro code  0x20003e20   0x40c  pio4.o [1]
+  .text                   ro code  0x2000422c   0x250  tcd.o [1]
+  .text                   ro code  0x2000447c    0x42  callback.o [1]
+  .text                   ro code  0x200044c0   0x188  console.o [1]
+  .text                   ro code  0x20004648    0xb8  main_usb_common.o [1]
+  .text                   ro code  0x20004700     0x2  cdcd_serial_callbacks.o [7]
+  .text                   ro code  0x20004702     0x4  cdcd_serial_callbacks.o [7]
+  .text                   ro code  0x20004708   0x31c  cdcd_serial_port.o [7]
+  .text                   ro code  0x20004a24   0x76c  usbd_driver.o [7]
+  .text                   ro code  0x20005190   0x79a  dma.o [1]
+  .text                   ro code  0x2000592c    0x5a  mutex.o [1]
+  .text                   ro code  0x20005988    0x70  flexcom.o [1]
+  .text                   ro code  0x200059f8   0x2a8  tc.o [1]
+  .text                   ro code  0x20005ca0    0x74  ABImemset.o [5]
+  .text                   ro code  0x20005d14    0xac  seriald.o [1]
+  .text                   ro code  0x20005dc0   0x332  board_support.o [1]
+  .text                   ro code  0x200060f4    0x88  mmu_cp15.o [1]
+  .text                   ro code  0x2000617c    0x10  cdc_requests.o [7]
+  .text                   ro code  0x2000618c    0x88  usb_requests.o [7]
+  .text                   ro code  0x20006214     0x2  usbd_driver_callbacks.o [7]
+  .text                   ro code  0x20006216   0x2f6  dma_xdmac.o [1]
+  .text                   ro code  0x2000650c   0x324  xdmac.o [1]
+  .text                   ro code  0x20006830    0xb0  ABImemcpy.o [5]
+  .text                   ro code  0x200068e0    0x10  wdt.o [1]
+  .text                   ro code  0x200068f0    0x14  board_timer.o [1]
+  .text                   ro code  0x20006904   0x228  ddram.o [1]
+  .text                   ro code  0x20006b2c   0x188  timer.o [1]
+  .text                   ro code  0x20006cb4   0x400  mpddrc.o [1]
+  .text                   ro code  0x200070b4    0x1c  sfrbu.o [1]
+  .rodata                 const    0x200070d0    0xe8  chip.o [1]
+  .text                   ro code  0x200071b8    0xa4  cstartup.o [1]
+  .rodata                 const    0x2000725c    0x90  main_descriptors.o [1]
+  .text                   ro code  0x200072ec    0x7c  uart.o [1]
+  .rodata                 const    0x20007368    0x78  chip.o [1]
+  .rodata                 const    0x200073e0    0x68  usbd_udphs.o [1]
+  .text                   ro code  0x20007448    0x60  board_console.o [1]
+  .rodata                 const    0x200074a8    0x5c  pmc.o [1]
+  .rodata                 const    0x20007504    0x54  main_descriptors.o [1]
+  .rodata                 const    0x20007558    0x54  main_descriptors.o [1]
+  .rodata                 const    0x200075ac    0x54  main_descriptors.o [1]
+  .rodata                 const    0x20007600    0x54  main_descriptors.o [1]
+  .rodata                 const    0x20007654    0x4c  cdcd_serial_port.o [7]
+  .rodata                 const    0x200076a0    0x44  l2cache_l2cc.o [1]
+  .rodata                 const    0x200076e4    0x44  usbd_driver.o [7]
+  .rodata                 const    0x20007728    0x40  l1cache_cp15.o [1]
+  .rodata                 const    0x20007768    0x40  usbd_udphs.o [1]
+  .rodata                 const    0x200077a8    0x40  usbd_driver.o [7]
+  .rodata                 const    0x200077e8    0x40  usbd_driver.o [7]
+  .text                   ro code  0x20007828    0x40  zero_init3.o [5]
+  .rodata                 const    0x20007868    0x3c  ddram.o [1]
+  .rodata                 const    0x200078a4    0x3c  flexcom.o [1]
+  .rodata                 const    0x200078e0    0x3c  matrix.o [1]
+  .rodata                 const    0x2000791c    0x3c  mmu_cp15.o [1]
+  .rodata                 const    0x20007958    0x3c  pio4.o [1]
+  .rodata                 const    0x20007994    0x3c  usart.o [1]
+  .rodata                 const    0x200079d0    0x3c  usartd.o [1]
+  .rodata                 const    0x20007a0c    0x3c  xdmac.o [1]
+  .rodata                 const    0x20007a48    0x3c  usbd_driver.o [7]
+  Initializer bytes       const    0x20007a84    0x3c  <for section .vectors-1>
+  .rodata                 const    0x20007ac0    0x38  chip.o [1]
+  .rodata                 const    0x20007af8    0x38  irq.o [1]
+  .rodata                 const    0x20007b30    0x38  main.o [1]
+  .rodata                 const    0x20007b68    0x38  pmc.o [1]
+  .rodata                 const    0x20007ba0    0x38  tc.o [1]
+  .rodata                 const    0x20007bd8    0x38  usbd_udphs.o [1]
+  .rodata                 const    0x20007c10    0x38  usbd_udphs.o [1]
+  .rodata                 const    0x20007c48    0x34  main.o [1]
+  .rodata                 const    0x20007c7c    0x30  usbd_udphs.o [1]
+  .rodata                 const    0x20007cac    0x30  usbd.o [7]
+  .text                   ro code  0x20007cdc    0x30  data_init.o [5]
+  .rodata                 const    0x20007d0c    0x2c  main.o [1]
+  .rodata                 const    0x20007d38    0x2c  usbd_udphs.o [1]
+  .text                   ro code  0x20007d64    0x2c  copy_init3.o [5]
+  .rodata                 const    0x20007d90    0x28  main_descriptors.o [1]
+  .rodata                 const    0x20007db8    0x28  main_descriptors.o [1]
+  .rodata                 const    0x20007de0    0x28  main_descriptors.o [1]
+  .rodata                 const    0x20007e08    0x28  usbd_udphs.o [1]
+  .text                   ro code  0x20007e30    0x28  fpinit.o [4]
+  .rodata                 const    0x20007e58    0x24  main.o [1]
+  .rodata                 const    0x20007e7c    0x24  main.o [1]
+  .rodata                 const    0x20007ea0    0x24  main_descriptors.o [1]
+  .rodata                 const    0x20007ec4    0x24  pio4.o [1]
+  .rodata                 const    0x20007ee8    0x24  pio4.o [1]
+  .rodata                 const    0x20007f0c    0x24  seriald.o [1]
+  .rodata                 const    0x20007f30    0x24  usbd_udphs.o [1]
+  .rodata                 const    0x20007f54    0x24  usbd_udphs.o [1]
+  .iar.init_table         const    0x20007f78    0x24  - Linker created -
+  .rodata                 const    0x20007f9c    0x20  console.o [1]
+  .rodata                 const    0x20007fbc    0x20  ddram.o [1]
+  .rodata                 const    0x20007fdc    0x20  main.o [1]
+  .rodata                 const    0x20007ffc    0x20  main.o [1]
+  .rodata                 const    0x2000801c    0x20  main.o [1]
+  .rodata                 const    0x2000803c    0x20  main_descriptors.o [1]
+  .rodata                 const    0x2000805c    0x20  mpddrc.o [1]
+  .rodata                 const    0x2000807c    0x20  pio4.o [1]
+  .rodata                 const    0x2000809c    0x20  xfail_s.o [3]
+  .text                   ro code  0x200080bc    0x1e  board_sama5d2-xplained.o [1]
+  .rodata                 const    0x200080dc    0x1c  console.o [1]
+  .rodata                 const    0x200080f8    0x1c  main_usb_common.o [1]
+  .rodata                 const    0x20008114    0x1c  usbd_udphs.o [1]
+  .rodata                 const    0x20008130    0x1c  xprintfsmall_nomb.o [3]
+  .rodata                 const    0x2000814c    0x18  console.o [1]
+  .rodata                 const    0x20008164    0x18  main_usb_common.o [1]
+  .rodata                 const    0x2000817c    0x18  pio4.o [1]
+  .rodata                 const    0x20008194    0x18  pio4.o [1]
+  .text                   ro code  0x200081ac    0x16  xprout.o [3]
+  .text                   ro code  0x200081c2    0x10  syscalls.o [1]
+  .rodata                 const    0x200081d4    0x14  console.o [1]
+  .rodata                 const    0x200081e8    0x14  main_descriptors.o [1]
+  .rodata                 const    0x200081fc    0x14  main_descriptors.o [1]
+  .rodata                 const    0x20008210    0x14  main_usb_common.o [1]
+  .rodata                 const    0x20008224    0x14  tc.o [1]
+  .rodata                 const    0x20008238    0x14  usbd_udphs.o [1]
+  .rodata                 const    0x2000824c    0x10  board_console.o [1]
+  .rodata                 const    0x2000825c    0x10  board_console.o [1]
+  .rodata                 const    0x2000826c    0x10  board_support.o [1]
+  .rodata                 const    0x2000827c    0x10  chip.o [1]
+  .rodata                 const    0x2000828c    0x10  chip.o [1]
+  .rodata                 const    0x2000829c    0x10  chip.o [1]
+  .rodata                 const    0x200082ac    0x10  chip.o [1]
+  .rodata                 const    0x200082bc    0x10  chip.o [1]
+  .rodata                 const    0x200082cc    0x10  console.o [1]
+  .rodata                 const    0x200082dc    0x10  console.o [1]
+  .rodata                 const    0x200082ec    0x10  console.o [1]
+  .rodata                 const    0x200082fc    0x10  console.o [1]
+  .rodata                 const    0x2000830c    0x10  console.o [1]
+  .rodata                 const    0x2000831c    0x10  main_usb_common.o [1]
+  .rodata                 const    0x2000832c    0x10  main_usb_common.o [1]
+  .rodata                 const    0x2000833c    0x10  main_usb_common.o [1]
+  .rodata                 const    0x2000834c    0x10  main_usb_common.o [1]
+  .rodata                 const    0x2000835c    0x10  usbd_udphs.o [1]
+  .rodata                 const    0x2000836c    0x10  usbd_udphs.o [1]
+  .rodata                 const    0x2000837c    0x10  usbd_udphs.o [1]
+  .rodata                 const    0x2000838c    0x10  usbd_udphs.o [1]
+  .rodata                 const    0x2000839c     0xc  board_support.o [1]
+  .rodata                 const    0x200083a8     0xc  chip.o [1]
+  .rodata                 const    0x200083b4     0xc  chip.o [1]
+  .rodata                 const    0x200083c0     0xc  chip.o [1]
+  .rodata                 const    0x200083cc     0xc  chip.o [1]
+  .rodata                 const    0x200083d8     0xc  chip.o [1]
+  .rodata                 const    0x200083e4     0xc  chip.o [1]
+  .rodata                 const    0x200083f0     0xc  chip.o [1]
+  .rodata                 const    0x200083fc     0xc  chip.o [1]
+  .rodata                 const    0x20008408     0xc  chip.o [1]
+  .rodata                 const    0x20008414     0xc  chip.o [1]
+  .rodata                 const    0x20008420     0xc  chip.o [1]
+  .rodata                 const    0x2000842c     0xc  console.o [1]
+  .rodata                 const    0x20008438     0xc  console.o [1]
+  .rodata                 const    0x20008444     0xc  console.o [1]
+  .rodata                 const    0x20008450     0xc  console.o [1]
+  .rodata                 const    0x2000845c     0xc  main_descriptors.o [1]
+  .rodata                 const    0x20008468     0xc  usbd_udphs.o [1]
+  .rodata                 const    0x20008474     0xc  usbd_udphs.o [1]
+  .rodata                 const    0x20008480     0x8  chip.o [1]
+  .rodata                 const    0x20008488     0x8  chip.o [1]
+  .rodata                 const    0x20008490     0x8  console.o [1]
+  .rodata                 const    0x20008498     0x8  console.o [1]
+  .rodata                 const    0x200084a0     0x8  ddram.o [1]
+  .rodata                 const    0x200084a8     0x8  flexcom.o [1]
+  .rodata                 const    0x200084b0     0x8  irq.o [1]
+  .rodata                 const    0x200084b8     0x8  l1cache_cp15.o [1]
+  .rodata                 const    0x200084c0     0x8  l2cache_l2cc.o [1]
+  .rodata                 const    0x200084c8     0x8  main.o [1]
+  .rodata                 const    0x200084d0     0x8  main.o [1]
+  .rodata                 const    0x200084d8     0x8  matrix.o [1]
+  .rodata                 const    0x200084e0     0x8  mmu_cp15.o [1]
+  .rodata                 const    0x200084e8     0x8  pio4.o [1]
+  .rodata                 const    0x200084f0     0x8  pmc.o [1]
+  .rodata                 const    0x200084f8     0x8  tc.o [1]
+  .rodata                 const    0x20008500     0x8  usart.o [1]
+  .rodata                 const    0x20008508     0x8  usartd.o [1]
+  .rodata                 const    0x20008510     0x8  usbd_udphs.o [1]
+  .rodata                 const    0x20008518     0x8  xdmac.o [1]
+  .rodata                 const    0x20008520     0x8  cdcd_serial_port.o [7]
+  .rodata                 const    0x20008528     0x8  xprintfsmall_nomb.o [3]
+  .text                   ro code  0x20008530     0x8  fault_handlers.o [1]
+  .rodata                 const    0x20008538     0x4  main_descriptors.o [1]
+  .text                   ro code  0x2000853c     0x4  xreturnswi.o [6]
+  .rodata                 const    0x20008540     0x0  zero_init3.o [5]
+  .rodata                 const    0x20008540     0x0  copy_init3.o [5]
+  .data                   rw data  0x20008540    0x84  main.o [1]
+  .data                   rw data  0x200085c4    0x34  main.o [1]
+  .data                   rw data  0x200085f8    0x1c  main_descriptors.o [1]
+  .data                   rw data  0x20008614     0x8  dma.o [1]
+  .data                   rw data  0x2000861c     0x8  pmc.o [1]
+  .data                   rw data  0x20008624     0x4  board_support.o [1]
+  .data                   rw data  0x20008628     0x4  trace.o [1]
+                                 - 0x2000862c  0x854c
+
+"P2-P14", part 2 of 3:                         0x89dc
+  .bss                    zero     0x2000c000  0x4000  board_support.o [1]
+  .bss                    zero     0x20010000   0x768  irq.o [1]
+  .bss                    zero     0x20010768   0x394  dma.o [1]
+  .bss                    zero     0x20010afc   0x240  usbd_udphs.o [1]
+  .bss                    zero     0x20010d3c   0x13c  irq.o [1]
+  .bss                    zero     0x20010e78   0x100  pio4.o [1]
+  .bss                    zero     0x20010f78    0x20  cdcd_serial.o [7]
+  .bss                    zero     0x20010f98    0x14  usartd.o [1]
+  .bss                    zero     0x20010fac    0x10  console.o [1]
+  .bss                    zero     0x20010fbc    0x10  timer.o [1]
+  .bss                    zero     0x20010fcc     0xc  usbd_driver.o [7]
+  .bss                    zero     0x20010fd8     0x8  cdcd_serial_port.o [7]
+  .bss                    zero     0x20010fe0     0x4  irq.o [1]
+  .bss                    zero     0x20010fe4     0x4  main.o [1]
+  .bss                    zero     0x20010fe8     0x4  main.o [1]
+  .bss                    zero     0x20010fec     0x4  pio4.o [1]
+  .bss                    zero     0x20010ff0     0x4  pmc.o [1]
+  .bss                    zero     0x20010ff4     0x4  xfail_s.o [3]
+  .bss                    zero     0x20010ff8     0x2  usbd_driver.o [7]
+  .bss                    zero     0x20010ffa     0x2  usbd_driver.o [7]
+  .bss                    zero     0x20010ffc     0x1  main.o [1]
+  .bss                    zero     0x20010ffd     0x1  main.o [1]
+  .bss                    zero     0x20010ffe     0x1  main.o [1]
+  .bss                    zero     0x20010fff     0x1  main.o [1]
+  .bss                    zero     0x20011000     0x1  main.o [1]
+  .bss                    zero     0x20011001     0x1  usbd_udphs.o [1]
+  .bss                    zero     0x20011002     0x1  usbd.o [7]
+  .bss                    zero     0x20011003     0x1  usbd.o [7]
+  .bss                    zero     0x20011004     0x1  usbd_driver.o [7]
+                                 - 0x20011005  0x89d9
+
+"P2-P14", part 3 of 3:                          0xd90
+  CACHE_ALIGNED                    0x20011020   0x410  <Block>
+    .region_cache_aligned
+                          uninit   0x20011020   0x410  dma.o [1]
+  IRQ_STACK                        0x20011430    0x60  <Block>
+    IRQ_STACK             uninit   0x20011430    0x60  <Block tail>
+  FIQ_STACK                        0x20011490    0x60  <Block>
+    FIQ_STACK             uninit   0x20011490    0x60  <Block tail>
+  ABT_STACK                        0x200114f0    0x40  <Block>
+    ABT_STACK             uninit   0x200114f0    0x40  <Block tail>
+  UND_STACK                        0x20011530    0x40  <Block>
+    UND_STACK             uninit   0x20011530    0x40  <Block tail>
+  SYS_STACK                        0x20011570    0x40  <Block>
+    SYS_STACK             uninit   0x20011570    0x40  <Block tail>
+  CSTACK                           0x200115b0   0x800  <Block>
+    CSTACK                uninit   0x200115b0   0x800  <Block tail>
+                                 - 0x20011db0   0xd90
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address     Size
+          -------     ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x5005:
+          0x2000c000  0x5005
+
+Copy (__iar_copy_init3)
+    1 source range, total size 0x3c:
+          0x20007a84    0x3c
+    1 destination range, total size 0x3c:
+          0x00200000    0x3c
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                    ro code  rw code  ro data  rw data
+    ------                    -------  -------  -------  -------
+E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj: [1]
+    aic5.o                        204
+    board_console.o                96                32
+    board_sama5d2-xplained.o       30
+    board_support.o               818                28   16 388
+    board_timer.o                  20
+    cache.o                        84
+    callback.o                     66
+    chip.o                        596               636
+    chip_common.o                 416
+    console.o                     392               248       16
+    cstartup.o                    388       60       60
+    ddram.o                       552               100
+    dma.o                       1 946                      1 964
+    dma_xdmac.o                   758
+    fault_handlers.o                8
+    flexcom.o                     112                68
+    irq.o                         268                64    2 216
+    l1cache_cp15.o                332                72
+    l2cache_l2cc.o                228                76
+    main.o                        504               336      197
+    main_descriptors.o                              724       28
+    main_usb_common.o             184               136
+    matrix.o                      628                68
+    mmu_cp15.o                    136                68
+    mpddrc.o                    1 024                32
+    mutex.o                        90
+    pio4.o                      1 036               220      260
+    pmc.o                       3 284               156       12
+    seriald.o                     172                36
+    sfrbu.o                        28
+    slowclock_sckc.o               48
+    syscalls.o                     16
+    tc.o                          680                84
+    tcd.o                         592
+    timer.o                       392                         16
+    trace.o                                                    4
+    uart.o                        124
+    usart.o                       304                68
+    usartd.o                      836                68       20
+    usbd_udphs.o                4 640               628      577
+    wdt.o                          16
+    xdmac.o                       804                68
+    ------------------------------------------------------------
+    Total:                     22 852       60    4 076   21 698
+
+command line: [2]
+    ------------------------------------------------------------
+    Total:
+
+dl7Sx_tln.a: [3]
+    abort.o                         6
+    printf.o                       42
+    xfail_s.o                      46                32        4
+    xprintfsmall_nomb.o         1 220                36
+    xprout.o                       22
+    ------------------------------------------------------------
+    Total:                      1 336                68        4
+
+m7Sx_tlv.a: [4]
+    fpinit.o                       40
+    ------------------------------------------------------------
+    Total:                         40
+
+rt7Sx_tl.a: [5]
+    ABImemcpy.o                   176
+    ABImemset.o                   116
+    I32DivMod.o                   424
+    I64DivMod.o                   304
+    I64DivZer.o                     4
+    IntDivZer.o                     4
+    copy_init3.o                   44
+    data_init.o                    48
+    memchr.o                      148
+    strchr.o                       32
+    strlen.o                       84
+    zero_init3.o                   64
+    ------------------------------------------------------------
+    Total:                      1 448
+
+sh7Sxs_l.a: [6]
+    ABIassert.o                    34
+    exit.o                         20
+    xreturnswi.o                    4
+    ------------------------------------------------------------
+    Total:                         58
+
+usb_device.a: [7]
+    cdc_requests.o                 16
+    cdcd_serial.o                 132                         32
+    cdcd_serial_callbacks.o         6
+    cdcd_serial_driver.o           66
+    cdcd_serial_port.o            796                84        8
+    usb_descriptors.o             270
+    usb_requests.o                136
+    usbd.o                        450                48        2
+    usbd_callbacks.o                8
+    usbd_driver.o               1 900               256       17
+    usbd_driver_callbacks.o         2
+    ------------------------------------------------------------
+    Total:                      3 782               388       59
+
+    Gaps                           24                 4   14 804
+    Linker created                                   36    2 432
+----------------------------------------------------------------
+    Grand Total:               29 540       60    4 572   38 997
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                      Address    Size  Type      Object
+-----                      -------    ----  ----      ------
+.iar.init_table$$Base   0x20007f78           --   Gb  - Linker created -
+.iar.init_table$$Limit  0x20007f9c           --   Gb  - Linker created -
+ABT_STACK$$Base         0x200114f0           --   Gb  - Linker created -
+ABT_STACK$$Limit        0x20011530           --   Gb  - Linker created -
+CACHE_ALIGNED$$Base     0x20011020           --   Gb  - Linker created -
+CACHE_ALIGNED$$Limit    0x20011430           --   Gb  - Linker created -
+CSTACK$$Base            0x200115b0           --   Gb  - Linker created -
+CSTACK$$Limit           0x20011db0           --   Gb  - Linker created -
+FIQ_STACK$$Base         0x20011490           --   Gb  - Linker created -
+FIQ_STACK$$Limit        0x200114f0           --   Gb  - Linker created -
+GetMSDescriptor         0x20004daf    0x4c  Code  Lc  usbd_driver.o [7]
+IRQ_STACK$$Base         0x20011430           --   Gb  - Linker created -
+IRQ_STACK$$Limit        0x20011490           --   Gb  - Linker created -
+LoadInt                 0x20002bd5    0x56  Code  Lc  xprintfsmall_nomb.o [3]
+OSExCompIDDescriptor    0x20007db8    0x28  Data  Gb  main_descriptors.o [1]
+OSExPropertyDescriptor  0x2000725c    0x90  Data  Gb  main_descriptors.o [1]
+OSStringDescriptor      0x200081fc    0x14  Data  Gb  main_descriptors.o [1]
+Region$$Table$$Base     0x20007f78           --   Gb  - Linker created -
+Region$$Table$$Limit    0x20007f9c           --   Gb  - Linker created -
+SYS_STACK$$Base         0x20011570           --   Gb  - Linker created -
+SYS_STACK$$Limit        0x200115b0           --   Gb  - Linker created -
+UND_STACK$$Base         0x20011530           --   Gb  - Linker created -
+UND_STACK$$Limit        0x20011570           --   Gb  - Linker created -
+_LitobSmallNoMb         0x20002d71    0xe2  Code  Lc  xprintfsmall_nomb.o [3]
+_PrintfSmallNoMb        0x200029bd   0x212  Code  Gb  xprintfsmall_nomb.o [3]
+_Prout                  0x200081ad    0x16  Code  Gb  xprout.o [3]
+_PutcharsSmallNoMb      0x20002e53    0x2e  Code  Lc  xprintfsmall_nomb.o [3]
+_PutfldSmallNoMb        0x20002c2b   0x146  Code  Lc  xprintfsmall_nomb.o [3]
+__aeabi_assert          0x20001fd5    0x22  Code  Gb  ABIassert.o [6]
+__aeabi_idiv            0x20001ff8          Code  Gb  I32DivMod.o [5]
+__aeabi_idiv0           0x200029b8          Code  Gb  IntDivZer.o [5]
+__aeabi_idivmod         0x20001ff8          Code  Gb  I32DivMod.o [5]
+__aeabi_ldiv0           0x20003794          Code  Gb  I64DivZer.o [5]
+__aeabi_memcpy4         0x20006830          Code  Gb  ABImemcpy.o [5]
+__aeabi_memcpy8         0x20006830          Code  Gb  ABImemcpy.o [5]
+__aeabi_memset          0x20005ca0          Code  Gb  ABImemset.o [5]
+__aeabi_uidiv           0x20002024          Code  Gb  I32DivMod.o [5]
+__aeabi_uidivmod        0x20002024          Code  Gb  I32DivMod.o [5]
+__aeabi_uldivmod        0x20002880          Code  Gb  I64DivMod.o [5]
+__exit                  0x20003799    0x14  Code  Gb  exit.o [6]
+__iar_Fail_s            0x200037cd    0x2e  Code  Gb  xfail_s.o [3]
+__iar_Memchr            0x20003850          Code  Gb  memchr.o [5]
+__iar_Memset            0x20005ca0          Code  Gb  ABImemset.o [5]
+__iar_Memset_word       0x20005ca8          Code  Gb  ABImemset.o [5]
+__iar_Strchr            0x200037ac          Code  Gb  strchr.o [5]
+__iar_copy_init3        0x20007d65    0x2c  Code  Gb  copy_init3.o [5]
+__iar_data_init3        0x20007cdd    0x30  Code  Gb  data_init.o [5]
+__iar_init_vfp          0x20007e44          Code  Gb  fpinit.o [4]
+__iar_init_vfp_v6       0x20007e30          Code  Gb  fpinit.o [4]
+__iar_program_start     0x20000020          Code  Gb  cstartup.o [1]
+__iar_return_from_swi   0x2000853c     0x4  Code  Gb  xreturnswi.o [6]
+__iar_systems$$module {Abs}
+                        0x00000001          Data  Gb  command line/config [2]
+__iar_zero_init3        0x20007829    0x40  Code  Gb  zero_init3.o [5]
+_aic_initialize         0x200032bf    0x36  Code  Lc  aic5.o [1]
+_alloc_handler          0x20002537    0x34  Code  Lc  irq.o [1]
+_compute_ba_offset      0x20006d69    0x48  Code  Lc  mpddrc.o [1]
+_configure_ddr2         0x20006e73    0xac  Code  Lc  mpddrc.o [1]
+_configure_ddr3         0x20006e0f    0x64  Code  Lc  mpddrc.o [1]
+_configure_lpddr2       0x20006f1f    0x88  Code  Lc  mpddrc.o [1]
+_configure_usart        0x20002f03    0x38  Code  Lc  main.o [1]
+_debug_help             0x20002ef3    0x10  Code  Lc  main.o [1]
+_default_irq_handler    0x2000256b    0x2a  Code  Lc  irq.o [1]
+_dma_configure_transfer
+                        0x20005343   0x15e  Code  Lc  dma.o [1]
+_dma_ctrl               0x20010768   0x394  Data  Lc  dma.o [1]
+_dma_sg_configure_transfer
+                        0x200054a1   0x1a6  Code  Lc  dma.o [1]
+_dma_sg_desc_alloc      0x20005247    0x96  Code  Lc  dma.o [1]
+_dma_sg_desc_free       0x200052dd    0x66  Code  Lc  dma.o [1]
+_dma_sg_init            0x200051d1    0x76  Code  Lc  dma.o [1]
+_dma_sg_pool            0x20011020   0x410  Data  Lc  dma.o [1]
+_exid_names             0x20007368    0x78  Data  Lc  chip.o [1]
+_get_aic_instance       0x200032f5    0x24  Code  Lc  aic5.o [1]
+_get_line_coding        0x200048ef    0x16  Code  Lc  cdcd_serial_port.o [7]
+_h64_peripherals        0x200082bc    0x10  Data  Lc  chip.o [1]
+_handler_push           0x20003ea5    0x74  Code  Lc  pio4.o [1]
+_handler_push::i        0x20010fec     0x4  Data  Lc  pio4.o [1]
+_handlers               0x20010e78   0x100  Data  Lc  pio4.o [1]
+_init_mt41k128m16       0x20006905   0x1be  Code  Lc  ddram.o [1]
+_initialize_handlers_pool
+                        0x200024f1    0x46  Code  Lc  irq.o [1]
+_interfaces_parse       0x20004709   0x17e  Code  Lc  cdcd_serial_port.o [7]
+_pio_get_group_mask     0x20003e21    0x26  Code  Lc  pio4.o [1]
+_pio_get_instance       0x20003e47    0x28  Code  Lc  pio4.o [1]
+_pio_get_periph_id      0x20003e6f    0x36  Code  Lc  pio4.o [1]
+_pio_handle_interrupt   0x20003f19    0x52  Code  Lc  pio4.o [1]
+_pio_handler            0x20003f6b    0x32  Code  Lc  pio4.o [1]
+_pmc_compute_mck        0x20001301    0xa8  Code  Lc  pmc.o [1]
+_pmc_get_system_clock_bits
+                        0x200013a9    0xb0  Code  Lc  pmc.o [1]
+_pmc_main_oscillators   0x2000861c     0x8  Data  Lc  pmc.o [1]
+_pmc_mck                0x20010ff0     0x4  Data  Lc  pmc.o [1]
+_pmc_measure_main_osc_freq
+                        0x20001459    0x58  Code  Lc  pmc.o [1]
+_reset_vector           0x00200000          Data  Gb  cstartup.o [1]
+_send_ddr_cmd           0x20006db1    0x1c  Code  Lc  mpddrc.o [1]
+_send_ext_lmr_cmd       0x20006dcd    0x20  Code  Lc  mpddrc.o [1]
+_send_lpddr2_cmd        0x20006ded    0x22  Code  Lc  mpddrc.o [1]
+_serial                 0x20010f98    0x14  Data  Lc  usartd.o [1]
+_set_control_line_state
+                        0x20004905    0x2a  Code  Lc  cdcd_serial_port.o [7]
+_set_ddr_timings        0x20006cbb    0xae  Code  Lc  mpddrc.o [1]
+_set_line_coding        0x200048dd    0x12  Code  Lc  cdcd_serial_port.o [7]
+_set_line_coding_callback
+                        0x20004887    0x56  Code  Lc  cdcd_serial_port.o [7]
+_tc_counter_callback    0x20002f3b    0x24  Code  Lc  main.o [1]
+_tc_counter_initialize  0x20002f5f    0x3e  Code  Lc  main.o [1]
+_tcd_capture_dma        0x20004275    0x88  Code  Lc  tcd.o [1]
+_tcd_capture_polling    0x200042fd    0x5a  Code  Lc  tcd.o [1]
+_tcd_counter_handler    0x20004253    0x22  Code  Lc  tcd.o [1]
+_tcd_dma_transfer_callback
+                        0x2000422d    0x26  Code  Lc  tcd.o [1]
+_tick                   0x20010fe4     0x4  Data  Lc  main.o [1]
+_timer                  0x20010fbc    0x10  Data  Lc  timer.o [1]
+_timer_get_tick         0x20006b69    0x24  Code  Lc  timer.o [1]
+_usartd_dma_read_callback
+                        0x20003add    0x92  Code  Lc  usartd.o [1]
+_usartd_handler         0x20003b6f   0x156  Code  Lc  usartd.o [1]
+_usbd_hal_add_buffer    0x2000093b   0x114  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_disable_bias  0x20000123     0x8  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_disable_peripheral_clock
+                        0x20000101     0xa  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_disable_usb_clock
+                        0x20000113     0x8  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_dma_handler   0x200007d9    0xe2  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_dma_single    0x2000077d    0x5c  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_enable_bias   0x2000011b     0x8  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_enable_peripheral_clock
+                        0x200000e7    0x1a  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_enable_usb_clock
+                        0x2000010b     0x8  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_end_of_transfer
+                        0x20000375    0x8a  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_clear_status
+                        0x20000257     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_configure
+                        0x20000151    0xc6  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_control_disable
+                        0x200002ad     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_control_enable
+                        0x2000029f     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_control_get_status
+                        0x20000291     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_dma_interrupt_enable
+                        0x200002ed    0x36  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_get_config
+                        0x20000139     0xc  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_get_received_data_size
+                        0x20000273    0x10  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_get_status
+                        0x20000249     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_get_type
+                        0x20000217    0x32  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_handler
+                        0x20000543   0x23a  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_interrupt_disable
+                        0x200002d3    0x1a  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_interrupt_enable
+                        0x200002bb    0x18  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_reset
+                        0x2000012b     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_set_config
+                        0x20000145     0xc  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_set_status
+                        0x20000265     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_endpoint_set_txready
+                        0x20000283     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_irq_handler   0x20000ae5   0x114  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_multi_update  0x200003ff    0x60  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_read          0x20000a4f    0x96  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_read_fifo_buffer
+                        0x20000349    0x2c  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_read_fifo_single
+                        0x200004f1    0x44  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_read_request  0x20000535     0xe  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_write         0x200008bb    0x80  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_write_fifo_buffer
+                        0x20000323    0x26  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_write_fifo_multi
+                        0x2000045f    0x58  Code  Lc  usbd_udphs.o [1]
+_usbd_hal_write_fifo_single
+                        0x200004b7    0x3a  Code  Lc  usbd_udphs.o [1]
+_xdmac_peripherals      0x200070d0    0xe8  Data  Lc  chip.o [1]
+abort                   0x200029b1     0x6  Code  Gb  abort.o [3]
+aic_enable              0x20003347    0x16  Code  Gb  aic5.o [1]
+aic_get_current_interrupt_source
+                        0x2000335d     0x6  Code  Gb  aic5.o [1]
+aic_initialize          0x20003319    0x2e  Code  Gb  aic5.o [1]
+arch_irq_disable        0x200032b9     0x4  Code  Lc  aic5.o [1]
+arch_irq_disable        0x20006b31     0x4  Code  Lc  timer.o [1]
+arch_irq_enable         0x200032b5     0x4  Code  Lc  aic5.o [1]
+arch_irq_enable         0x20006b2d     0x4  Code  Lc  timer.o [1]
+board_cfg_clocks        0x20005dd1    0x58  Code  Gb  board_support.o [1]
+board_cfg_console       0x20007449    0x60  Code  Gb  board_console.o [1]
+board_cfg_ddram         0x200060d9    0x1a  Code  Gb  board_support.o [1]
+board_cfg_lowlevel      0x20005e29    0x44  Code  Gb  board_support.o [1]
+board_cfg_matrix_default
+                        0x20005dc1     0x8  Code  Lc  board_support.o [1]
+board_cfg_matrix_for_ddr
+                        0x20006041    0x48  Code  Gb  board_support.o [1]
+board_cfg_mmu           0x20005e6d   0x1d4  Code  Gb  board_support.o [1]
+board_cfg_timer         0x200068f1    0x14  Code  Gb  board_timer.o [1]
+board_init              0x200080bd    0x1e  Code  Wk  board_sama5d2-xplained.o [1]
+board_name              0x20008624     0x4  Data  Lc  board_support.o [1]
+cache_clean_region      0x200023b9    0x2a  Code  Gb  cache.o [1]
+cache_invalidate_region
+                        0x2000238f    0x2a  Code  Gb  cache.o [1]
+callback_call           0x200044a3    0x1c  Code  Gb  callback.o [1]
+callback_copy           0x20004487    0x1c  Code  Gb  callback.o [1]
+callback_set            0x2000447d     0xa  Code  Gb  callback.o [1]
+cdc_line_coding_initialize
+                        0x2000617d    0x10  Code  Gb  cdc_requests.o [7]
+cdcd_serial             0x20010f78    0x20  Data  Lc  cdcd_serial.o [7]
+cdcd_serial_configure_function
+                        0x2000392f    0x12  Code  Gb  cdcd_serial.o [7]
+cdcd_serial_control_line_state_changed
+                        0x20004701     0x2  Code  Wk  cdcd_serial_callbacks.o [7]
+cdcd_serial_driver_configuration_changed_handler
+                        0x20003aaf    0x16  Code  Gb  cdcd_serial_driver.o [7]
+cdcd_serial_driver_descriptors
+                        0x20007de0    0x28  Data  Wk  main_descriptors.o [1]
+cdcd_serial_driver_initialize
+                        0x20003a99    0x16  Code  Gb  cdcd_serial_driver.o [7]
+cdcd_serial_driver_request_handler
+                        0x20003ac5    0x16  Code  Gb  cdcd_serial_driver.o [7]
+cdcd_serial_driver_write
+                        0x20002e89     0x8  Code  Lc  main.o [1]
+cdcd_serial_event_handler
+                        0x200038e5    0x34  Code  Lc  cdcd_serial.o [7]
+cdcd_serial_initialize  0x20003919    0x16  Code  Gb  cdcd_serial.o [7]
+cdcd_serial_line_coding_is_to_change
+                        0x20004703     0x4  Code  Wk  cdcd_serial_callbacks.o [7]
+cdcd_serial_port_initialize
+                        0x2000492f    0x50  Code  Gb  cdcd_serial_port.o [7]
+cdcd_serial_port_parse_interfaces
+                        0x2000497f    0x18  Code  Gb  cdcd_serial_port.o [7]
+cdcd_serial_port_request_handler
+                        0x20004997    0x62  Code  Gb  cdcd_serial_port.o [7]
+cdcd_serial_port_write  0x200049f9    0x18  Code  Gb  cdcd_serial_port.o [7]
+cdcd_serial_request_handler
+                        0x20003941     0xc  Code  Gb  cdcd_serial.o [7]
+cdcd_serial_write       0x2000394d    0x14  Code  Gb  cdcd_serial.o [7]
+char_recv               0x20010ffe     0x1  Data  Lc  main.o [1]
+configurationDescriptorsFS
+                        0x20007504    0x54  Data  Gb  main_descriptors.o [1]
+configurationDescriptorsHS
+                        0x200075ac    0x54  Data  Gb  main_descriptors.o [1]
+console                 0x20010fac    0x10  Data  Lc  console.o [1]
+console_clear_screen    0x200045eb     0xa  Code  Gb  console.o [1]
+console_configure       0x200044c1    0x52  Code  Gb  console.o [1]
+console_example_info    0x20004531    0xba  Code  Gb  console.o [1]
+console_put_char        0x20004513    0x10  Code  Gb  console.o [1]
+console_put_string      0x20004523     0xe  Code  Gb  console.o [1]
+console_reset_cursor    0x200045f5     0xa  Code  Gb  console.o [1]
+controllers             0x20008614     0x8  Data  Lc  dma.o [1]
+cp15_dcache_clean_mva   0x200030bd     0x6  Code  Lc  l1cache_cp15.o [1]
+cp15_dcache_invalidate_mva
+                        0x200030b5     0x6  Code  Lc  l1cache_cp15.o [1]
+cp15_dcache_invalidate_setway
+                        0x200030ad     0x6  Code  Lc  l1cache_cp15.o [1]
+cp15_icache_invalidate  0x200030a5     0x8  Code  Lc  l1cache_cp15.o [1]
+cp15_read_sctlr         0x20003095     0x6  Code  Lc  l1cache_cp15.o [1]
+cp15_read_sctlr         0x20006105     0x6  Code  Lc  mmu_cp15.o [1]
+cp15_write_dacr         0x2000611d     0x6  Code  Lc  mmu_cp15.o [1]
+cp15_write_sctlr        0x2000309d     0x6  Code  Lc  l1cache_cp15.o [1]
+cp15_write_sctlr        0x2000610d     0x6  Code  Lc  mmu_cp15.o [1]
+cp15_write_ttbr0        0x20006115     0x6  Code  Lc  mmu_cp15.o [1]
+cpu_idle                0x20005935     0x8  Code  Lc  mutex.o [1]
+data_abort_irq_handler  0x20008535     0x2  Code  Gb  fault_handlers.o [1]
+dcache_clean_region     0x20003199    0x30  Code  Gb  l1cache_cp15.o [1]
+dcache_enable           0x20003113    0x2e  Code  Gb  l1cache_cp15.o [1]
+dcache_invalidate       0x20003141    0x28  Code  Gb  l1cache_cp15.o [1]
+dcache_invalidate_region
+                        0x20003169    0x30  Code  Gb  l1cache_cp15.o [1]
+dcache_is_enabled       0x200030fb    0x18  Code  Gb  l1cache_cp15.o [1]
+ddram_configure         0x20006aef    0x24  Code  Gb  ddram.o [1]
+ddram_init_descriptor   0x20006ac3    0x2c  Code  Gb  ddram.o [1]
+deviceDescriptor        0x200081e8    0x14  Data  Gb  main_descriptors.o [1]
+device_state            0x20011002     0x1  Data  Lc  usbd.o [7]
+dma_allocate_channel    0x200056ed    0xde  Code  Gb  dma.o [1]
+dma_configure_transfer  0x200058ab    0x28  Code  Gb  dma.o [1]
+dma_fifo_flush          0x2000589d     0xe  Code  Gb  dma.o [1]
+dma_get_transferred_data_len
+                        0x200058d3    0x1e  Code  Gb  dma.o [1]
+dma_initialize          0x20005647    0xa6  Code  Gb  dma.o [1]
+dma_irq_handler         0x20006455    0xb8  Code  Gb  dma_xdmac.o [1]
+dma_is_transfer_done    0x20005915    0x16  Code  Gb  dma.o [1]
+dma_prepare_channel     0x20006217    0xb4  Code  Gb  dma_xdmac.o [1]
+dma_reset_channel       0x200057cb    0x44  Code  Gb  dma.o [1]
+dma_set_callback        0x200058f1    0x24  Code  Gb  dma.o [1]
+dma_start_transfer      0x2000580f    0x44  Code  Gb  dma.o [1]
+dma_stop_transfer       0x20005869    0x34  Code  Gb  dma.o [1]
+dmb                     0x20006cb5     0x6  Code  Lc  mpddrc.o [1]
+dmb                     0x2000592d     0x6  Code  Lc  mutex.o [1]
+dmb                     0x200000e1     0x6  Code  Lc  usbd_udphs.o [1]
+driver                  0x20010fcc     0xc  Data  Lc  usbd_driver.o [7]
+dsb                     0x20003085     0x6  Code  Lc  l1cache_cp15.o [1]
+dsb                     0x200060f5     0x6  Code  Lc  mmu_cp15.o [1]
+endpoints               0x20010afc   0x240  Data  Lc  usbd_udphs.o [1]
+fiqHandler              0x200071b8          Code  Gb  cstartup.o [1]
+flexcom_select          0x20005989    0x70  Code  Gb  flexcom.o [1]
+force_full_speed        0x20011001     0x1  Data  Lc  usbd_udphs.o [1]
+get_board_name          0x20005dc9     0x8  Code  Gb  board_support.o [1]
+get_chip_name           0x2000265d    0x34  Code  Gb  chip.o [1]
+get_configuration       0x20004ad1    0x34  Code  Lc  usbd_driver.o [7]
+get_configuration::data
+                        0x20011004     0x1  Data  Lc  usbd_driver.o [7]
+get_descriptor          0x20004ba9   0x206  Code  Lc  usbd_driver.o [7]
+get_device_status       0x20004b05    0x74  Code  Lc  usbd_driver.o [7]
+get_device_status::data
+                        0x20010ff8     0x2  Data  Lc  usbd_driver.o [7]
+get_endpoint_status     0x20004b79    0x30  Code  Lc  usbd_driver.o [7]
+get_endpoint_status::data
+                        0x20010ffa     0x2  Data  Lc  usbd_driver.o [7]
+get_flexcom_addr_from_id
+                        0x200033c1    0x36  Code  Gb  chip_common.o [1]
+get_flexcom_id_from_addr
+                        0x20003381    0x40  Code  Gb  chip_common.o [1]
+get_interface           0x20004e45    0x2e  Code  Lc  usbd_driver.o [7]
+get_peripheral_clock_matrix_div
+                        0x200026ab    0x20  Code  Gb  chip.o [1]
+get_peripheral_dma_channel
+                        0x200026cb    0x20  Code  Gb  chip.o [1]
+get_peripheral_fifo_depth
+                        0x20002773    0x8e  Code  Gb  chip.o [1]
+get_peripheral_matrix   0x20002691    0x1a  Code  Gb  chip.o [1]
+get_peripheral_xdma     0x2000262d    0x30  Code  Lc  chip.o [1]
+get_tc_id_from_addr     0x200033f7    0x18  Code  Gb  chip_common.o [1]
+get_uart_id_from_addr   0x2000340f    0x36  Code  Gb  chip_common.o [1]
+get_usart_addr_from_id  0x2000347b    0x2c  Code  Gb  chip_common.o [1]
+get_usart_id_from_addr  0x20003445    0x36  Code  Gb  chip_common.o [1]
+get_xdmac_addr_from_id  0x200034bf    0x14  Code  Gb  chip_common.o [1]
+get_xdmac_id_from_addr  0x200034a7    0x18  Code  Gb  chip_common.o [1]
+handle_vbus_change      0x20004649    0x34  Code  Lc  main_usb_common.o [1]
+handlers                0x20010d3c   0x13c  Data  Lc  irq.o [1]
+handlers_pool           0x20010000   0x768  Data  Lc  irq.o [1]
+icache_enable           0x200030df    0x1c  Code  Gb  l1cache_cp15.o [1]
+icache_invalidate       0x200030c5     0xc  Code  Gb  l1cache_cp15.o [1]
+icache_is_enabled       0x200030d1     0xe  Code  Gb  l1cache_cp15.o [1]
+initial_dealy           0x20010fe8     0x4  Data  Lc  main.o [1]
+irqHandler              0x200071fc          Code  Gb  cstartup.o [1]
+irq_add_handler         0x200025a3    0x3a  Code  Gb  irq.o [1]
+irq_enable              0x200025f5     0x8  Code  Gb  irq.o [1]
+irq_initialize          0x20002595     0xe  Code  Gb  irq.o [1]
+is_Tc_started           0x20010fff     0x1  Data  Lc  main.o [1]
+is_cdc_serial_on        0x20010ffc     0x1  Data  Lc  main.o [1]
+is_dest_periph          0x200051b1    0x20  Code  Lc  dma.o [1]
+is_peripheral_on_dma_controller
+                        0x200026eb    0x88  Code  Gb  chip.o [1]
+is_source_periph        0x20005191    0x20  Code  Lc  dma.o [1]
+isb                     0x2000308d     0x6  Code  Lc  l1cache_cp15.o [1]
+isb                     0x200060fd     0x6  Code  Lc  mmu_cp15.o [1]
+l2cache_clean_region    0x20003265    0x3c  Code  Gb  l2cache_l2cc.o [1]
+l2cache_invalidate_region
+                        0x20003229    0x3c  Code  Gb  l2cache_l2cc.o [1]
+l2cache_is_enabled      0x200031d1     0xc  Code  Gb  l2cache_l2cc.o [1]
+l2cc_clean_pal          0x20003203    0x26  Code  Gb  l2cache_l2cc.o [1]
+l2cc_invalidate_pal     0x200031dd    0x26  Code  Gb  l2cache_l2cc.o [1]
+languageIdStringDescriptor
+                        0x20008538     0x4  Data  Gb  main_descriptors.o [1]
+line_coding             0x20010fd8     0x8  Data  Lc  cdcd_serial_port.o [7]
+main                    0x20002f9d    0x8c  Code  Gb  main.o [1]
+manufacturerDescriptor  0x2000803c    0x20  Data  Gb  main_descriptors.o [1]
+matrix_configure_master
+                        0x20003521     0x8  Code  Gb  matrix.o [1]
+matrix_configure_slave  0x20003529     0xa  Code  Gb  matrix.o [1]
+matrix_configure_slave_sec
+                        0x200035a7    0x20  Code  Gb  matrix.o [1]
+matrix_is_peripheral_secured
+                        0x20003661    0x1e  Code  Gb  matrix.o [1]
+matrix_master_priority_for_slave
+                        0x20003533    0x74  Code  Gb  matrix.o [1]
+matrix_remap_ram        0x20003687    0x34  Code  Gb  matrix.o [1]
+matrix_remove_write_protection
+                        0x2000367f     0x8  Code  Gb  matrix.o [1]
+matrix_set_default_config
+                        0x200036bb    0xc4  Code  Gb  matrix.o [1]
+matrix_set_slave_region_size
+                        0x20003607    0x5a  Code  Gb  matrix.o [1]
+matrix_set_slave_split_addr
+                        0x200035c7    0x40  Code  Gb  matrix.o [1]
+memchr                  0x20003850          Code  Gb  memchr.o [5]
+mmu_configure           0x20006123    0x32  Code  Gb  mmu_cp15.o [1]
+mmu_enable              0x20006169    0x14  Code  Gb  mmu_cp15.o [1]
+mmu_is_enabled          0x2000615d     0xc  Code  Gb  mmu_cp15.o [1]
+mpddrc_configure        0x20006fa7    0xd6  Code  Gb  mpddrc.o [1]
+mutex_lock              0x2000593d    0x16  Code  Gb  mutex.o [1]
+mutex_try_lock          0x20005955    0x24  Code  Gb  mutex.o [1]
+mutex_unlock            0x20005979     0xe  Code  Gb  mutex.o [1]
+next_free_handler       0x20010fe0     0x4  Data  Lc  irq.o [1]
+otherSpeedDescriptorsFS
+                        0x20007558    0x54  Data  Gb  main_descriptors.o [1]
+otherSpeedDescriptorsHS
+                        0x20007600    0x54  Data  Gb  main_descriptors.o [1]
+pin_pon_a               0x2000832c    0x10  Data  Lc  main_usb_common.o [1]
+pin_pon_b               0x2000833c    0x10  Data  Lc  main_usb_common.o [1]
+pin_pon_c               0x2000834c    0x10  Data  Lc  main_usb_common.o [1]
+pin_vbus                0x2000831c    0x10  Data  Lc  main_usb_common.o [1]
+pio_add_handler_to_group
+                        0x20004183    0x34  Code  Gb  pio4.o [1]
+pio_configure           0x20003f9d   0x1c0  Code  Gb  pio4.o [1]
+pio_enable_it           0x200041d3    0x24  Code  Gb  pio4.o [1]
+pio_get                 0x2000415d    0x26  Code  Gb  pio4.o [1]
+pio_reset_all_it        0x200041b7    0x1c  Code  Gb  pio4.o [1]
+pmc_configure_gck       0x20001d3d    0x96  Code  Gb  pmc.o [1]
+pmc_configure_peripheral
+                        0x20001aeb    0x60  Code  Gb  pmc.o [1]
+pmc_configure_plla      0x20001a53    0x3a  Code  Gb  pmc.o [1]
+pmc_disable_external_osc
+                        0x2000183f    0x30  Code  Gb  pmc.o [1]
+pmc_disable_gck         0x20001e1d    0x36  Code  Gb  pmc.o [1]
+pmc_disable_internal_osc
+                        0x200018db    0x18  Code  Gb  pmc.o [1]
+pmc_disable_peripheral  0x20001b87    0x3c  Code  Gb  pmc.o [1]
+pmc_disable_plla        0x20001a8d    0x12  Code  Gb  pmc.o [1]
+pmc_disable_upll_bias   0x20001d25    0x12  Code  Gb  pmc.o [1]
+pmc_disable_upll_clock  0x20001cc1    0x12  Code  Gb  pmc.o [1]
+pmc_enable_external_osc
+                        0x2000178b    0xb4  Code  Gb  pmc.o [1]
+pmc_enable_gck          0x20001dd9    0x3e  Code  Gb  pmc.o [1]
+pmc_enable_internal_osc
+                        0x200018ad    0x2e  Code  Gb  pmc.o [1]
+pmc_enable_peripheral   0x20001b4b    0x3c  Code  Gb  pmc.o [1]
+pmc_enable_system_clock
+                        0x20001a9f    0x4c  Code  Gb  pmc.o [1]
+pmc_enable_upll_bias    0x20001d13    0x12  Code  Gb  pmc.o [1]
+pmc_enable_upll_clock   0x20001c4d    0x6a  Code  Gb  pmc.o [1]
+pmc_get_audio_pmc_clock
+                        0x20001f55    0x42  Code  Gb  pmc.o [1]
+pmc_get_gck_clock       0x20001e53    0xce  Code  Gb  pmc.o [1]
+pmc_get_main_clock      0x20001647    0x1a  Code  Gb  pmc.o [1]
+pmc_get_master_clock    0x20001625    0x18  Code  Gb  pmc.o [1]
+pmc_get_peripheral_clock
+                        0x20001bfb    0x30  Code  Gb  pmc.o [1]
+pmc_get_plla_clock      0x20001661    0x38  Code  Gb  pmc.o [1]
+pmc_get_processor_clock
+                        0x20001699    0x3a  Code  Gb  pmc.o [1]
+pmc_get_slow_clock      0x2000163d     0xa  Code  Gb  pmc.o [1]
+pmc_get_upll_clock      0x20001cdd    0x36  Code  Gb  pmc.o [1]
+pmc_is_gck_enabled      0x20001f21    0x2c  Code  Gb  pmc.o [1]
+pmc_is_peripheral_enabled
+                        0x20001bc3    0x38  Code  Gb  pmc.o [1]
+pmc_select_external_osc
+                        0x200016d3    0xb8  Code  Gb  pmc.o [1]
+pmc_select_internal_osc
+                        0x2000186f    0x3e  Code  Gb  pmc.o [1]
+pmc_set_main_oscillator_freq
+                        0x200014b1   0x174  Code  Gb  pmc.o [1]
+pmc_set_mck_divider     0x20001a19    0x3a  Code  Gb  pmc.o [1]
+pmc_set_mck_h32mxdiv    0x200019e3    0x36  Code  Gb  pmc.o [1]
+pmc_set_mck_plladiv2    0x200019ad    0x36  Code  Gb  pmc.o [1]
+pmc_set_mck_prescaler   0x2000196f    0x3e  Code  Gb  pmc.o [1]
+pmc_switch_mck_to_new_source
+                        0x200018f3    0x30  Code  Gb  pmc.o [1]
+pmc_switch_mck_to_pll   0x20001923    0x28  Code  Gb  pmc.o [1]
+pmc_switch_mck_to_slck  0x2000194b    0x24  Code  Gb  pmc.o [1]
+prefetch_abort_irq_handler
+                        0x20008537     0x2  Code  Gb  fault_handlers.o [1]
+previous_device_state   0x20011003     0x1  Data  Lc  usbd.o [7]
+printf                  0x200021a1    0x2a  Code  Gb  printf.o [3]
+productStringDescriptor
+                        0x20007d90    0x28  Data  Gb  main_descriptors.o [1]
+putchar                 0x200081c3    0x10  Code  Wk  syscalls.o [1]
+qualifierDescriptor     0x2000845c     0xc  Data  Lc  main_descriptors.o [1]
+readb                   0x2000396d     0x6  Code  Lc  usart.o [1]
+sec_hand                0x20010ff4     0x4  Data  Lc  xfail_s.o [3]
+serialNumberDescriptor  0x20007ea0    0x24  Data  Gb  main_descriptors.o [1]
+seriald_configure       0x20005d15    0x64  Code  Gb  seriald.o [1]
+seriald_ops_uart        0x20007f0c    0x24  Data  Lc  seriald.o [1]
+seriald_put_char        0x20005d79    0x1c  Code  Gb  seriald.o [1]
+seriald_put_string      0x20005d95    0x26  Code  Gb  seriald.o [1]
+set_configuration       0x20004a39    0x98  Code  Lc  usbd_driver.o [7]
+set_interface           0x20004dfb    0x4a  Code  Lc  usbd_driver.o [7]
+sfrbu_disable_ddr_backup
+                        0x200070b5     0xe  Code  Gb  sfrbu.o [1]
+sfrbu_is_ddr_backup_enabled
+                        0x200070c3     0xa  Code  Gb  sfrbu.o [1]
+slowclock_get_clock     0x20002615    0x18  Code  Gb  slowclock_sckc.o [1]
+slowclock_is_internal   0x200025fd    0x12  Code  Gb  slowclock_sckc.o [1]
+software_interrupt_irq_handler
+                        0x20008533     0x2  Code  Gb  fault_handlers.o [1]
+spurious_handler        0x200032bd     0x2  Code  Lc  aic5.o [1]
+strchr                  0x200037ac          Code  Gb  strchr.o [5]
+stringDescriptors       0x200085f8    0x1c  Data  Gb  main_descriptors.o [1]
+strlen                  0x200037fc          Code  Gb  strlen.o [5]
+tc_configure            0x200059f9    0x30  Code  Gb  tc.o [1]
+tc_counter              0x200085c4    0x34  Data  Lc  main.o [1]
+tc_enable_it            0x20005a77    0x26  Code  Gb  tc.o [1]
+tc_find_best_clock_source
+                        0x20005a9d    0x82  Code  Gb  tc.o [1]
+tc_get_available_freq   0x20005b43    0x5e  Code  Gb  tc.o [1]
+tc_get_channel_freq     0x20005ba1    0x32  Code  Gb  tc.o [1]
+tc_get_cv               0x20005c6f    0x26  Code  Gb  tc.o [1]
+tc_get_ra_rb_rc         0x20005c2d    0x42  Code  Gb  tc.o [1]
+tc_get_status           0x20005b1f    0x24  Code  Gb  tc.o [1]
+tc_set_ra_rb_rc         0x20005bd3    0x5a  Code  Gb  tc.o [1]
+tc_start                0x20005a29    0x28  Code  Gb  tc.o [1]
+tc_stop                 0x20005a51    0x26  Code  Gb  tc.o [1]
+tcd_configure_counter   0x20004357    0x8a  Code  Gb  tcd.o [1]
+tcd_start               0x200043e1    0x94  Code  Gb  tcd.o [1]
+terminate_ctrl_in_with_null
+                        0x20004a25    0x14  Code  Lc  usbd_driver.o [7]
+test_packet_buffer      0x20007c10    0x38  Data  Lc  usbd_udphs.o [1]
+timer_configure         0x20006b8d    0x7a  Code  Gb  timer.o [1]
+timer_get_upper_tick_counter
+                        0x20006b53     0xc  Code  Lc  timer.o [1]
+timer_irq_handler       0x20006b5f     0x8  Code  Lc  timer.o [1]
+timer_update_upper_tick_counter
+                        0x20006b35    0x1e  Code  Lc  timer.o [1]
+tlb                     0x2000c000  0x4000  Data  Lc  board_support.o [1]
+trace_level             0x20008628     0x4  Data  Gb  trace.o [1]
+uart_configure          0x200072ed    0x2e  Code  Gb  uart.o [1]
+uart_disable_it         0x2000731f     0x4  Code  Gb  uart.o [1]
+uart_enable_it          0x2000731b     0x4  Code  Gb  uart.o [1]
+uart_get_char           0x20007355    0x14  Code  Gb  uart.o [1]
+uart_is_rx_ready        0x2000734d     0x8  Code  Gb  uart.o [1]
+uart_is_tx_empty        0x2000732d     0xa  Code  Gb  uart.o [1]
+uart_is_tx_ready        0x20007323     0xa  Code  Gb  uart.o [1]
+uart_put_char           0x20007337    0x16  Code  Gb  uart.o [1]
+undefined_instruction_irq_handler
+                        0x20008531     0x2  Code  Gb  fault_handlers.o [1]
+usart_configure         0x20003973    0x34  Code  Gb  usart.o [1]
+usart_desc              0x20008540    0x84  Data  Lc  main.o [1]
+usart_disable_it        0x200039c9     0x4  Code  Gb  usart.o [1]
+usart_enable_it         0x200039c5     0x4  Code  Gb  usart.o [1]
+usart_fifo_configure    0x20003a43    0x2e  Code  Gb  usart.o [1]
+usart_fifo_enable       0x20003a71     0xa  Code  Gb  usart.o [1]
+usart_get_char          0x20003a2d    0x16  Code  Gb  usart.o [1]
+usart_get_masked_status
+                        0x200039a7    0x1e  Code  Gb  usart.o [1]
+usart_irq_handler       0x20002e91    0x50  Code  Lc  main.o [1]
+usart_pins              0x2000801c    0x20  Data  Lc  main.o [1]
+usart_put_char          0x20003a1b    0x12  Code  Gb  usart.o [1]
+usart_rx_flag           0x20010ffd     0x1  Data  Lc  main.o [1]
+usart_set_receiver_enabled
+                        0x200039df    0x12  Code  Gb  usart.o [1]
+usart_set_rx_timeout    0x200039f1    0x2a  Code  Gb  usart.o [1]
+usart_set_transmitter_enabled
+                        0x200039cd    0x12  Code  Gb  usart.o [1]
+usartd_configure        0x20003cc5   0x14a  Code  Gb  usartd.o [1]
+usb_configuration_descriptor_get_total_length
+                        0x20002461     0x4  Code  Gb  usb_descriptors.o [7]
+usb_configuration_descriptor_is_self_powered
+                        0x20002465     0xe  Code  Gb  usb_descriptors.o [7]
+usb_configuration_descriptor_parse
+                        0x20002473    0x7e  Code  Gb  usb_descriptors.o [7]
+usb_endpoint_descriptor_get_direction
+                        0x20002447     0xe  Code  Gb  usb_descriptors.o [7]
+usb_endpoint_descriptor_get_max_packet_size
+                        0x2000245d     0x4  Code  Gb  usb_descriptors.o [7]
+usb_endpoint_descriptor_get_number
+                        0x2000243f     0x8  Code  Gb  usb_descriptors.o [7]
+usb_endpoint_descriptor_get_type
+                        0x20002455     0x8  Code  Gb  usb_descriptors.o [7]
+usb_feature_request_get_feature_selector
+                        0x200061fd     0xa  Code  Gb  usb_requests.o [7]
+usb_feature_request_get_test_selector
+                        0x20006207     0xe  Code  Gb  usb_requests.o [7]
+usb_generic_descriptor_get_length
+                        0x200023e3     0x4  Code  Gb  usb_descriptors.o [7]
+usb_generic_descriptor_get_next_descriptor
+                        0x200023eb     0xe  Code  Gb  usb_descriptors.o [7]
+usb_generic_descriptor_get_type
+                        0x200023e7     0x4  Code  Gb  usb_descriptors.o [7]
+usb_generic_descriptor_parse
+                        0x200023f9    0x46  Code  Gb  usb_descriptors.o [7]
+usb_generic_request_get_endpoint_number
+                        0x200061a7     0xc  Code  Gb  usb_requests.o [7]
+usb_generic_request_get_index
+                        0x2000619f     0x4  Code  Gb  usb_requests.o [7]
+usb_generic_request_get_length
+                        0x200061a3     0x4  Code  Gb  usb_requests.o [7]
+usb_generic_request_get_recipient
+                        0x200061b3     0x8  Code  Gb  usb_requests.o [7]
+usb_generic_request_get_request
+                        0x20006197     0x4  Code  Gb  usb_requests.o [7]
+usb_generic_request_get_type
+                        0x2000618d     0xa  Code  Gb  usb_requests.o [7]
+usb_generic_request_get_value
+                        0x2000619b     0x4  Code  Gb  usb_requests.o [7]
+usb_get_descriptor_request_get_descriptor_index
+                        0x200061c9     0xa  Code  Gb  usb_requests.o [7]
+usb_get_descriptor_request_get_descriptor_type
+                        0x200061bb     0xe  Code  Gb  usb_requests.o [7]
+usb_interface_request_get_alternate_setting
+                        0x200061f3     0xa  Code  Gb  usb_requests.o [7]
+usb_interface_request_get_interface
+                        0x200061e9     0xa  Code  Gb  usb_requests.o [7]
+usb_power_configure     0x200046c1    0x1c  Code  Gb  main_usb_common.o [1]
+usb_serial_read1        0x20011000     0x1  Data  Lc  main.o [1]
+usb_set_address_request_get_address
+                        0x200061d3     0xc  Code  Gb  usb_requests.o [7]
+usb_set_configuration_request_get_configuration
+                        0x200061df     0xa  Code  Gb  usb_requests.o [7]
+usb_vbus_configure      0x2000468d    0x34  Code  Gb  main_usb_common.o [1]
+usbd_callbacks_initialized
+                        0x20003081     0x2  Code  Wk  usbd_callbacks.o [7]
+usbd_callbacks_request_received
+                        0x20002eeb     0x8  Code  Gb  main.o [1]
+usbd_callbacks_reset    0x20002e85     0x2  Code  Wk  usbd_callbacks.o [7]
+usbd_callbacks_resumed  0x20002e83     0x2  Code  Wk  usbd_callbacks.o [7]
+usbd_callbacks_suspended
+                        0x20002e81     0x2  Code  Wk  usbd_callbacks.o [7]
+usbd_configure_endpoint
+                        0x2000225b     0x8  Code  Gb  usbd.o [7]
+usbd_connect            0x20002327     0x8  Code  Gb  usbd.o [7]
+usbd_disconnect         0x2000232f    0x24  Code  Gb  usbd.o [7]
+usbd_driver_callbacks_configuration_changed
+                        0x20002ee1     0xa  Code  Gb  main.o [1]
+usbd_driver_callbacks_interface_setting_changed
+                        0x20006215     0x2  Code  Wk  usbd_driver_callbacks.o [7]
+usbd_driver_get_cfg_descriptors
+                        0x20004ef9    0x1c  Code  Gb  usbd_driver.o [7]
+usbd_driver_initialize  0x20004ed1    0x28  Code  Gb  usbd_driver.o [7]
+usbd_driver_request_handler
+                        0x20004f15   0x24e  Code  Gb  usbd_driver.o [7]
+usbd_driver_test        0x20004e73    0x54  Code  Lc  usbd_driver.o [7]
+usbd_get_state          0x2000236b     0x6  Code  Gb  usbd.o [7]
+usbd_hal_activate       0x200011e9    0x10  Code  Gb  usbd_udphs.o [1]
+usbd_hal_configure      0x20000c75   0x230  Code  Gb  usbd_udphs.o [1]
+usbd_hal_connect        0x20000f57    0x32  Code  Gb  usbd_udphs.o [1]
+usbd_hal_disconnect     0x20000f8d    0x32  Code  Gb  usbd_udphs.o [1]
+usbd_hal_halt           0x20001103    0x64  Code  Gb  usbd_udphs.o [1]
+usbd_hal_init           0x20000ffb    0xce  Code  Gb  usbd_udphs.o [1]
+usbd_hal_is_halted      0x200011b1    0x18  Code  Gb  usbd_udphs.o [1]
+usbd_hal_is_high_speed  0x200011c9     0xa  Code  Gb  usbd_udphs.o [1]
+usbd_hal_read           0x20000f25    0x32  Code  Gb  usbd_udphs.o [1]
+usbd_hal_reset_endpoints
+                        0x20000bf9    0x72  Code  Gb  usbd_udphs.o [1]
+usbd_hal_set_address    0x20000fbf    0x34  Code  Gb  usbd_udphs.o [1]
+usbd_hal_set_configuration
+                        0x20000ff9     0x2  Code  Gb  usbd_udphs.o [1]
+usbd_hal_set_transfer_callback
+                        0x20000ea5    0x1e  Code  Gb  usbd_udphs.o [1]
+usbd_hal_stall          0x200010cd    0x36  Code  Gb  usbd_udphs.o [1]
+usbd_hal_suspend        0x200011d9    0x10  Code  Gb  usbd_udphs.o [1]
+usbd_hal_test           0x200011f9    0xa2  Code  Gb  usbd_udphs.o [1]
+usbd_hal_unhalt         0x20001167    0x4a  Code  Gb  usbd_udphs.o [1]
+usbd_hal_write          0x20000ed1    0x4e  Code  Gb  usbd_udphs.o [1]
+usbd_halt               0x200022a7     0xa  Code  Gb  usbd.o [7]
+usbd_init               0x20002353    0x18  Code  Gb  usbd.o [7]
+usbd_is_halted          0x200022bb     0xa  Code  Gb  usbd.o [7]
+usbd_is_high_speed      0x200022c5     0x8  Code  Gb  usbd.o [7]
+usbd_read               0x20002285    0x22  Code  Gb  usbd.o [7]
+usbd_request_handler    0x20002237    0x24  Code  Gb  usbd.o [7]
+usbd_reset_handler      0x20002213    0x24  Code  Gb  usbd.o [7]
+usbd_resume_handler     0x200021ef    0x24  Code  Gb  usbd.o [7]
+usbd_set_address        0x200022d7    0x22  Code  Gb  usbd.o [7]
+usbd_set_address_callback
+                        0x20004ec7     0xa  Code  Lc  usbd_driver.o [7]
+usbd_set_configuration  0x200022f9    0x2e  Code  Gb  usbd.o [7]
+usbd_stall              0x200022cd     0xa  Code  Gb  usbd.o [7]
+usbd_suspend_handler    0x200021cd    0x22  Code  Gb  usbd.o [7]
+usbd_test               0x20002385     0xa  Code  Gb  usbd.o [7]
+usbd_unhalt             0x200022b1     0xa  Code  Gb  usbd.o [7]
+usbd_write              0x20002263    0x22  Code  Gb  usbd.o [7]
+usleep                  0x20006c07    0xa4  Code  Gb  timer.o [1]
+vbus_pio_handler        0x2000467d    0x10  Code  Lc  main_usb_common.o [1]
+wdt_disable             0x200068e1     0xa  Code  Gb  wdt.o [1]
+writeb                  0x20003969     0x4  Code  Lc  usart.o [1]
+xdmac_disable_channel   0x20006545    0x28  Code  Gb  xdmac.o [1]
+xdmac_disable_channel_it
+                        0x2000659f    0x2a  Code  Gb  xdmac.o [1]
+xdmac_disable_global_it
+                        0x20006511     0x4  Code  Gb  xdmac.o [1]
+xdmac_enable_channel    0x20006519    0x2c  Code  Gb  xdmac.o [1]
+xdmac_enable_channel_it
+                        0x20006571    0x2e  Code  Gb  xdmac.o [1]
+xdmac_enable_global_it  0x2000650d     0x4  Code  Gb  xdmac.o [1]
+xdmac_fifo_flush        0x20006803    0x26  Code  Gb  xdmac.o [1]
+xdmac_get_channel_isr   0x200065f1    0x28  Code  Gb  xdmac.o [1]
+xdmac_get_channel_it_mask
+                        0x200065c9    0x28  Code  Gb  xdmac.o [1]
+xdmac_get_global_channel_status
+                        0x2000656d     0x4  Code  Gb  xdmac.o [1]
+xdmac_get_global_isr    0x20006515     0x4  Code  Gb  xdmac.o [1]
+xdmac_get_microblock_control
+                        0x200066f5    0x2e  Code  Gb  xdmac.o [1]
+xdmac_set_block_control
+                        0x20006723    0x2c  Code  Gb  xdmac.o [1]
+xdmac_set_channel_config
+                        0x2000674f    0x2c  Code  Gb  xdmac.o [1]
+xdmac_set_data_stride_mem_pattern
+                        0x2000677b    0x2c  Code  Gb  xdmac.o [1]
+xdmac_set_descriptor_addr
+                        0x2000666d    0x32  Code  Gb  xdmac.o [1]
+xdmac_set_descriptor_control
+                        0x2000669f    0x2a  Code  Gb  xdmac.o [1]
+xdmac_set_dest_addr     0x20006643    0x2a  Code  Gb  xdmac.o [1]
+xdmac_set_dest_microblock_stride
+                        0x200067d5    0x2e  Code  Gb  xdmac.o [1]
+xdmac_set_microblock_control
+                        0x200066c9    0x2c  Code  Gb  xdmac.o [1]
+xdmac_set_src_addr      0x20006619    0x2a  Code  Gb  xdmac.o [1]
+xdmac_set_src_microblock_stride
+                        0x200067a7    0x2e  Code  Gb  xdmac.o [1]
+xdmacd_configure_transfer
+                        0x200062cb   0x18a  Code  Gb  dma_xdmac.o [1]
+
+
+[1] = E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj
+[2] = command line
+[3] = dl7Sx_tln.a
+[4] = m7Sx_tlv.a
+[5] = rt7Sx_tl.a
+[6] = sh7Sxs_l.a
+[7] = usb_device.a
+
+  29 540 bytes of readonly  code memory
+      60 bytes of readwrite code memory
+   4 572 bytes of readonly  data memory
+  38 997 bytes of readwrite data memory
+
+Errors: none
+Warnings: none
