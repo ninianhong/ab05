@@ -156,7 +156,7 @@
  *----------------------------------------------------------------------------*/
 
 /** Size in bytes of the packet used for reading data from the USB & USART */
-#define DATAPACKETSIZE (64)
+#define DATAPACKETSIZE (10)
 
 /** Size in bytes of the buffer used for reading data from the USB & USART */
 #define DATABUFFERSIZE (DATAPACKETSIZE+2)
@@ -254,7 +254,9 @@ CACHE_ALIGNED static uint8_t usb_buffer[DATABUFFERSIZE];
 static uint8_t is_cdc_serial_on = 0;
 
 /** CDC Echo back ON/OFF */
+#ifdef ORIGIN_CODE
 static uint8_t is_cdc_echo_on = 0;
+#endif
 
 /** USB Tx flag */
 static volatile uint8_t tx_done_flag = 0;
@@ -324,16 +326,18 @@ void usbd_callbacks_request_received(const USBGenericRequest *request)
 /*----------------------------------------------------------------------------
  *         Internal functions
  *----------------------------------------------------------------------------*/
-
+#ifdef ORIGIN_CODE
 static int _usart_finish_tx_transfer_callback(void* arg, void* arg2)
 {
 	usartd_finish_tx_transfer(0);
 	return 0;
 }
+#endif
 
 /**
  *  \brief Send single buffer data through DMA
  */
+#ifdef ORIGIN_CODE
 static void _usart_dma_tx(const uint8_t* buffer, uint32_t len )
 {
 
@@ -349,6 +353,7 @@ static void _usart_dma_tx(const uint8_t* buffer, uint32_t len )
 	usartd_transfer(0, &tx, &_cb);
 
 }
+#endif
 
 /**
  * Callback invoked when data has been received on the USB.
@@ -363,7 +368,11 @@ static void _usb_data_received(void *read, uint8_t status,
 		/* Send back CDC data */
 		//if (is_cdc_echo_on){
 
-			cdcd_serial_driver_write(usb_buffer, received, 0, 0);
+			//cdcd_serial_driver_write(usb_buffer, received, 0, 0);           //0x82-0x01
+                        //cdcd_serial_driver_WriteAudio_1(usb_buffer, received, 0, 0);    //0x86-0x05
+                        //cdcd_serial_driver_WriteSPI(usb_buffer, received, 0, 0);        //0x88-0x07
+                        //cdcd_serial_driver_WriteCmd(usb_buffer, received, 0, 0);        //0x84-0x03
+                        cdcd_serial_driver_WriteLog(usb_buffer, received, 0, 0);          //0x89
 		//}
 		/* Send data through USART */
 		//if (is_cdc_serial_on) {
@@ -377,6 +386,7 @@ static void _usb_data_received(void *read, uint8_t status,
 			trace_warning(
 				"_usb_data_received: %u bytes discarded\n\r",
 					(unsigned int)remaining);
+                        printf("_usb_data_received£ºdata received %d --\n\r",received);
 		}
 	} else {
 
@@ -399,11 +409,12 @@ static void _debug_help(void)
 /**
  * Callback invoked when data has been sent.
  */
+#ifdef ORIGIN_CODE
 static void _usb_data_sent(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
 {
 	tx_done_flag = 1;
 }
-
+#endif
 
 /**
  * Configure USART to work @ 115200
@@ -423,6 +434,7 @@ static void _configure_usart(void)
 /**
  * Test USB CDC Serial
  */
+#ifdef ORIGIN_CODE
 static void _send_text(void)
 {
 	uint32_t i, test_cnt;
@@ -450,6 +462,7 @@ static void _send_text(void)
 	cdcd_serial_driver_write(NULL, 0, NULL, NULL);
 	_usart_dma_tx(test_buffer, TEST_BUFFER_SIZE);
 }
+#endif
 
 /** define timer/counter */
 #define EXAMPLE_TC TC0
@@ -469,6 +482,7 @@ static struct _tcd_desc tc_counter = {
 /**
  * Callback invoked when data has been received on the USB.
  */
+#ifdef ORIGIN_CODE
 static void _usb_data_received1(void *read, uint8_t status,
 		uint32_t received, uint32_t remaining)
 {
@@ -489,6 +503,7 @@ static void _usb_data_received1(void *read, uint8_t status,
 		trace_warning( "_usb_data_received: Transfer error\n\r");
               }
 }
+#endif
 
 static  uint8_t usb_serial_read1 = 0;
 static int _tc_counter_callback(void* arg, void* arg2)
@@ -534,7 +549,7 @@ int main(void)
 	uint8_t usb_serial_read = 1;
 
 	/* Output example information */
-	console_example_info("USB Device CDC Serial Example");
+	console_example_info("USB Device Test Suite for AB05");
 
 	/* Initialize all USB power (off) */
 	usb_power_configure();
@@ -603,10 +618,25 @@ int main(void)
 		    /* Start receiving data on the USB */
 		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
                     //                        _usb_data_received1, &usb_serial_read1);
+#if 1
 		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
                     //                        _usb_data_received, &usb_serial_read); 
-		    cdcd_serial_driver_write((char*)"Alive\n\r", 8,
-		    				NULL, NULL);
+                    //cdcd_serial_driver_readAudio_0(usb_buffer, DATAPACKETSIZE,      //0x82-0x01
+                    //                        _usb_data_received, &usb_serial_read);
+                    //cdcd_serial_driver_readAudio_1(usb_buffer, DATAPACKETSIZE,        //0x86-0x05
+                    //                        _usb_data_received, &usb_serial_read);
+                    //cdcd_serial_driver_readSPI(usb_buffer, DATAPACKETSIZE,            //0x88-0x07
+                    //                        _usb_data_received, &usb_serial_read); 
+                    cdcd_serial_driver_readCmd(usb_buffer, DATAPACKETSIZE,            //0x84-0x03
+                                            _usb_data_received, &usb_serial_read); 
+#else                    
+		    //cdcd_serial_driver_write((char*)"Alive\n\r", 8,
+		    //				NULL, NULL);
+                    //cdcd_serial_driver_WriteAudio_1((char*)"Alive\n\r", 8,NULL, NULL);  //0x86
+                    //cdcd_serial_driver_WriteSPI((char*)"HiSPI\n\r", 8,NULL, NULL);        //0x88
+                    //cdcd_serial_driver_WriteLog((char*)"HiLOG\n\r", 8,NULL, NULL);      //0x89
+                    cdcd_serial_driver_WriteCmd((char*)"HiCMD\n\r", 8,NULL, NULL);      //0x84
+#endif                                          
                 }
 
 #ifdef ORIGIN_CODE                

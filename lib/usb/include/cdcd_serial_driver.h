@@ -229,7 +229,7 @@ static inline uint32_t cdcd_serial_driver_WriteLog(
 {
     return cdcd_serial_write_LogEp(data, size, callback, argument);
 }
-static inline uint32_t cdcd_serial_driver_writeCmd(
+static inline uint32_t cdcd_serial_driver_WriteCmd(
 	void *data,
 	uint32_t size,
 	usbd_xfer_cb_t callback,

@@ -108,6 +108,23 @@ typedef struct _CDCDSerialPort {
 	uint8_t bBulkInPIPE;
 	/** USB bulk OUT endpoint address */
 	uint8_t bBulkOutPIPE;
+        
+#ifdef CUSTOM_USB
+	/** USB bulk IN endpoint address ,i want to used by ssc1*/
+    uint8_t bBulkInPIPE1;
+    /** USB bulk OUT endpoint address ,i want to used by ssc1*/
+    uint8_t bBulkOutPIPE1;
+    /** USB bulk IN endpoint address ,i want to used by spi*/
+    uint8_t bBulkInPIPE2;
+    /** USB bulk OUT endpoint address ,i want to used by spi*/
+    uint8_t bBulkOutPIPE2;
+	/** USB bulk IN endpoint address ,used by cmd link*/
+    uint8_t bBulkInPIPECmd;
+    /** USB bulk OUT endpoint address ,usd by cmd link*/
+    uint8_t bBulkOutPIPECmd;
+    /** USB bulk IN endpoint address ,used by cmd link*/
+    uint8_t bBulkInPIPELog;
+#endif        
 
 	/** Serial port ControlLineState */
 	uint8_t        bControlLineState;
