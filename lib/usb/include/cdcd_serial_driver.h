@@ -127,7 +127,11 @@ typedef PACKED_STRUCT _CDCDSerialDriverConfigurationDescriptors {
 	/** Data IN endpoint descriptor. audio_spi_in*/
 	USBEndpointDescriptor SPIdataIn; 
 	/** Data IN endpoint descriptor. audio_log_in*/
-	USBEndpointDescriptor LOGdataIn;         
+	USBEndpointDescriptor LOGdataIn; 
+	/** Data IN endpoint descriptor. audio_2_out*/
+	USBEndpointDescriptor audio2dataOut; 
+	/** Data IN endpoint descriptor. audio_2_in*/
+	USBEndpointDescriptor audio2dataIn;        
 
 } CDCDSerialDriverConfigurationDescriptors;
 

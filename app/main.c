@@ -139,6 +139,9 @@
 #include "usart.h"
 #endif
 
+#include "bus.h"
+#include "uif_list.h"
+
 #include "cdcd_serial_driver.h"
 #include "usbd.h"
 #include "usbd_hal.h"
@@ -358,6 +361,7 @@ static void _usart_dma_tx(const uint8_t* buffer, uint32_t len )
 /**
  * Callback invoked when data has been received on the USB.
  */
+void _spi_transfer();
 static void _usb_data_received(void *read, uint8_t status,
 		uint32_t received, uint32_t remaining)
 {
@@ -373,13 +377,14 @@ static void _usb_data_received(void *read, uint8_t status,
                         //cdcd_serial_driver_WriteSPI(usb_buffer, received, 0, 0);        //0x88-0x07
                         //cdcd_serial_driver_WriteCmd(usb_buffer, received, 0, 0);        //0x84-0x03
                         cdcd_serial_driver_WriteLog(usb_buffer, received, 0, 0);          //0x89
+                        cdcd_serial_driver_WriteLog(NULL, 0, NULL, NULL);
 		//}
 		/* Send data through USART */
 		//if (is_cdc_serial_on) {
 
 		//	_usart_dma_tx( usb_buffer, received );
 		//}
-
+                //    _spi_transfer();
 		/* Check if bytes have been discarded */
 		if ((received == DATAPACKETSIZE) && (remaining > 0)) {
 
@@ -535,6 +540,136 @@ static void _tc_counter_initialize(uint32_t freq)
 }
 
 /*----------------------------------------------------------------------------
+ *          initialize spi slave
+ *----------------------------------------------------------------------------*/
+/** define the address of SPI slave */
+#define SPI_SLAVE_ADDR SPI1
+/** define the pins of SPI slave */
+#define SPI_SLAVE_PINS PINS_SPI1_NPCS0_IOS3
+#define SPI_MASTER_BUS BUS(BUS_TYPE_SPI, 1)
+#define SPI_MASTER_CS 0
+#define SPI_MASTER_BITRATE 100
+#define SPI_MASTER_PINS PINS_SPI1_NPCS0_IOS3
+
+#define DMA_TRANS_SIZE 32
+/*----------------------------------------------------------------------------
+ *        Local variables
+ *----------------------------------------------------------------------------*/
+#pragma pack(1)
+/** data buffer for SPI master's receive */
+CACHE_ALIGNED static uint8_t spi_buffer_master_tx[DMA_TRANS_SIZE];
+#pragma pack()
+
+#pragma pack(1)
+/** data buffer for SPI master's receive */
+CACHE_ALIGNED static uint8_t spi_buffer_master_tx_protocol[4]={0x01,0x0,0x0,0xff};
+#pragma pack()
+
+/** data buffer for SPI slave's transfer */
+CACHE_ALIGNED static uint8_t spi_buffer_slave_rx[DMA_TRANS_SIZE];
+
+/** Pio pins for SPI slave */
+static const struct _pin pins_spi_slave[] = SPI_SLAVE_PINS;
+	const struct _bus_iface iface_bus1 = {
+		.type = BUS_TYPE_SPI,
+		.spi = {
+			.hw = BOARD_SPI_BUS1,
+		},
+		.transfer_mode = BUS_TRANSFER_MODE_ASYNC,//BOARD_SPI_BUS1_MODE,
+	};
+
+/** descriptor for SPI master */
+static const struct _bus_dev_cfg spi_master_dev = {
+	.bus = SPI_MASTER_BUS,
+	.spi_dev = {
+		.chip_select = SPI_MASTER_CS,
+		.bitrate = SPI_MASTER_BITRATE,
+		.delay = {
+			.bs = 0,
+			.bct = 0,
+		},
+		.spi_mode = SPID_MODE_1,
+	},
+};
+
+static struct _spi_desc spi_slave_dev = {
+	.addr = SPI_SLAVE_ADDR,
+	.chip_select = 0,
+	.transfer_mode = BUS_TRANSFER_MODE_ASYNC,//BUS_TRANSFER_MODE_DMA,
+};
+
+//==============================================================================
+
+#if 0
+#pragma pack(1)
+/** data buffer for SPI master's receive */
+CACHE_ALIGNED static uint8_t spi_buffer_master_tx[DMA_TRANS_SIZE];
+#pragma pack()
+/** data buffer for SPI slave's transfer */
+CACHE_ALIGNED static uint8_t spi_buffer_slave_rx[DMA_TRANS_SIZE];
+
+/** Pio pins for SPI slave */
+static const struct _pin pins_spi_slave[] = SPI_SLAVE_PINS;
+	const struct _bus_iface iface_bus1 = {
+		.type = BUS_TYPE_SPI,
+		.spi = {
+			.hw = BOARD_SPI_BUS1,
+		},
+		.transfer_mode = BOARD_SPI_BUS1_MODE,
+	};
+        
+/** descriptor for SPI master */
+static const struct _bus_dev_cfg spi_master_dev = {
+	.bus = SPI_MASTER_BUS,
+	.spi_dev = {
+		.chip_select = SPI_MASTER_CS,
+		.bitrate = SPI_MASTER_BITRATE,
+		.delay = {
+			.bs = 0,
+			.bct = 0,
+		},
+		.spi_mode = SPID_MODE_1,
+	},
+};
+#endif
+
+void _spi_transfer()
+{
+	int err;
+	int i;
+	struct _buffer master_buf = {
+		.data = spi_buffer_master_tx,
+		.size = DMA_TRANS_SIZE,
+		.attr = BUS_BUF_ATTR_TX | BUS_SPI_BUF_ATTR_RELEASE_CS,
+	};
+        
+        printf("%s-%d:running...\r\n",__FILE__,__LINE__);
+	for (i = 0; i < DMA_TRANS_SIZE; i++)
+        {
+//            if (( i >= 10 ) && ( i <= 21  ))
+		spi_buffer_master_tx[i] = 0x0;
+//            else
+//                spi_buffer_master_tx[i] = 0; 
+        }
+        spi_buffer_master_tx[31] = 0x05;
+        spi_buffer_master_tx[30] = 0x10;        
+//        spi_buffer_master_tx[29] = 0;
+        spi_buffer_master_tx[28] = 4;
+        spi_buffer_master_tx[27] = 6;
+        spi_buffer_master_tx[26] = 3;
+        spi_buffer_master_tx[25] = 1;
+        spi_buffer_master_tx[24] = 5; 
+        spi_buffer_master_tx[23] = 12; 
+        spi_buffer_master_tx[22] = 4; 
+	//memset(spi_buffer_slave_rx, 0, DMA_TRANS_SIZE);
+
+	err = bus_start_transaction(spi_master_dev.bus);
+	err = bus_transfer(spi_master_dev.bus, spi_master_dev.spi_dev.chip_select, &master_buf, 1, NULL);
+        err = bus_wait_transfer(spi_master_dev.bus);   
+	err = bus_stop_transaction(spi_master_dev.bus);
+}
+
+/*----------------------------------------------------------------------------
  *          Main
  *----------------------------------------------------------------------------*/
 
@@ -548,30 +683,37 @@ int main(void)
 	uint8_t is_usb_connected = 0;
 	uint8_t usb_serial_read = 1;
 
-	/* Output example information */
+	// Output example information 
 	console_example_info("USB Device Test Suite for AB05");
 
-	/* Initialize all USB power (off) */
+	// Initialize all USB power (off) 
 	usb_power_configure();
 
-	/* Configure USART */
+	// Configure USART 
 	_configure_usart();
 
-	/* CDC serial driver initialization */
+	// CDC serial driver initialization 
 	cdcd_serial_driver_initialize(&cdcd_serial_driver_descriptors);
 
-	/* Help informaiton */
+	// Help informaiton 
 	_debug_help();
 
-	/* connect if needed */
+	// connect if needed 
 	usb_vbus_configure();
         
-        //_tc_counter_initialize(COUNTER_FREQ);
+        //config spi
+        pio_configure(pins_spi_slave, ARRAY_SIZE(pins_spi_slave));
+        bus_configure(BUS(BUS_TYPE_SPI, 1), &iface_bus1);
+        bus_configure_slave(spi_master_dev.bus, &spi_master_dev);
+        
+        //config ssc
+	ssc_configure(&ssc_dev_desc);
+	ssc_disable_receiver(&ssc_dev_desc);
+	ssc_disable_transmitter(&ssc_dev_desc);
 
-	/* Driver loop */
-	while (1) {
-
-		/* Device is not configured */
+	// Driver loop 
+	while (1) {                
+		// Device is not configured 
 		if (usbd_get_state() < USBD_STATE_CONFIGURED) {
 
 			if (is_usb_connected) {
@@ -581,21 +723,7 @@ int main(void)
 
 		} else if (is_usb_connected == 0) {
 				is_usb_connected = 1;
-                                /*
-                                if( 1 == is_usb_connected )
-                                {
-                                  if( false == is_Tc_started )
-                                  {
-                                    if(initial_dealy++ > 100){
-                                          _tc_counter_initialize(COUNTER_FREQ);
-                                          is_Tc_started = true;
-                                      }
-                                  }
-                                }
-                                else
-                                {
-                  
-                                }*/
+
 		}
                 
                 if( 1 == is_usb_connected )
@@ -612,33 +740,40 @@ int main(void)
                 {
                   
                 }
+                
                 if(usb_serial_read1 == 1) 
                 {
                     usb_serial_read1 = 0;
 		    /* Start receiving data on the USB */
 		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
                     //                        _usb_data_received1, &usb_serial_read1);
-#if 1
+#if 0
 		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
                     //                        _usb_data_received, &usb_serial_read); 
-                    //cdcd_serial_driver_readAudio_0(usb_buffer, DATAPACKETSIZE,      //0x82-0x01
+                    //cdcd_serial_driver_readAudio_0(usb_buffer, DATAPACKETSIZE,        //0x82-0x01
                     //                        _usb_data_received, &usb_serial_read);
                     //cdcd_serial_driver_readAudio_1(usb_buffer, DATAPACKETSIZE,        //0x86-0x05
                     //                        _usb_data_received, &usb_serial_read);
                     //cdcd_serial_driver_readSPI(usb_buffer, DATAPACKETSIZE,            //0x88-0x07
                     //                        _usb_data_received, &usb_serial_read); 
                     cdcd_serial_driver_readCmd(usb_buffer, DATAPACKETSIZE,            //0x84-0x03
-                                            _usb_data_received, &usb_serial_read); 
+                                            _usb_data_received, &usb_serial_read);
+
 #else                    
 		    //cdcd_serial_driver_write((char*)"Alive\n\r", 8,
 		    //				NULL, NULL);
-                    //cdcd_serial_driver_WriteAudio_1((char*)"Alive\n\r", 8,NULL, NULL);  //0x86
+                    //cdcd_serial_driver_WriteAudio_1((char*)"Alive\n\r", 8,NULL, NULL);    //0x86
                     //cdcd_serial_driver_WriteSPI((char*)"HiSPI\n\r", 8,NULL, NULL);        //0x88
-                    //cdcd_serial_driver_WriteLog((char*)"HiLOG\n\r", 8,NULL, NULL);      //0x89
-                    cdcd_serial_driver_WriteCmd((char*)"HiCMD\n\r", 8,NULL, NULL);      //0x84
+                    cdcd_serial_driver_WriteLog((char*)"HiLOG\n\r", 8,NULL, NULL);        //0x89
+                    //cdcd_serial_driver_WriteCmd((char*)"HiCMD\n\r", 8,NULL, NULL);      //0x84
+                    //cdcd_serial_driver_WriteLog(NULL, 0, NULL, NULL);
+                    _spi_transfer();
+                    
 #endif                                          
                 }
 
+
+                
 #ifdef ORIGIN_CODE                
 		// Serial port ON/OFF 
 		if (cdcd_serial_driver_get_control_line_state()
@@ -665,7 +800,7 @@ int main(void)
 
 		if (console_is_rx_ready()) {
 			uint8_t key = console_get_char();
-			/* ESC: CDC Echo ON/OFF */
+			// ESC: CDC Echo ON/OFF 
 			if (key == 27) {
 
 				printf("** CDC Echo %s\n\r",
@@ -673,7 +808,7 @@ int main(void)
 				is_cdc_echo_on = !is_cdc_echo_on;
 
 			} else if (key == 't') {
-				/* 't': Test CDC writing  */
+				// 't': Test CDC writing  
 				_send_text();
 
 			} else {
@@ -698,7 +833,7 @@ int main(void)
                 //  	cdcd_serial_driver_write((char*)"aaaaa\n\r", 8,
 		//				NULL, NULL);
                 //}
-#endif                
+#endif     
 	}//while(1)
 }
 /** \endcond */

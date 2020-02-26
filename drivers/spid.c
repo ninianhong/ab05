@@ -37,17 +37,17 @@
 #include <string.h>
 
 #include "callback.h"
-#include "dma/dma.h"
+#include "dma.h"
 #include "errno.h"
-#include "irq/irq.h"
-#include "mm/cache.h"
-#include "peripherals/bus.h"
+#include "irq.h"
+#include "cache.h"
+#include "bus.h"
 #ifdef CONFIG_HAVE_FLEXCOM
-#include "peripherals/flexcom.h"
+#include "flexcom.h"
 #endif
-#include "peripherals/pmc.h"
-#include "spi/spi.h"
-#include "spi/spid.h"
+#include "pmc.h"
+#include "spi.h"
+#include "spid.h"
 #include "trace.h"
 
 /*----------------------------------------------------------------------------

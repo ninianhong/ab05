@@ -39,7 +39,7 @@
 #include "callback.h"
 #include "mutex.h"
 #ifdef CONFIG_HAVE_SPI_BUS
-#include "spi/spid.h"
+#include "spid.h"
 #endif
 #ifdef CONFIG_HAVE_I2C_BUS
 #include "i2c/twid.h"

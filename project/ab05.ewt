@@ -2480,6 +2480,15 @@
             <name>$PROJ_DIR$\..\drivers\smc.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\drivers\spi.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\drivers\spid.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\drivers\ssc.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\drivers\tc.c</name>
         </file>
         <file>
@@ -2528,6 +2537,9 @@
             <name>$PROJ_DIR$\..\target\board_sama5d2-xplained.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\target\board_spi.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\target\board_support.c</name>
         </file>
         <file>
@@ -2559,6 +2571,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\utils\trace.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\utils\uif_list.c</name>
         </file>
     </group>
 </project>

@@ -71,8 +71,8 @@
 
 #include "chip.h"
 
-#include "spi/spi.h"
-#include "peripherals/pmc.h"
+#include "spi.h"
+#include "pmc.h"
 
 #include "io.h"
 #include "trace.h"
