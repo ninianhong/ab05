@@ -34,9 +34,9 @@
 #include "board.h"
 #include "board_audio.h"
 
-#include "gpio/pio.h"
+#include "pio.h"
 
-#include "peripherals/pmc.h"
+#include "pmc.h"
 
 /*----------------------------------------------------------------------------
  *        Public Functions

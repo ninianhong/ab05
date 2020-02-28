@@ -240,8 +240,10 @@ void ssc_configure(struct _ssc_desc* desc)
 	desc->tx.dma.cfg_dma.chunk_size = DMA_CHUNK_SIZE_1;
 
 	desc->tx.dma.channel = dma_allocate_channel(DMA_PERIPH_MEMORY, id);
+        //printf("%s-%d:ssc tx channel :0x%0x\r\n",__FILE__,__LINE__,desc->tx.dma.channel );
 	assert(desc->tx.dma.channel);
 	desc->rx.dma.channel = dma_allocate_channel(id, DMA_PERIPH_MEMORY);
+        //printf("%s-%d:ssc rx channel :0x%0x\r\n",__FILE__,__LINE__,desc->rx.dma.channel );
 	assert(desc->rx.dma.channel);
 }
 
@@ -359,3 +361,81 @@ void ssc_rx_stop(struct _ssc_desc* desc)
 		mutex_unlock(&desc->rx.mutex);
 	}
 }
+
+/*
+static void _SSC_Init(uint32_t id,
+                      uint32_t slave,
+                      uint32_t bitrate,
+                      uint32_t mclk,
+                      uint8_t slot_num,
+                      uint8_t slot_len)
+{
+    //assert( ( (uint32_t )ID_SSC0 == id ) || ( (uint32_t )ID_SSC1 == id ) );
+
+    static TCMR tcmr;
+    static TFMR tfmr;
+    static RCMR rcmr;
+    static RFMR rfmr;
+
+    slave = slave;
+
+    Ssc *pSSC = _get_ssc_instance(id);
+
+    if (NULL == pSSC)
+        return;
+
+    bitrate = 0; //1228810
+    SSC_Configure(pSSC,
+                  bitrate, //0:slave not gen clk 1:gen clk
+                  mclk);
+
+    tcmr.cks = 2; // 0:MCK 1:RK 2:TK
+    rcmr.cks = 2; // 0:MCK 1:TK 2:RK  0-->1
+
+    tcmr.cko = 0; // 0:input only 1:continus 2:only transfer
+    rcmr.cko = 0; // 0:input only 1:continus 2:only transfer
+
+    tcmr.cki = 0; // 0: falling egde send
+    rcmr.cki = 1; // 1: rising edge lock
+
+    tcmr.start = 4; // 4: falling edge trigger for low left, 5: rising edge trigger for high left,
+    rcmr.start = 4; // 0: continuous 1:transmit 2:RF_LOW 3:RF_HIGH 4:RF_FAILLING
+                    // 5: RF_RISING 6:RF_LEVEL 7:RF_EDGE 8:CMP_0
+    tcmr.sttdly = 1;
+    rcmr.sttdly = 1;
+
+    tcmr.period = 0; // period ;  slave not use 0-->15
+    rcmr.period = 0; // period ;  slave not use
+
+    tcmr.ckg = 0; //slave not use
+    rcmr.ckg = 0; //slave not use
+
+    tfmr.fsos = 0; //input only
+    rfmr.fsos = 0; //input only
+
+    tfmr.datnb = slot_num - 1; //8 ;
+    rfmr.datnb = slot_num - 1; //8 ;
+
+    tfmr.datlen = slot_len - 1; //31 ; //32bits
+    rfmr.datlen = slot_len - 1; //31 ;
+
+    tfmr.fslen = 0; //frame sync is not used 0-->15
+    rfmr.fslen = 0; //frame sync is not used
+
+    tfmr.fsedge = 1;
+    rfmr.fsedge = 1;
+
+    tfmr.msbf = 1;
+    rfmr.msbf = 1;
+
+    tfmr.datdef = 0;
+    tfmr.fsden = 0;
+
+    rfmr.loop = 0; //0:normal 1:loop
+
+    SSC_ConfigureTransmitter(pSSC, tcmr.value, tfmr.value);
+    SSC_DisableTransmitter(pSSC);
+    SSC_ConfigureReceiver(pSSC, rcmr.value, rfmr.value);
+    SSC_DisableReceiver(pSSC);
+}
+*/

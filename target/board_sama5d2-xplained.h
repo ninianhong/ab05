@@ -78,6 +78,9 @@
 
 /** Frequency of the board main clock oscillator */
 #define BOARD_MAIN_CLOCK_EXT_OSC 12000000
+#define BOARD_SLOW_XTAL         32768 
+/** Master clock frequency (when using board_lowlevel.c) */
+#define BOARD_MCK                ((unsigned long)((BOARD_MAINOSC / 3 / 2) * 66 ))
 
 /** PMC PLLA configuration */
 #define BOARD_PMC_PLLA_MUL 82
@@ -174,7 +177,7 @@
 
 #define BOARD_TWI_BUS1      TWI1
 #define BOARD_TWI_BUS1_FREQ 400000
-#define BOARD_TWI_BUS1_PINS PINS_TWI1_IOS2
+#define BOARD_TWI_BUS1_PINS PINS_TWI1_IOS3
 #define BOARD_TWI_BUS1_MODE BUS_TRANSFER_MODE_DMA
 
 /* ================== SPI bus definition ====================== */
@@ -247,7 +250,7 @@
 #define BOARD_CLASSD0_MONO_MODE CLASSD_MONO_MIXED
 
 /* ================== SSC definition ====================== */
-
+#define BOARD_SSC0_PINS PINS_SSC0_IOS1
 #define BOARD_SSC1_PINS PINS_SSC1_IOS1
 
 /* =================== SDMMC device definition ==================== */

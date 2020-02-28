@@ -39,7 +39,8 @@
 #include "callback.h"
 #include "chip.h"
 #if defined(CONFIG_HAVE_DMAC)
-#include "dma/dma_dmac.h"
+//#include "dma/dma_dmac.h"
+#include "dma_dmac.h"
 #elif defined(CONFIG_HAVE_XDMAC)
 #if 0
 #include "dma/dma_xdmac.h"

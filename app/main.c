@@ -139,6 +139,7 @@
 #include "usart.h"
 #endif
 
+#include "chip_common.h"
 #include "bus.h"
 #include "uif_list.h"
 
@@ -148,6 +149,9 @@
 
 #include "main_usb_common.h"
 #include "tcd.h"
+
+#include "ssc.h"
+
 
 #include <assert.h>
 #include <string.h>
@@ -377,7 +381,7 @@ static void _usb_data_received(void *read, uint8_t status,
                         //cdcd_serial_driver_WriteSPI(usb_buffer, received, 0, 0);        //0x88-0x07
                         //cdcd_serial_driver_WriteCmd(usb_buffer, received, 0, 0);        //0x84-0x03
                         cdcd_serial_driver_WriteLog(usb_buffer, received, 0, 0);          //0x89
-                        cdcd_serial_driver_WriteLog(NULL, 0, NULL, NULL);
+                        //cdcd_serial_driver_WriteLog(NULL, 0, NULL, NULL);
 		//}
 		/* Send data through USART */
 		//if (is_cdc_serial_on) {
@@ -599,39 +603,141 @@ static struct _spi_desc spi_slave_dev = {
 };
 
 //==============================================================================
+/*----------------------------------------------------------------------------
+ *          initialize ssc 
+ *----------------------------------------------------------------------------*/
+#define SAMPLE_RATE             (48000)
+#define SLOT_BY_FRAME           (1)
+#define BITS_BY_SLOT            (16)
 
-#if 0
-#pragma pack(1)
-/** data buffer for SPI master's receive */
-CACHE_ALIGNED static uint8_t spi_buffer_master_tx[DMA_TRANS_SIZE];
-#pragma pack()
-/** data buffer for SPI slave's transfer */
-CACHE_ALIGNED static uint8_t spi_buffer_slave_rx[DMA_TRANS_SIZE];
+#define BUFFERS (32)
+#define BUFFER_SIZE ROUND_UP_MULT(192, L1_CACHE_BYTES)
+#define BUFFER_THRESHOLD (8)
 
-/** Pio pins for SPI slave */
-static const struct _pin pins_spi_slave[] = SPI_SLAVE_PINS;
-	const struct _bus_iface iface_bus1 = {
-		.type = BUS_TYPE_SPI,
-		.spi = {
-			.hw = BOARD_SPI_BUS1,
-		},
-		.transfer_mode = BOARD_SPI_BUS1_MODE,
-	};
-        
-/** descriptor for SPI master */
-static const struct _bus_dev_cfg spi_master_dev = {
-	.bus = SPI_MASTER_BUS,
-	.spi_dev = {
-		.chip_select = SPI_MASTER_CS,
-		.bitrate = SPI_MASTER_BITRATE,
-		.delay = {
-			.bs = 0,
-			.bct = 0,
-		},
-		.spi_mode = SPID_MODE_1,
+// Audio record buffer 
+CACHE_ALIGNED_DDR static uint16_t _sound_buffer[BUFFERS][BUFFER_SIZE];
+
+static struct _audio_ctx {
+	uint32_t threshold;
+	struct {
+		uint16_t rx;
+		uint16_t tx;
+		uint32_t count;
+	} circ;
+	uint8_t volume;
+	bool playing;
+	bool recording;
+} _audio_ctx = {
+	.threshold = BUFFER_THRESHOLD,
+	.circ = {
+		.rx = 0,
+		.tx = 0,
+		.count = 0,
 	},
+	.volume = 30,
+	.recording = false,
+	.playing = false,
 };
-#endif
+// SSC instance
+static struct _ssc_desc ssc_dev_desc = {
+	.addr = SSC0,
+	.bit_rate = 0,
+	.sample_rate = SAMPLE_RATE,
+	.slot_num = SLOT_BY_FRAME,
+	.slot_length = BITS_BY_SLOT,
+	/* Select RK pin as transmit and receive clock */
+	.rx_cfg_cks_rk = true,
+	.tx_cfg_cks_tk = false,
+	.tx_start_selection = SSC_TCMR_START_TF_EDGE,
+	.rx_start_selection = SSC_RCMR_START_RF_EDGE,
+};
+
+static bool is_ssc_started = false;
+
+/**
+ *  \brief Audio RX callback
+ */
+static int _ssc_tx_transfer_callback(void* arg, void* arg2)
+{
+	struct _ssc_desc* desc = (struct _ssc_desc*)arg;
+	struct _callback _cb;
+
+	if (_audio_ctx.playing && (_audio_ctx.circ.count > 0)){
+		struct _buffer _tx = {
+			.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx],
+			.size = BUFFER_SIZE,
+			.attr = SSC_BUF_ATTR_WRITE,
+		};
+
+		callback_set(&_cb, _ssc_tx_transfer_callback, desc);
+		ssc_transfer(desc, &_tx, &_cb);
+		_audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
+		_audio_ctx.circ.count--;
+
+		if (_audio_ctx.circ.count == 0) {
+			ssc_disable_transmitter(&ssc_dev_desc);
+
+			_audio_ctx.playing = false;
+		}
+	}
+        printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
+	return 0;
+}
+
+
+/**
+ *  \brief Audio RX callback
+ */
+static int _ssc_rx_transfer_callback(void* arg, void* arg2)
+{
+	struct _ssc_desc* desc = (struct _ssc_desc*)arg;
+	struct _callback _cb;
+
+	/* New buffer received */
+	_audio_ctx.circ.rx = (_audio_ctx.circ.rx + 1) % BUFFERS;
+	_audio_ctx.circ.count++;
+
+	if (!_audio_ctx.playing && (_audio_ctx.circ.count > _audio_ctx.threshold)) {
+		_audio_ctx.playing = true;
+		ssc_enable_transmitter(&ssc_dev_desc);
+		_ssc_tx_transfer_callback(desc, NULL);
+	}
+
+	struct _buffer _rx = {
+		.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
+		.size = BUFFER_SIZE,
+		.attr = SSC_BUF_ATTR_READ,
+	};
+
+        printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
+	callback_set(&_cb, _ssc_rx_transfer_callback, desc);
+	ssc_transfer(desc, &_rx, &_cb);
+
+
+	return 0;
+}
+
+void starting_play_rec( void )
+{
+		_audio_ctx.recording = true;
+		ssc_enable_receiver(&ssc_dev_desc);
+
+		{ /* Start recording */
+			struct _callback _cb;
+			callback_set(&_cb, _ssc_rx_transfer_callback, &ssc_dev_desc);
+			struct _buffer _rx = {
+				.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
+				.size = BUFFER_SIZE,
+				.attr = SSC_BUF_ATTR_READ,
+			};
+
+			ssc_transfer(&ssc_dev_desc, &_rx, &_cb);
+		}
+
+		printf("SSC start to record and play sound\r\n");  
+}
+
+//==============================================================================
 
 void _spi_transfer()
 {
@@ -710,6 +816,9 @@ int main(void)
 	ssc_configure(&ssc_dev_desc);
 	ssc_disable_receiver(&ssc_dev_desc);
 	ssc_disable_transmitter(&ssc_dev_desc);
+        
+        //starting_play_rec();
+        //while(1);
 
 	// Driver loop 
 	while (1) {                
@@ -735,10 +844,16 @@ int main(void)
                             is_Tc_started = true;
                         }
                     }
+                    
+                    if( false == is_ssc_started )
+                    {
+                       is_ssc_started = true;
+                       starting_play_rec();
+                    }
                 }
                 else
                 {
-                  
+                       
                 }
                 
                 if(usb_serial_read1 == 1) 
@@ -755,10 +870,14 @@ int main(void)
                     //cdcd_serial_driver_readAudio_1(usb_buffer, DATAPACKETSIZE,        //0x86-0x05
                     //                        _usb_data_received, &usb_serial_read);
                     //cdcd_serial_driver_readSPI(usb_buffer, DATAPACKETSIZE,            //0x88-0x07
-                    //                        _usb_data_received, &usb_serial_read); 
-                    cdcd_serial_driver_readCmd(usb_buffer, DATAPACKETSIZE,            //0x84-0x03
-                                            _usb_data_received, &usb_serial_read);
-
+                    //                        _usb_data_received, &usb_serial_read);
+                    if( 1 == usb_serial_read )
+                    {
+                        usb_serial_read = 0;
+                        cdcd_serial_driver_readCmd(usb_buffer, DATAPACKETSIZE,            //0x84-0x03
+                                                _usb_data_received, &usb_serial_read);
+                    }
+                    _spi_transfer();
 #else                    
 		    //cdcd_serial_driver_write((char*)"Alive\n\r", 8,
 		    //				NULL, NULL);
@@ -767,7 +886,7 @@ int main(void)
                     cdcd_serial_driver_WriteLog((char*)"HiLOG\n\r", 8,NULL, NULL);        //0x89
                     //cdcd_serial_driver_WriteCmd((char*)"HiCMD\n\r", 8,NULL, NULL);      //0x84
                     //cdcd_serial_driver_WriteLog(NULL, 0, NULL, NULL);
-                    _spi_transfer();
+//                    _spi_transfer();
                     
 #endif                                          
                 }

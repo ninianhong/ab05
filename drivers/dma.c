@@ -561,12 +561,16 @@ struct _dma_channel* dma_allocate_channel(uint8_t src, uint8_t dest)
 
 				/* Allocate the channel */
 				channel->state = DMA_STATE_ALLOCATED;
-				channel->src_txif = get_peripheral_dma_channel(src, channel->hw, true);
+				channel->src_txif = get_peripheral_dma_channel(src, channel->hw, true);                           
 				channel->src_rxif = get_peripheral_dma_channel(src, channel->hw, false);
-				channel->dest_txif = get_peripheral_dma_channel(dest, channel->hw, true);
+				channel->dest_txif = get_peripheral_dma_channel(dest, channel->hw, true);                                
 				channel->dest_rxif = get_peripheral_dma_channel(dest, channel->hw, false);
 				dma_prepare_channel(channel);
-
+                                
+                                //printf("%s-%d:src tx channel :0x%0x on %d\r\n",__FILE__,__LINE__,channel->src_txif,ctrl );
+                                //printf("%s-%d:src rx channel :0x%0x on %d\r\n",__FILE__,__LINE__,channel->src_rxif,ctrl );
+                                //printf("%s-%d:dest tx channel :0x%0x on %d\r\n",__FILE__,__LINE__,channel->dest_txif,ctrl );
+                                //printf("%s-%d:dest rx channel :0x%0x on %d\r\n",__FILE__,__LINE__,channel->src_rxif,ctrl );
 				channel->sg_list = NULL;
 
 				return channel;

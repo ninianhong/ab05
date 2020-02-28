@@ -22,6 +22,8 @@ E:\AB05-Test\github-atmel\usb_device\ab05\project\..\lib\usb\include
 -I
 E:\AB05-Test\github-atmel\usb_device\ab05\project\..\app
 -I
+E:\AB05-Test\github-atmel\usb_device\ab05\middleware
+-I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\inc\c
@@ -45,6 +47,8 @@ E:\AB05-Test\github-atmel\usb_device\ab05\target\pio
 E:\AB05-Test\github-atmel\usb_device\ab05\lib\usb\include
 -I
 E:\AB05-Test\github-atmel\usb_device\ab05\app
+-I
+E:\AB05-Test\github-atmel\usb_device\ab05\middleware
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0
@@ -393,7 +397,10 @@ E:\AB05-Test\github-atmel\usb_device\ab05\app
 -DCONFIG_HAVE_SERIALD_UART=1
 -DCONFIG_HAVE_USART=1
 -DCONFIG_HAVE_USART_FIFO=1
+-DCONFIG_HAVE_SPI_BUS=1
 -DCUSTOM_USB=1
+-DCONFIG_HAVE_SSC=1
+-DCONFIG_HAVE_I2C_BUS=1
 -D_DLIB_CONFIG_FILE_HEADER_NAME="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\arm\\INC\\c\\DLib_Config_Normal.h"
 -D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\arm\\INC\\c\\DLib_Config_Normal.h"
 -D__VERSION__="IAR ANSI C/C++ Compiler V8.20.1.14183/W32 for ARM"

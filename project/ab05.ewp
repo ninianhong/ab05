@@ -286,6 +286,8 @@
                     <state>CONFIG_HAVE_USART_FIFO</state>
                     <state>CONFIG_HAVE_SPI_BUS</state>
                     <state>CUSTOM_USB</state>
+                    <state>CONFIG_HAVE_SSC</state>
+                    <state>CONFIG_HAVE_I2C_BUS</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -420,6 +422,7 @@
                     <state>$PROJ_DIR$\..\target\pio</state>
                     <state>$PROJ_DIR$\..\lib\usb\include</state>
                     <state>$PROJ_DIR$\..\app</state>
+                    <state>E:\AB05-Test\github-atmel\usb_device\ab05\middleware</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2238,6 +2241,12 @@
             <name>$PROJ_DIR$\..\drivers\tcd.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\drivers\twi.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\drivers\twid.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\drivers\uart.c</name>
         </file>
         <file>
@@ -2274,6 +2283,9 @@
     <group>
         <name>target</name>
         <file>
+            <name>$PROJ_DIR$\..\target\common\board_audio.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\target\board_console.c</name>
         </file>
         <file>
@@ -2287,6 +2299,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\target\board_timer.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\target\common\board_twi.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\target\chip.c</name>
