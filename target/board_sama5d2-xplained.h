@@ -202,8 +202,12 @@
 /* on prototype board, ACT8945A_LBO shares a pin with ACT8945A_IRQ */
 #define BOARD_ACT8945A_PIN_LBO    { PIO_GROUP_B, PIO_PB13, PIO_INPUT, PIO_PULLUP | PIO_IT_FALL_EDGE }
 #endif
-
-/* ================== PIN USB definition ======================= */
+   
+/* ================== PCA9546 I2C SWITCH definition ================= */   
+#define BOARD_PCA9546_TWI_BUS    BUS(BUS_TYPE_I2C, 1)
+#define BOARD_PCA9546_TWI_ADDR   0xe0 
+  
+/* ================== PIN USB definition ============================ */
 
 /** USB VBus pin */
 #define PIN_USB_VBUS \
@@ -230,26 +234,26 @@
 
 /* =================== PIN ISC definition ======================= */
 
-#define BOARD_ISC_TWI_BUS  BUS(BUS_TYPE_I2C, 1)
-#define BOARD_ISC_PINS     PINS_ISC_IOS3
-#define BOARD_ISC_PIN_RST  { PIO_GROUP_B, PIO_PB11, PIO_OUTPUT_1, PIO_DEFAULT }
-#define BOARD_ISC_PIN_PWD  { PIO_GROUP_B, PIO_PB12, PIO_OUTPUT_1, PIO_DEFAULT }
+//#define BOARD_ISC_TWI_BUS  BUS(BUS_TYPE_I2C, 1)
+//#define BOARD_ISC_PINS     PINS_ISC_IOS3
+//#define BOARD_ISC_PIN_RST  { PIO_GROUP_B, PIO_PB11, PIO_OUTPUT_1, PIO_DEFAULT }
+//#define BOARD_ISC_PIN_PWD  { PIO_GROUP_B, PIO_PB12, PIO_OUTPUT_1, PIO_DEFAULT }
 
-/* =================== PIN PDMIC definition ==================== */
+/* =================== PIN PDMIC definition ======================= */
 
-#define BOARD_PDMIC0_ADDR PDMIC0
-#define BOARD_PDMIC0_PINS PINS_PDMIC0_IOS1
+//#define BOARD_PDMIC0_ADDR PDMIC0
+//#define BOARD_PDMIC0_PINS PINS_PDMIC0_IOS1
 
-/* =================== PIN ClassD definition ==================== */
+/* =================== PIN ClassD definition ====================== */
 
-#define BOARD_CLASSD0_ADDR      CLASSD0
-#define BOARD_CLASSD0_PINS      { PIN_CLASSD0_R0_IOS1, PIN_CLASSD0_R1_IOS1,\
+//#define BOARD_CLASSD0_ADDR      CLASSD0
+//#define BOARD_CLASSD0_PINS      { PIN_CLASSD0_R0_IOS1, PIN_CLASSD0_R1_IOS1,\
                                   PIN_CLASSD0_R2_IOS1, PIN_CLASSD0_R3_IOS1 }
-#define BOARD_CLASSD0_MODE      CLASSD_OUTPUT_FULL_BRIDGE
-#define BOARD_CLASSD0_MONO      true
-#define BOARD_CLASSD0_MONO_MODE CLASSD_MONO_MIXED
+//#define BOARD_CLASSD0_MODE      CLASSD_OUTPUT_FULL_BRIDGE
+//#define BOARD_CLASSD0_MONO      true
+//#define BOARD_CLASSD0_MONO_MODE CLASSD_MONO_MIXED
 
-/* ================== SSC definition ====================== */
+/* ================== SSC definition ============================== */
 #define BOARD_SSC0_PINS PINS_SSC0_IOS1
 #define BOARD_SSC1_PINS PINS_SSC1_IOS1
 
@@ -262,31 +266,31 @@
 /* Deviation from the SD Host Controller Specification: we use the Voltage
  * Support capabilities to indicate the supported signaling levels (VCCQ),
  * rather than the power supply voltage (VCC). */
-#define BOARD_SDMMC0_CAPS0 (SDMMC_CA0R_V33VSUP | \
-                            SDMMC_CA0R_V18VSUP | \
-                            SDMMC_CA0R_SLTYPE_EMBEDDED | \
-                            SDMMC_CA0R_ED8SUP)
+//#define BOARD_SDMMC0_CAPS0 (SDMMC_CA0R_V33VSUP | \
+//                            SDMMC_CA0R_V18VSUP | \
+//                            SDMMC_CA0R_SLTYPE_EMBEDDED | \
+//                            SDMMC_CA0R_ED8SUP)
 
-#define BOARD_SDMMC1_PINS { PIN_SDMMC1_CD_IOS1, PIN_SDMMC1_CK_IOS1,\
-                            PIN_SDMMC1_CMD_IOS1, PINS_SDMMC1_DATA4B_IOS1 }
+//#define BOARD_SDMMC1_PINS { PIN_SDMMC1_CD_IOS1, PIN_SDMMC1_CK_IOS1,\
+//                            PIN_SDMMC1_CMD_IOS1, PINS_SDMMC1_DATA4B_IOS1 }
 
-#define BOARD_SDMMC1_CAPS0 (SDMMC_CA0R_V33VSUP | \
-                            SDMMC_CA0R_SLTYPE_REMOVABLECARD)
+//#define BOARD_SDMMC1_CAPS0 (SDMMC_CA0R_V33VSUP | \
+//                            SDMMC_CA0R_SLTYPE_REMOVABLECARD)
 
 /* =================== AT24 device definition =================== */
 
-#define BOARD_AT24_TWI_BUS BUS(BUS_TYPE_I2C, 1)
-#define BOARD_AT24_ADDR    0x54
-#define BOARD_AT24_MODEL   AT24MAC402
+//#define BOARD_AT24_TWI_BUS BUS(BUS_TYPE_I2C, 1)
+//#define BOARD_AT24_ADDR    0x54
+//#define BOARD_AT24_MODEL   AT24MAC402
 
 /* =================== AT25 device definition =================== */
 
-#define BOARD_AT25_BUS         BUS(BUS_TYPE_SPI, 0)
-#define BOARD_AT25_CHIP_SELECT 0
-#define BOARD_AT25_BITRATE     40000
-#define BOARD_AT25_DLYBS       0
-#define BOARD_AT25_DLYBCT      0
-#define BOARD_AT25_SPI_MODE    SPID_MODE_0
+//#define BOARD_AT25_BUS         BUS(BUS_TYPE_SPI, 0)
+//#define BOARD_AT25_CHIP_SELECT 0
+//#define BOARD_AT25_BITRATE     40000
+//#define BOARD_AT25_DLYBS       0
+//#define BOARD_AT25_DLYBCT      0
+//#define BOARD_AT25_SPI_MODE    SPID_MODE_0
 
 /* =================== QSPI serial flashdevice definition ======= */
 
@@ -296,62 +300,62 @@
 
 /* ================== MCAN bus definition ====================== */
 
-#define BOARD_CAN_BUS0         MCAN0
-#define BOARD_CAN_BUS0_PINS    PINS_CAN0_IOS1
-#define BOARD_CAN_BUS0_FREQ    1000000
-#define BOARD_CAN_BUS0_FREQ_FD 2000000
+//#define BOARD_CAN_BUS0         MCAN0
+//#define BOARD_CAN_BUS0_PINS    PINS_CAN0_IOS1
+//#define BOARD_CAN_BUS0_FREQ    1000000
+//#define BOARD_CAN_BUS0_FREQ_FD 2000000
 
-#define BOARD_CAN_BUS1         MCAN1
-#define BOARD_CAN_BUS1_PINS    PINS_CAN1_IOS0
-#define BOARD_CAN_BUS1_FREQ    1000000
-#define BOARD_CAN_BUS1_FREQ_FD 2000000
+//#define BOARD_CAN_BUS1         MCAN1
+//#define BOARD_CAN_BUS1_PINS    PINS_CAN1_IOS0
+//#define BOARD_CAN_BUS1_FREQ    1000000
+//#define BOARD_CAN_BUS1_FREQ_FD 2000000
 
 /* =================== GMAC/PHY definition =================== */
 
-#define GMAC0_ADDR        GMAC0
-#define GMAC0_PINS        PINS_GMAC_RMII_IOS3
-#define GMAC0_PHY_ADDR    1
-#define GMAC0_PHY_IRQ_PIN PIN_GTSUCOM_IOS1
-#define GMAC0_PHY_RETRIES PHY_DEFAULT_RETRIES
+//#define GMAC0_ADDR        GMAC0
+//#define GMAC0_PINS        PINS_GMAC_RMII_IOS3
+//#define GMAC0_PHY_ADDR    1
+//#define GMAC0_PHY_IRQ_PIN PIN_GTSUCOM_IOS1
+//#define GMAC0_PHY_RETRIES PHY_DEFAULT_RETRIES
 
 /* =================== ETH definition =================== */
 
-#define BOARD_ETH0_PINS        PINS_GMAC_RMII_IOS3
-#define BOARD_ETH0_TYPE        ETH_TYPE_GMAC
-#define BOARD_ETH0_ADDR        GMAC0
-#define BOARD_ETH0_PHY_ADDR    1
-#define BOARD_ETH0_PHY_IF      PHY_IF_GMAC
-#define BOARD_ETH0_PHY_IRQ_PIN PIN_GTSUCOM_IOS1
+//#define BOARD_ETH0_PINS        PINS_GMAC_RMII_IOS3
+//#define BOARD_ETH0_TYPE        ETH_TYPE_GMAC
+//#define BOARD_ETH0_ADDR        GMAC0
+//#define BOARD_ETH0_PHY_ADDR    1
+//#define BOARD_ETH0_PHY_IF      PHY_IF_GMAC
+//#define BOARD_ETH0_PHY_IRQ_PIN PIN_GTSUCOM_IOS1
 
 /* ======================== LCD definition ======================== */
 
 /** PIO pins for LCD */
-#define BOARD_LCD_PINS              PINS_LCD_IOS2
+//#define BOARD_LCD_PINS              PINS_LCD_IOS2
 
 /** Display width in pixels. */
-#define BOARD_LCD_WIDTH             480
+//#define BOARD_LCD_WIDTH             480
 /** Display height in pixels. */
-#define BOARD_LCD_HEIGHT            272
+//#define BOARD_LCD_HEIGHT            272
 /** Frame rate in Hz. */
-#define BOARD_LCD_FRAMERATE         40
+//#define BOARD_LCD_FRAMERATE         40
 
 /** Vertical front porch in number of lines. */
-#define BOARD_LCD_TIMING_VFP        22
+//#define BOARD_LCD_TIMING_VFP        22
 /** Vertical back porch in number of lines. */
-#define BOARD_LCD_TIMING_VBP        21
+//#define BOARD_LCD_TIMING_VBP        21
 /** Vertical pulse width in number of lines. */
-#define BOARD_LCD_TIMING_VPW        2
+//#define BOARD_LCD_TIMING_VPW        2
 /** Horizontal front porch in LCDDOTCLK cycles. */
-#define BOARD_LCD_TIMING_HFP        64
+//#define BOARD_LCD_TIMING_HFP        64
 /** Horizontal back porch in LCDDOTCLK cycles. */
-#define BOARD_LCD_TIMING_HBP        64
+//#define BOARD_LCD_TIMING_HBP        64
 /** Horizontal pulse width in LCDDOTCLK cycles. */
-#define BOARD_LCD_TIMING_HPW        128
+//#define BOARD_LCD_TIMING_HPW        128
 
 /* =================== QT1070 device definition =================== */
 
-#define BOARD_QT1070_TWI_BUS BUS(BUS_TYPE_I2C, 1)
-#define BOARD_QT1070_ADDR    0x1b
-#define BOARD_QT1070_DESC    {"QT1070", 0x00, 00}
+//#define BOARD_QT1070_TWI_BUS BUS(BUS_TYPE_I2C, 1)
+//#define BOARD_QT1070_ADDR    0x1b
+//#define BOARD_QT1070_DESC    {"QT1070", 0x00, 00}
 
 #endif /* #ifndef _BOARD_D2_H */

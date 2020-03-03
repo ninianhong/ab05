@@ -37,7 +37,7 @@
  *    IEEE Std 1003.1-2008, 2016 Edition
  *    http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/errno.h.html
  */
-
+#define NOERROR         ( 0) /* Normal                 */
 #define E2BIG           ( 1) /* Argument list too long */
 #define EACCES          ( 2) /* Permission denied */
 #define EADDRINUSE      ( 3) /* Address in use */
@@ -120,4 +120,6 @@
 #define EWOULDBLOCK     (80) /* Operation would block */
 #define EXDEV           (81) /* Cross-device link */
 
+#define OS_ERR_NONE     NOERROR
+#define NO_ERR          NOERROR
 #endif /* ERRNO_H_ */

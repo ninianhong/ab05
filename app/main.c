@@ -114,6 +114,7 @@
 
 #include "trace.h"
 #include "compiler.h"
+#include "errno.h"
 
 #if 0
 #include "mm/cache.h"
@@ -139,6 +140,7 @@
 #include "usart.h"
 #endif
 
+#include "chip_pins.h"
 #include "chip_common.h"
 #include "bus.h"
 #include "uif_list.h"
@@ -151,7 +153,7 @@
 #include "tcd.h"
 
 #include "ssc.h"
-
+#include "codec.h"
 
 #include <assert.h>
 #include <string.h>
@@ -473,6 +475,7 @@ static void _send_text(void)
 }
 #endif
 
+//==============================================================================
 /** define timer/counter */
 #define EXAMPLE_TC TC0
 /** define channel for timer/counter */
@@ -543,6 +546,7 @@ static void _tc_counter_initialize(uint32_t freq)
 	tcd_start(&tc_counter, &_cb);
 }
 
+//==============================================================================
 /*----------------------------------------------------------------------------
  *          initialize spi slave
  *----------------------------------------------------------------------------*/
@@ -663,6 +667,7 @@ static int _ssc_tx_transfer_callback(void* arg, void* arg2)
 	struct _callback _cb;
 
 	if (_audio_ctx.playing && (_audio_ctx.circ.count > 0)){
+                memset( _sound_buffer,0x55,sizeof(_sound_buffer));
 		struct _buffer _tx = {
 			.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx],
 			.size = BUFFER_SIZE,
@@ -680,7 +685,7 @@ static int _ssc_tx_transfer_callback(void* arg, void* arg2)
 			_audio_ctx.playing = false;
 		}
 	}
-        printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
+        //printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
 	return 0;
 }
 
@@ -703,13 +708,14 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
 		_ssc_tx_transfer_callback(desc, NULL);
 	}
 
+        
 	struct _buffer _rx = {
 		.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
 		.size = BUFFER_SIZE,
 		.attr = SSC_BUF_ATTR_READ,
 	};
 
-        printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
+        //printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
 	callback_set(&_cb, _ssc_rx_transfer_callback, desc);
 	ssc_transfer(desc, &_rx, &_cb);
 
@@ -775,6 +781,80 @@ void _spi_transfer()
 	err = bus_stop_transaction(spi_master_dev.bus);
 }
 
+//==============================================================================
+extern struct _pca9546; 
+
+//static struct _pca9546 pca9546 = {
+//	.bus = BOARD_PCA9546_TWI_BUS,
+//	.addr = BOARD_PCA9546_TWI_ADDR,
+//};
+
+static bool _pca9546_read_reg(struct _pca9546* pca9546, uint8_t iaddr, uint8_t* value)
+{
+	int err;
+	struct _buffer buf[2] = {
+		{
+			.data = &iaddr,
+			.size = 1,
+			.attr = BUS_I2C_BUF_ATTR_START | BUS_BUF_ATTR_TX | BUS_I2C_BUF_ATTR_STOP,
+		},
+		{
+			.data = value,
+			.size = 1,
+			.attr = BUS_I2C_BUF_ATTR_START | BUS_BUF_ATTR_RX | BUS_I2C_BUF_ATTR_STOP,
+		},
+	};
+
+	bus_start_transaction(pca9546->bus);
+	err = bus_transfer(pca9546->bus, pca9546->addr+1, buf, 2, NULL);
+	bus_stop_transaction(pca9546->bus);
+
+	if (err < 0)
+		return false;
+	return true;
+}
+
+unsigned char aic3204_init_default(void)
+{
+    unsigned char err;
+    CODEC_SETS codec_set;
+
+    codec_set.id = 0; //CODEC 0
+    codec_set.sr = 16000;//SAMPLE_RATE_DEFAULT;
+    codec_set.sample_len = 16;//SAMPLE_LENGTH_DEFAULT;
+    codec_set.format = 2; //I2S-TDM
+    codec_set.slot_num = 8;//SLOT_NUM_DEFAULT;
+    codec_set.m_s_sel = 0; //master
+    codec_set.bclk_polarity = 0;
+    codec_set.flag = 0;
+    codec_set.delay = 0;
+
+    I2C_Switcher(I2C_SWITCH_CODEC0); //I2C bus switcher
+//    while( 1 ){
+    err = Init_CODEC(codec_set);     //CODEC0 connetced to TWI2
+    if (err != NO_ERR)
+    {
+        return err;
+    }
+//    msleep(5);
+//    }
+
+    codec_set.id = 1; //CODEC 1
+    codec_set.sr = 16000;//SAMPLE_RATE_DEFAULT;
+    codec_set.sample_len = 16;//SAMPLE_LENGTH_DEFAULT;
+    codec_set.format = 2; //I2S-TDM
+    codec_set.slot_num = 8;//SLOT_NUM_DEFAULT;
+    codec_set.m_s_sel = 0; //slave
+    codec_set.bclk_polarity = 0;
+    codec_set.flag = 0;
+    codec_set.delay = 0;
+
+    I2C_Switcher(I2C_SWITCH_CODEC1); //I2C bus switcher
+    err = Init_CODEC(codec_set);     //CODEC1 connetced to TWI2
+
+    return err;
+}
+//==============================================================================
 /*----------------------------------------------------------------------------
  *          Main
  *----------------------------------------------------------------------------*/
@@ -788,6 +868,8 @@ int main(void)
 {
 	uint8_t is_usb_connected = 0;
 	uint8_t usb_serial_read = 1;
+        uint8_t iaddr = 0x5b;
+        uint8_t value;
 
 	// Output example information 
 	console_example_info("USB Device Test Suite for AB05");
@@ -817,6 +899,10 @@ int main(void)
 	ssc_disable_receiver(&ssc_dev_desc);
 	ssc_disable_transmitter(&ssc_dev_desc);
         
+        //config codec
+        init_codec_rst_pin();
+        aic3204_init_default();
+        //_pca9546_read_reg( &pca9546, iaddr, &value);
         //starting_play_rec();
         //while(1);
 
@@ -883,10 +969,12 @@ int main(void)
 		    //				NULL, NULL);
                     //cdcd_serial_driver_WriteAudio_1((char*)"Alive\n\r", 8,NULL, NULL);    //0x86
                     //cdcd_serial_driver_WriteSPI((char*)"HiSPI\n\r", 8,NULL, NULL);        //0x88
-                    cdcd_serial_driver_WriteLog((char*)"HiLOG\n\r", 8,NULL, NULL);        //0x89
+                    //cdcd_serial_driver_WriteLog((char*)"HiLOG\n\r", 8,NULL, NULL);        //0x89
                     //cdcd_serial_driver_WriteCmd((char*)"HiCMD\n\r", 8,NULL, NULL);      //0x84
                     //cdcd_serial_driver_WriteLog(NULL, 0, NULL, NULL);
 //                    _spi_transfer();
+                    //_pca9546_read_reg( &pca9546, iaddr, &value);
+                    //aic3204_init_default();
                     
 #endif                                          
                 }

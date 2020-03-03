@@ -204,6 +204,7 @@ void ssc_configure(struct _ssc_desc* desc)
 	       SSC_RFMR_FSOS_NONE;
 
 	ssc_configure_receiver(desc, rcmr, rfmr);
+        //ssc_configure_receiver(desc, 0x10422, 0x100039f);
 
 	if (desc->tx_cfg_cks_tk) {
 		tcmr = SSC_TCMR_CKS_TK |
@@ -226,6 +227,7 @@ void ssc_configure(struct _ssc_desc* desc)
 	       SSC_TFMR_FSOS_NONE;
 
 	ssc_configure_transmitter(desc, tcmr, tfmr);
+        //ssc_configure_transmitter(desc, 0x100039f, 0x100039f);
 
 	/* Enable SSC peripheral clock */
 	pmc_configure_peripheral(id, NULL, true);

@@ -977,7 +977,14 @@
 #define PTC_COL6  { PIO_GROUP_D, PIO_PD17, PIO_INPUT, PIO_DEFAULT }
 #define PTC_COL7  { PIO_GROUP_D, PIO_PD18, PIO_INPUT, PIO_DEFAULT }
 
+/* ================== CODEC definition ======================= */
+#define BOARD_CODEC0_RESET { PIO_GROUP_C, PIO_PC9, PIO_OUTPUT_1 }
+#define BOARD_CODEC1_RESET { PIO_GROUP_C, PIO_PC8, PIO_OUTPUT_1 }
+#define BOARD_CODEC2_RESET { PIO_GROUP_C, PIO_PC7, PIO_OUTPUT_1 }
+#define BOARD_CODEC3_RESET { PIO_GROUP_C, PIO_PC6, PIO_OUTPUT_1 }
+
 //=============================================================================
+
 
 /* Include generic flexcom pin definitions (must be included last) */
 #include "chip_pins_flexcom.h"
