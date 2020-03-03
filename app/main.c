@@ -611,7 +611,7 @@ static struct _spi_desc spi_slave_dev = {
  *          initialize ssc 
  *----------------------------------------------------------------------------*/
 #define SAMPLE_RATE             (48000)
-#define SLOT_BY_FRAME           (1)
+#define SLOT_BY_FRAME           (8)
 #define BITS_BY_SLOT            (16)
 
 #define BUFFERS (32)
@@ -620,6 +620,7 @@ static struct _spi_desc spi_slave_dev = {
 
 // Audio record buffer 
 CACHE_ALIGNED_DDR static uint16_t _sound_buffer[BUFFERS][BUFFER_SIZE];
+CACHE_ALIGNED_DDR static uint16_t _sound_buffer1[BUFFERS][BUFFER_SIZE];
 
 static struct _audio_ctx {
 	uint32_t threshold;
@@ -644,7 +645,7 @@ static struct _audio_ctx {
 };
 // SSC instance
 static struct _ssc_desc ssc_dev_desc = {
-	.addr = SSC0,
+	.addr = SSC1,
 	.bit_rate = 0,
 	.sample_rate = SAMPLE_RATE,
 	.slot_num = SLOT_BY_FRAME,
@@ -666,7 +667,8 @@ static int _ssc_tx_transfer_callback(void* arg, void* arg2)
 	struct _ssc_desc* desc = (struct _ssc_desc*)arg;
 	struct _callback _cb;
 
-	if (_audio_ctx.playing && (_audio_ctx.circ.count > 0)){
+	//if (_audio_ctx.playing && (_audio_ctx.circ.count > 0))
+        {
                 memset( _sound_buffer,0x55,sizeof(_sound_buffer));
 		struct _buffer _tx = {
 			.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx],
@@ -676,14 +678,14 @@ static int _ssc_tx_transfer_callback(void* arg, void* arg2)
 
 		callback_set(&_cb, _ssc_tx_transfer_callback, desc);
 		ssc_transfer(desc, &_tx, &_cb);
-		_audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
-		_audio_ctx.circ.count--;
+		//_audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
+		//_audio_ctx.circ.count--;
 
-		if (_audio_ctx.circ.count == 0) {
-			ssc_disable_transmitter(&ssc_dev_desc);
+		//if (_audio_ctx.circ.count == 0) {
+		//	ssc_disable_transmitter(&ssc_dev_desc);
 
-			_audio_ctx.playing = false;
-		}
+		//	_audio_ctx.playing = false;
+		//}
 	}
         //printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
 	return 0;
@@ -699,14 +701,14 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
 	struct _callback _cb;
 
 	/* New buffer received */
-	_audio_ctx.circ.rx = (_audio_ctx.circ.rx + 1) % BUFFERS;
-	_audio_ctx.circ.count++;
+	//_audio_ctx.circ.rx = (_audio_ctx.circ.rx + 1) % BUFFERS;
+	//_audio_ctx.circ.count++;
 
-	if (!_audio_ctx.playing && (_audio_ctx.circ.count > _audio_ctx.threshold)) {
-		_audio_ctx.playing = true;
-		ssc_enable_transmitter(&ssc_dev_desc);
-		_ssc_tx_transfer_callback(desc, NULL);
-	}
+	//if (!_audio_ctx.playing && (_audio_ctx.circ.count > _audio_ctx.threshold)) {
+	//	_audio_ctx.playing = true;
+	//	ssc_enable_transmitter(&ssc_dev_desc);
+	//	_ssc_tx_transfer_callback(desc, NULL);
+	//}
 
         
 	struct _buffer _rx = {
@@ -723,24 +725,48 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
 	return 0;
 }
 
-void starting_play_rec( void )
+void starting_play( void )
 {
-		_audio_ctx.recording = true;
-		ssc_enable_receiver(&ssc_dev_desc);
+		//_audio_ctx.recording = true;
+		//ssc_enable_receiver(&ssc_dev_desc);
 
 		{ /* Start recording */
 			struct _callback _cb;
-			callback_set(&_cb, _ssc_rx_transfer_callback, &ssc_dev_desc);
+			//callback_set(&_cb, _ssc_rx_transfer_callback, &ssc_dev_desc);
+                        callback_set(&_cb, _ssc_tx_transfer_callback, &ssc_dev_desc);
+			struct _buffer _tx = {
+				//.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
+                                .data = (unsigned char*)&_sound_buffer[0],
+				.size = sizeof(_sound_buffer),
+				//.attr = SSC_BUF_ATTR_READ,
+                                .attr = SSC_BUF_ATTR_WRITE,
+			};
+
+			ssc_transfer(&ssc_dev_desc, &_tx, &_cb);
+		}
+
+		printf("SSC start to play sound\r\n");  
+}
+
+void starting_record( void )
+{
+		//_audio_ctx.recording = true;
+		//ssc_enable_receiver(&ssc_dev_desc);
+
+		{ /* Start recording */
+			struct _callback _cb;
+			callback_set(&_cb, _ssc_rx_transfer_callback, &ssc_dev_desc);                        
 			struct _buffer _rx = {
-				.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-				.size = BUFFER_SIZE,
+				//.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
+                                .data = (unsigned char*)&_sound_buffer[0],
+				.size = sizeof(_sound_buffer),
 				.attr = SSC_BUF_ATTR_READ,
 			};
 
 			ssc_transfer(&ssc_dev_desc, &_rx, &_cb);
 		}
 
-		printf("SSC start to record and play sound\r\n");  
+		printf("SSC start to record sound\r\n");  
 }
 
 //==============================================================================
@@ -782,6 +808,7 @@ void _spi_transfer()
 }
 
 //==============================================================================
+#if 0
 extern struct _pca9546; 
 
 //static struct _pca9546 pca9546 = {
@@ -813,6 +840,7 @@ static bool _pca9546_read_reg(struct _pca9546* pca9546, uint8_t iaddr, uint8_t* 
 		return false;
 	return true;
 }
+#endif
 
 unsigned char aic3204_init_default(void)
 {
@@ -820,7 +848,7 @@ unsigned char aic3204_init_default(void)
     CODEC_SETS codec_set;
 
     codec_set.id = 0; //CODEC 0
-    codec_set.sr = 16000;//SAMPLE_RATE_DEFAULT;
+    codec_set.sr = 48000;//SAMPLE_RATE_DEFAULT;
     codec_set.sample_len = 16;//SAMPLE_LENGTH_DEFAULT;
     codec_set.format = 2; //I2S-TDM
     codec_set.slot_num = 8;//SLOT_NUM_DEFAULT;
@@ -840,7 +868,7 @@ unsigned char aic3204_init_default(void)
 //    }
 
     codec_set.id = 1; //CODEC 1
-    codec_set.sr = 16000;//SAMPLE_RATE_DEFAULT;
+    codec_set.sr = 48000;//SAMPLE_RATE_DEFAULT;
     codec_set.sample_len = 16;//SAMPLE_LENGTH_DEFAULT;
     codec_set.format = 2; //I2S-TDM
     codec_set.slot_num = 8;//SLOT_NUM_DEFAULT;
@@ -868,8 +896,8 @@ int main(void)
 {
 	uint8_t is_usb_connected = 0;
 	uint8_t usb_serial_read = 1;
-        uint8_t iaddr = 0x5b;
-        uint8_t value;
+//        uint8_t iaddr = 0x5b;
+//        uint8_t value;
 
 	// Output example information 
 	console_example_info("USB Device Test Suite for AB05");
@@ -896,6 +924,9 @@ int main(void)
         
         //config ssc
 	ssc_configure(&ssc_dev_desc);
+#ifdef INTERRUPT_SSC
+        ssc_enable_interrupts(&ssc_dev_desc, (1<<0));
+#endif
 	ssc_disable_receiver(&ssc_dev_desc);
 	ssc_disable_transmitter(&ssc_dev_desc);
         
@@ -934,7 +965,10 @@ int main(void)
                     if( false == is_ssc_started )
                     {
                        is_ssc_started = true;
-                       starting_play_rec();
+                       ssc_enable_receiver(&ssc_dev_desc);
+                       starting_record();
+                       ssc_enable_transmitter(&ssc_dev_desc);
+                       starting_play();
                     }
                 }
                 else
@@ -975,7 +1009,11 @@ int main(void)
 //                    _spi_transfer();
                     //_pca9546_read_reg( &pca9546, iaddr, &value);
                     //aic3204_init_default();
-                    
+#ifdef INTERRUPT_SSC
+                    ssc_enable_transmitter(&ssc_dev_desc);
+                    ssc_write(&ssc_dev_desc, 0x01);
+                    while(!(ssc_dev_desc.addr->SSC_SR & SSC_SR_TXRDY) == SSC_SR_TXRDY);
+#endif                    
 #endif                                          
                 }
 
