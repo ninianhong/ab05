@@ -288,6 +288,7 @@
                     <state>CUSTOM_USB</state>
                     <state>CONFIG_HAVE_SSC</state>
                     <state>CONFIG_HAVE_I2C_BUS</state>
+                    <state>CONFIG_HAVE_TRNG</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -2281,6 +2282,12 @@
         <name>middleware</name>
         <file>
             <name>$PROJ_DIR$\..\middleware\codec.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\middleware\uif_i2s.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\middleware\uif_usb.c</name>
         </file>
     </group>
     <group>

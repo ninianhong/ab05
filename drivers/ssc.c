@@ -201,6 +201,7 @@ void ssc_configure(struct _ssc_desc* desc)
 	rfmr = SSC_RFMR_DATLEN(desc->slot_length - 1) |
 	       SSC_RFMR_MSBF |
 	       SSC_RFMR_DATNB(desc->slot_num - 1) |
+               SSC_RFMR_LOOP |
 	       SSC_RFMR_FSOS_NONE;
 
 	ssc_configure_receiver(desc, rcmr, rfmr);

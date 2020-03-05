@@ -154,11 +154,14 @@
 
 #include "ssc.h"
 #include "codec.h"
+   
+#include "uif_i2s.h"   
 
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 /*----------------------------------------------------------------------------
  *      Definitions
@@ -282,6 +285,8 @@ static struct _usart_desc usart_desc = {
 static volatile bool usart_rx_flag = false;
 static volatile uint8_t char_recv;
 
+List *audioQueue;
+static volatile int cnt = 0;
 /*----------------------------------------------------------------------------
  *         Internal Prototypes
  *----------------------------------------------------------------------------*/
@@ -335,38 +340,11 @@ void usbd_callbacks_request_received(const USBGenericRequest *request)
 /*----------------------------------------------------------------------------
  *         Internal functions
  *----------------------------------------------------------------------------*/
-#ifdef ORIGIN_CODE
-static int _usart_finish_tx_transfer_callback(void* arg, void* arg2)
-{
-	usartd_finish_tx_transfer(0);
-	return 0;
-}
-#endif
-
-/**
- *  \brief Send single buffer data through DMA
- */
-#ifdef ORIGIN_CODE
-static void _usart_dma_tx(const uint8_t* buffer, uint32_t len )
-{
-
-	struct _buffer tx = {
-		.data = (unsigned char*)buffer,
-		.size = len,
-		.attr = USARTD_BUF_ATTR_WRITE,
-	};
-	struct _callback _cb = {
-		.method = _usart_finish_tx_transfer_callback,
-		.arg = 0,
-	};
-	usartd_transfer(0, &tx, &_cb);
-
-}
-#endif
 
 /**
  * Callback invoked when data has been received on the USB.
  */
+#if 0
 void _spi_transfer();
 static void _usb_data_received(void *read, uint8_t status,
 		uint32_t received, uint32_t remaining)
@@ -404,26 +382,17 @@ static void _usb_data_received(void *read, uint8_t status,
 		trace_warning( "_usb_data_received: Transfer error\n\r");
 	}
 }
-
+#endif
 
 
 /**
  * console help dump
  */
+#if 0
 static void _debug_help(void)
 {
 	printf("-- ESC to Enable/Disable ECHO on cdc serial --\n\r");
 	printf("-- Press 't' to test trasfer --\n\r");
-}
-
-
-/**
- * Callback invoked when data has been sent.
- */
-#ifdef ORIGIN_CODE
-static void _usb_data_sent(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
-{
-	tx_done_flag = 1;
 }
 #endif
 
@@ -442,39 +411,6 @@ static void _configure_usart(void)
 	irq_enable(id);
 }
 
-/**
- * Test USB CDC Serial
- */
-#ifdef ORIGIN_CODE
-static void _send_text(void)
-{
-	uint32_t i, test_cnt;
-
-	if (!is_cdc_serial_on) {
-
-		printf("\n\r!! Host serial program not ready!\n\r");
-		return;
-	}
-	printf("\n\r- USB CDC Serial writing ...\n\r");
-
-	/* Test data initialize */
-	for (i = 0; i < TEST_BUFFER_SIZE; i ++) test_buffer[i] = (i % 10) + '0';
-
-	printf("- Send 0,1,2 ... to host:\n\r");
-	for (test_cnt = 0; test_cnt < TEST_COUNT; test_cnt ++) {
-
-		tx_done_flag = 0;
-		cdcd_serial_driver_write(test_buffer, TEST_BUFFER_SIZE,
-				_usb_data_sent, NULL);
-		while(!tx_done_flag);
-	}
-
-	/* Finish sending */
-	cdcd_serial_driver_write(NULL, 0, NULL, NULL);
-	_usart_dma_tx(test_buffer, TEST_BUFFER_SIZE);
-}
-#endif
-
 //==============================================================================
 /** define timer/counter */
 #define EXAMPLE_TC TC0
@@ -490,32 +426,6 @@ static struct _tcd_desc tc_counter = {
 	.addr = EXAMPLE_TC,
 	.channel = EXAMPLE_TC_CHANNEL_COUNTER,
 };
-
-/**
- * Callback invoked when data has been received on the USB.
- */
-#ifdef ORIGIN_CODE
-static void _usb_data_received1(void *read, uint8_t status,
-		uint32_t received, uint32_t remaining)
-{
-	/* Check that data has been received successfully */
-	if (status == USBD_STATUS_SUCCESS) {
-                printf("data received --\n\r");
-		*(uint8_t *)read = 1;
-
-		/* Check if bytes have been discarded */
-		if ((received == DATAPACKETSIZE) && (remaining > 0)) {
-
-			trace_warning(
-				"_usb_data_received: %u bytes discarded\n\r",
-					(unsigned int)remaining);
-		}
-                } else {
-
-		trace_warning( "_usb_data_received: Transfer error\n\r");
-              }
-}
-#endif
 
 static  uint8_t usb_serial_read1 = 0;
 static int _tc_counter_callback(void* arg, void* arg2)
@@ -610,6 +520,7 @@ static struct _spi_desc spi_slave_dev = {
 /*----------------------------------------------------------------------------
  *          initialize ssc 
  *----------------------------------------------------------------------------*/
+/*
 #define SAMPLE_RATE             (48000)
 #define SLOT_BY_FRAME           (8)
 #define BITS_BY_SLOT            (16)
@@ -643,137 +554,15 @@ static struct _audio_ctx {
 	.recording = false,
 	.playing = false,
 };
+*/
 // SSC instance
-static struct _ssc_desc ssc_dev_desc = {
-	.addr = SSC1,
-	.bit_rate = 0,
-	.sample_rate = SAMPLE_RATE,
-	.slot_num = SLOT_BY_FRAME,
-	.slot_length = BITS_BY_SLOT,
-	/* Select RK pin as transmit and receive clock */
-	.rx_cfg_cks_rk = true,
-	.tx_cfg_cks_tk = false,
-	.tx_start_selection = SSC_TCMR_START_TF_EDGE,
-	.rx_start_selection = SSC_RCMR_START_RF_EDGE,
-};
-
+extern struct _ssc_desc ssc_dev_desc[2];
 static bool is_ssc_started = false;
-
-/**
- *  \brief Audio RX callback
- */
-static int _ssc_tx_transfer_callback(void* arg, void* arg2)
-{
-	struct _ssc_desc* desc = (struct _ssc_desc*)arg;
-	struct _callback _cb;
-
-	//if (_audio_ctx.playing && (_audio_ctx.circ.count > 0))
-        {
-                memset( _sound_buffer,0x55,sizeof(_sound_buffer));
-		struct _buffer _tx = {
-			.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx],
-			.size = BUFFER_SIZE,
-			.attr = SSC_BUF_ATTR_WRITE,
-		};
-
-		callback_set(&_cb, _ssc_tx_transfer_callback, desc);
-		ssc_transfer(desc, &_tx, &_cb);
-		//_audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
-		//_audio_ctx.circ.count--;
-
-		//if (_audio_ctx.circ.count == 0) {
-		//	ssc_disable_transmitter(&ssc_dev_desc);
-
-		//	_audio_ctx.playing = false;
-		//}
-	}
-        //printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
-	return 0;
-}
-
-
-/**
- *  \brief Audio RX callback
- */
-static int _ssc_rx_transfer_callback(void* arg, void* arg2)
-{
-	struct _ssc_desc* desc = (struct _ssc_desc*)arg;
-	struct _callback _cb;
-
-	/* New buffer received */
-	//_audio_ctx.circ.rx = (_audio_ctx.circ.rx + 1) % BUFFERS;
-	//_audio_ctx.circ.count++;
-
-	//if (!_audio_ctx.playing && (_audio_ctx.circ.count > _audio_ctx.threshold)) {
-	//	_audio_ctx.playing = true;
-	//	ssc_enable_transmitter(&ssc_dev_desc);
-	//	_ssc_tx_transfer_callback(desc, NULL);
-	//}
-
-        
-	struct _buffer _rx = {
-		.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-		.size = BUFFER_SIZE,
-		.attr = SSC_BUF_ATTR_READ,
-	};
-
-        //printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
-	callback_set(&_cb, _ssc_rx_transfer_callback, desc);
-	ssc_transfer(desc, &_rx, &_cb);
-
-
-	return 0;
-}
-
-void starting_play( void )
-{
-		//_audio_ctx.recording = true;
-		//ssc_enable_receiver(&ssc_dev_desc);
-
-		{ /* Start recording */
-			struct _callback _cb;
-			//callback_set(&_cb, _ssc_rx_transfer_callback, &ssc_dev_desc);
-                        callback_set(&_cb, _ssc_tx_transfer_callback, &ssc_dev_desc);
-			struct _buffer _tx = {
-				//.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-                                .data = (unsigned char*)&_sound_buffer[0],
-				.size = sizeof(_sound_buffer),
-				//.attr = SSC_BUF_ATTR_READ,
-                                .attr = SSC_BUF_ATTR_WRITE,
-			};
-
-			ssc_transfer(&ssc_dev_desc, &_tx, &_cb);
-		}
-
-		printf("SSC start to play sound\r\n");  
-}
-
-void starting_record( void )
-{
-		//_audio_ctx.recording = true;
-		//ssc_enable_receiver(&ssc_dev_desc);
-
-		{ /* Start recording */
-			struct _callback _cb;
-			callback_set(&_cb, _ssc_rx_transfer_callback, &ssc_dev_desc);                        
-			struct _buffer _rx = {
-				//.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-                                .data = (unsigned char*)&_sound_buffer[0],
-				.size = sizeof(_sound_buffer),
-				.attr = SSC_BUF_ATTR_READ,
-			};
-
-			ssc_transfer(&ssc_dev_desc, &_rx, &_cb);
-		}
-
-		printf("SSC start to record sound\r\n");  
-}
 
 //==============================================================================
 
 void _spi_transfer()
 {
-	int err;
 	int i;
 	struct _buffer master_buf = {
 		.data = spi_buffer_master_tx,
@@ -801,88 +590,55 @@ void _spi_transfer()
         spi_buffer_master_tx[22] = 4; 
 	//memset(spi_buffer_slave_rx, 0, DMA_TRANS_SIZE);
 
-	err = bus_start_transaction(spi_master_dev.bus);
-	err = bus_transfer(spi_master_dev.bus, spi_master_dev.spi_dev.chip_select, &master_buf, 1, NULL);
-        err = bus_wait_transfer(spi_master_dev.bus);   
-	err = bus_stop_transaction(spi_master_dev.bus);
+	bus_start_transaction(spi_master_dev.bus);
+	bus_transfer(spi_master_dev.bus, spi_master_dev.spi_dev.chip_select, &master_buf, 1, NULL);
+        bus_wait_transfer(spi_master_dev.bus);   
+	bus_stop_transaction(spi_master_dev.bus);
 }
 
 //==============================================================================
-#if 0
-extern struct _pca9546; 
-
-//static struct _pca9546 pca9546 = {
-//	.bus = BOARD_PCA9546_TWI_BUS,
-//	.addr = BOARD_PCA9546_TWI_ADDR,
-//};
-
-static bool _pca9546_read_reg(struct _pca9546* pca9546, uint8_t iaddr, uint8_t* value)
-{
-	int err;
-	struct _buffer buf[2] = {
-		{
-			.data = &iaddr,
-			.size = 1,
-			.attr = BUS_I2C_BUF_ATTR_START | BUS_BUF_ATTR_TX | BUS_I2C_BUF_ATTR_STOP,
-		},
-		{
-			.data = value,
-			.size = 1,
-			.attr = BUS_I2C_BUF_ATTR_START | BUS_BUF_ATTR_RX | BUS_I2C_BUF_ATTR_STOP,
-		},
-	};
-
-	bus_start_transaction(pca9546->bus);
-	err = bus_transfer(pca9546->bus, pca9546->addr+1, buf, 2, NULL);
-	bus_stop_transaction(pca9546->bus);
-
-	if (err < 0)
-		return false;
-	return true;
-}
-#endif
-
 unsigned char aic3204_init_default(void)
 {
     unsigned char err;
     CODEC_SETS codec_set;
 
-    codec_set.id = 0; //CODEC 0
-    codec_set.sr = 48000;//SAMPLE_RATE_DEFAULT;
-    codec_set.sample_len = 16;//SAMPLE_LENGTH_DEFAULT;
-    codec_set.format = 2; //I2S-TDM
-    codec_set.slot_num = 8;//SLOT_NUM_DEFAULT;
-    codec_set.m_s_sel = 0; //master
+    codec_set.id = 0;                                 //CODEC 0
+    codec_set.sr = 48000;                             //SAMPLE_RATE_DEFAULT;
+    codec_set.sample_len = 16;                        //SAMPLE_LENGTH_DEFAULT;
+    codec_set.format = 2;                             //I2S-TDM
+    codec_set.slot_num = 8;                           //SLOT_NUM_DEFAULT;
+    codec_set.m_s_sel = 0;                            //master
     codec_set.bclk_polarity = 0;
     codec_set.flag = 0;
     codec_set.delay = 0;
 
-    I2C_Switcher(I2C_SWITCH_CODEC0); //I2C bus switcher
-//    while( 1 ){
-    err = Init_CODEC(codec_set);     //CODEC0 connetced to TWI2
+    I2C_Switcher(I2C_SWITCH_CODEC0);                 //I2C bus switcher
+
+    err = Init_CODEC(codec_set);                     //CODEC0 connetced to TWI2
     if (err != NO_ERR)
     {
         return err;
     }
-//    msleep(5);
-//    }
 
-    codec_set.id = 1; //CODEC 1
-    codec_set.sr = 48000;//SAMPLE_RATE_DEFAULT;
-    codec_set.sample_len = 16;//SAMPLE_LENGTH_DEFAULT;
-    codec_set.format = 2; //I2S-TDM
-    codec_set.slot_num = 8;//SLOT_NUM_DEFAULT;
-    codec_set.m_s_sel = 0; //slave
+    codec_set.id = 1;                               //CODEC 1
+    codec_set.sr = 48000;                           //SAMPLE_RATE_DEFAULT;
+    codec_set.sample_len = 16;                      //SAMPLE_LENGTH_DEFAULT;
+    codec_set.format = 2;                           //I2S-TDM
+    codec_set.slot_num = 8;                         //SLOT_NUM_DEFAULT;
+    codec_set.m_s_sel = 0;                          //slave
     codec_set.bclk_polarity = 0;
     codec_set.flag = 0;
     codec_set.delay = 0;
 
-    I2C_Switcher(I2C_SWITCH_CODEC1); //I2C bus switcher
-    err = Init_CODEC(codec_set);     //CODEC1 connetced to TWI2
+    I2C_Switcher(I2C_SWITCH_CODEC1);                //I2C bus switcher
+    err = Init_CODEC(codec_set);                    //CODEC1 connetced to TWI2
 
     return err;
 }
 //==============================================================================
+
+
+
 /*----------------------------------------------------------------------------
  *          Main
  *----------------------------------------------------------------------------*/
@@ -895,9 +651,12 @@ unsigned char aic3204_init_default(void)
 int main(void)
 {
 	uint8_t is_usb_connected = 0;
-	uint8_t usb_serial_read = 1;
-//        uint8_t iaddr = 0x5b;
-//        uint8_t value;
+	uint8_t usb_serial_read_ssc0 = 1;
+        uint8_t usb_serial_read_ssc1 = 1;
+        uint8_t usb_serial_read_spi = 1;
+        uint8_t usb_serial_read_cmd = 1;
+        //uint8_t usb_serial_read_i2s0 = 1;
+        //uint8_t usb_serial_read_i2s1 = 1;
 
 	// Output example information 
 	console_example_info("USB Device Test Suite for AB05");
@@ -912,7 +671,7 @@ int main(void)
 	cdcd_serial_driver_initialize(&cdcd_serial_driver_descriptors);
 
 	// Help informaiton 
-	_debug_help();
+	//_debug_help();
 
 	// connect if needed 
 	usb_vbus_configure();
@@ -923,19 +682,18 @@ int main(void)
         bus_configure_slave(spi_master_dev.bus, &spi_master_dev);
         
         //config ssc
-	ssc_configure(&ssc_dev_desc);
+	ssc_configure(&ssc_dev_desc[1]);
 #ifdef INTERRUPT_SSC
-        ssc_enable_interrupts(&ssc_dev_desc, (1<<0));
+        ssc_enable_interrupts(&ssc_dev_desc[1], (1<<0));
 #endif
-	ssc_disable_receiver(&ssc_dev_desc);
-	ssc_disable_transmitter(&ssc_dev_desc);
+	ssc_disable_receiver(&ssc_dev_desc[1]);
+	ssc_disable_transmitter(&ssc_dev_desc[1]);
         
         //config codec
         init_codec_rst_pin();
         aic3204_init_default();
-        //_pca9546_read_reg( &pca9546, iaddr, &value);
-        //starting_play_rec();
-        //while(1);
+        
+        list_init(audioQueue, NULL);
 
 	// Driver loop 
 	while (1) {                
@@ -965,10 +723,10 @@ int main(void)
                     if( false == is_ssc_started )
                     {
                        is_ssc_started = true;
-                       ssc_enable_receiver(&ssc_dev_desc);
-                       starting_record();
-                       ssc_enable_transmitter(&ssc_dev_desc);
-                       starting_play();
+                       ssc_enable_receiver(&ssc_dev_desc[1]);
+                       starting_ssc1_record();
+                       ssc_enable_transmitter(&ssc_dev_desc[1]);
+                       starting_ssc1_play();
                     }
                 }
                 else
@@ -980,23 +738,29 @@ int main(void)
                 {
                     usb_serial_read1 = 0;
 		    /* Start receiving data on the USB */
-		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
-                    //                        _usb_data_received1, &usb_serial_read1);
-#if 0
-		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
-                    //                        _usb_data_received, &usb_serial_read); 
-                    //cdcd_serial_driver_readAudio_0(usb_buffer, DATAPACKETSIZE,        //0x82-0x01
-                    //                        _usb_data_received, &usb_serial_read);
-                    //cdcd_serial_driver_readAudio_1(usb_buffer, DATAPACKETSIZE,        //0x86-0x05
-                    //                        _usb_data_received, &usb_serial_read);
-                    //cdcd_serial_driver_readSPI(usb_buffer, DATAPACKETSIZE,            //0x88-0x07
-                    //                        _usb_data_received, &usb_serial_read);
-                    if( 1 == usb_serial_read )
-                    {
-                        usb_serial_read = 0;
-                        cdcd_serial_driver_readCmd(usb_buffer, DATAPACKETSIZE,            //0x84-0x03
-                                                _usb_data_received, &usb_serial_read);
-                    }
+#if 1
+                    cdcd_serial_driver_WriteAudio_1((char*)"Alive\n\r", 8,NULL, NULL);    //0x86
+                    //if( 1 == usb_serial_read_ssc0 )
+                    //{
+                    //    cdcd_serial_driver_readAudio_0(usb_ep1_ssc0_play_data, sizeof(usb_ep1_ssc0_play_data),        //0x82-0x01
+                    //                          usb_ep1_ssc0_play_cb, &usb_serial_read_ssc0);
+                    //}
+                    //if( 1 == usb_serial_read_ssc1 )
+                    //{
+                    //    cdcd_serial_driver_readAudio_1(usb_ep5_ssc1_play_data, sizeof(usb_ep5_ssc1_play_data),        //0x86-0x05
+                    //                          usb_ep5_ssc1_play_cb, &usb_serial_read_ssc1);
+                    //}
+                    //if( 1 == usb_serial_read_spi )
+                    //{
+                    //    cdcd_serial_driver_readSPI(usb_ep7_spi_play_data, sizeof(usb_ep7_spi_play_data),              //0x88-0x07
+                    //                          usb_ep7_spi_play_cb, &usb_serial_read_spi);
+                    //}
+                    //if( 1 == usb_serial_read_cmd )
+                    //{
+                    //    usb_serial_read_cmd = 0;
+                    //    cdcd_serial_driver_readCmd(usb_ep3_cmd_play_data, sizeof(usb_ep3_cmd_play_data),              //0x84-0x03
+                    //                            usb_ep3_cmd_play_cb, &usb_serial_read_cmd);
+                    //}
                     _spi_transfer();
 #else                    
 		    //cdcd_serial_driver_write((char*)"Alive\n\r", 8,
@@ -1006,79 +770,17 @@ int main(void)
                     //cdcd_serial_driver_WriteLog((char*)"HiLOG\n\r", 8,NULL, NULL);        //0x89
                     //cdcd_serial_driver_WriteCmd((char*)"HiCMD\n\r", 8,NULL, NULL);      //0x84
                     //cdcd_serial_driver_WriteLog(NULL, 0, NULL, NULL);
-//                    _spi_transfer();
-                    //_pca9546_read_reg( &pca9546, iaddr, &value);
-                    //aic3204_init_default();
+//                  _spi_transfer();
+
 #ifdef INTERRUPT_SSC
                     ssc_enable_transmitter(&ssc_dev_desc);
                     ssc_write(&ssc_dev_desc, 0x01);
                     while(!(ssc_dev_desc.addr->SSC_SR & SSC_SR_TXRDY) == SSC_SR_TXRDY);
-#endif                    
+#endif              
+                    if( ( cnt % 100 ) == 0 )
+                      printf( "queue size = %d\r\n",audioQueue->size );
 #endif                                          
-                }
-
-
-                
-#ifdef ORIGIN_CODE                
-		// Serial port ON/OFF 
-		if (cdcd_serial_driver_get_control_line_state()
-					& CDCControlLineState_DTR) {
-			if (!is_cdc_serial_on) {
-				is_cdc_serial_on = 1;
-				}
-			if(usb_serial_read == 1) {
-				usb_serial_read = 0;
-				/* Start receiving data on the USB */
-				cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
-							_usb_data_received, &usb_serial_read);
-			}
-			if(usart_rx_flag == true) {
-				usart_rx_flag = false;
-				cdcd_serial_driver_write((void *)&char_recv, 1, 0, 0);
-				if(is_cdc_echo_on) {
-					_usart_dma_tx((uint8_t*)&char_recv, 1);
-				}
-			}
-		} else if (is_cdc_serial_on) {
-			is_cdc_serial_on = 0;
-		}
-
-		if (console_is_rx_ready()) {
-			uint8_t key = console_get_char();
-			// ESC: CDC Echo ON/OFF 
-			if (key == 27) {
-
-				printf("** CDC Echo %s\n\r",
-						is_cdc_echo_on ? "OFF" : "ON");
-				is_cdc_echo_on = !is_cdc_echo_on;
-
-			} else if (key == 't') {
-				// 't': Test CDC writing  
-				_send_text();
-
-			} else {
-				printf("Alive\n\r");
-				cdcd_serial_driver_write((char*)"Alive\n\r", 8,
-						NULL, NULL);
-				_usart_dma_tx((uint8_t*)"Alive\n\r", 8);
-				_debug_help();
-			}
-		}//if (console_is_rx_ready())
-#else    
-                //uint8_t key = console_get_char();
-                //printf("input char = %d\n",key);
-                //if ('n'==key) {
-                  /*
-			if(usb_serial_read == 1) {
-				usb_serial_read = 0;
-				// Start receiving data on the USB 
-				cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
-							_usb_data_received, &usb_serial_read);
-			}*/
-                //  	cdcd_serial_driver_write((char*)"aaaaa\n\r", 8,
-		//				NULL, NULL);
-                //}
-#endif     
+                }  
 	}//while(1)
 }
 /** \endcond */
