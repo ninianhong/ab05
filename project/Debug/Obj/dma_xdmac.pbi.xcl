@@ -401,6 +401,7 @@ E:\AB05-Test\github-atmel\usb_device\ab05\middleware
 -DCUSTOM_USB=1
 -DCONFIG_HAVE_SSC=1
 -DCONFIG_HAVE_I2C_BUS=1
+-DCONFIG_HAVE_TRNG=1
 -D_DLIB_CONFIG_FILE_HEADER_NAME="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\arm\\INC\\c\\DLib_Config_Normal.h"
 -D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\arm\\INC\\c\\DLib_Config_Normal.h"
 -D__VERSION__="IAR ANSI C/C++ Compiler V8.20.1.14183/W32 for ARM"

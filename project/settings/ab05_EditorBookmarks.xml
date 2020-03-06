@@ -42,22 +42,6 @@
     </bookmark>
     <bookmark>
         <path>E:\AB05-Test\github-atmel\usb_device\ab05\app\main.c</path>
-        <row>645</row>
-    </bookmark>
-    <bookmark>
-        <path>E:\AB05-Test\github-atmel\usb_device\ab05\app\main.c</path>
-        <row>646</row>
-    </bookmark>
-    <bookmark>
-        <path>E:\AB05-Test\github-atmel\usb_device\ab05\app\main.c</path>
-        <row>647</row>
-    </bookmark>
-    <bookmark>
-        <path>E:\AB05-Test\github-atmel\usb_device\ab05\app\main.c</path>
-        <row>648</row>
-    </bookmark>
-    <bookmark>
-        <path>E:\AB05-Test\github-atmel\usb_device\ab05\app\main.c</path>
         <row>699</row>
     </bookmark>
     <bookmark>
@@ -87,6 +71,10 @@
     <bookmark>
         <path>E:\AB05-Test\github-atmel\usb_device\ab05\drivers\usbd_udphs.c</path>
         <row>323</row>
+    </bookmark>
+    <bookmark>
+        <path>E:\AB05-Test\github-atmel\usb_device\ab05\drivers\usbd_udphs.c</path>
+        <row>1479</row>
     </bookmark>
     <bookmark>
         <path>E:\AB05-Test\github-atmel\usb_device\ab05\target\board_sama5d2-xplained.h</path>
