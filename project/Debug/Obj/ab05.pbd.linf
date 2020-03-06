@@ -12,6 +12,7 @@ E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\cache.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\callback.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\chip.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\chip_common.pbi
+E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\codec.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\console.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\ddram.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\dma.pbi
@@ -56,7 +57,9 @@ E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\trace.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\twi.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\twid.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\uart.pbi
+E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\uif_i2s.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\uif_list.pbi
+E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\uif_usb.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\usart.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\usartd.pbi
 E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Obj\usbd_udphs.pbi
