@@ -155,7 +155,8 @@
 #include "ssc.h"
 #include "codec.h"
    
-#include "uif_i2s.h"   
+#include "uif_i2s.h"  
+#include "constant.h"
 
 #include <assert.h>
 #include <string.h>
@@ -246,6 +247,109 @@
 #else
 #error Unsupported SoC!
 #endif
+   
+/*----------------------------------------------------------------------------
+ *      port list define
+ *----------------------------------------------------------------------------*/
+DataSource source_ssc0;
+DataSource source_ssc1;
+DataSource source_spi0;
+DataSource source_spi1;
+DataSource source_twi0;
+DataSource source_twi1;
+DataSource source_twi2;
+DataSource source_usart0;
+DataSource source_usart1;
+DataSource source_gpio;   
+/*----------------------------------------------------------------------------
+ *      buffer define
+ *----------------------------------------------------------------------------*/   
+#pragma pack(4)
+//Buffer Level 1:  USB data stream buffer : 64 B
+uint8_t usbCacheBulkOut0[USB_DATAEP_SIZE_64B*256] ;
+uint8_t usbCacheBulkIn0[USB_DATAEP_SIZE_64B*256] ;
+//uint8_t usbCacheBulkIn0_1[USB_DATAEP_SIZE_64B * 16 * 3 ] ;
+uint8_t usbCacheBulkOut1[USB_DATAEP_SIZE_64B*256] ;
+uint8_t usbCacheBulkIn1[USB_DATAEP_SIZE_64B*256] ;
+//uint8_t usbCacheBulkIn1_1[USB_DATAEP_SIZE_64B * 16 * 3 ] ;
+uint8_t usbCacheBulkOut2[USB_DATAEP_SIZE_64B * 16 * 3 ] ;
+uint8_t usbCacheBulkIn2[USB_DATAEP_SIZE_64B * 16 * 3 ] ;
+uint8_t usbCacheBulkIn3[USB_LOGEP_SIZE_256B] ;
+//Buffer Level 1:  USB Cmd data stream buffer : 64 B
+uint8_t usbCmdCacheBulkOut[ USB_CMDEP_SIZE_64B ] ;             //64B
+uint8_t usbCmdCacheBulkIn[ USB_CMDEP_SIZE_64B ]  ;             //64B
+
+////Buffer Level 2:  Ring Data Buffer for usb: 16384 B
+uint8_t usbRingBufferBulkOut0[ USB_RINGOUT_SIZE_16K ] ;        //16384B
+uint8_t usbRingBufferBulkIn0[ USB_RINGIN_SIZE_16K ] ;          //16384B
+uint8_t usbRingBufferBulkOut1[ USB_RINGOUT_SIZE_16K ] ;        //16384B
+uint8_t usbRingBufferBulkIn1[ USB_RINGIN_SIZE_16K ] ;          //16384B
+uint8_t usbRingBufferBulkOut2[ USB_RINGOUT_SIZE_16K ] ;        //16384B
+uint8_t usbRingBufferBulkIn2[ USB_RINGIN_SIZE_16K ] ;          //16384B
+uint8_t usbRingBufferBulkIn3[ USB_RINGIN_SIZE_16K ] ;          //16384B
+//Buffer Level 2:  To PC Ring CMD Buffer : 1024 B
+uint8_t usbCmdRingBulkOut[ USB_CMD_RINGOUT_SIZE_16K ] ;         //1024B
+uint8_t usbCmdRingBulkIn[ USB_CMD_RINGIN_SIZE_16k ]  ;          //1024B
+//Buffer Level 2:  To RULER Ring CMD Buffer : 1024 B
+uint8_t rulerCmdRingBulkOut[ USART_BUFFER_SIZE_1K ] ;          
+uint8_t rulerCmdRingBulkIn[ USART_BUFFER_SIZE_1K ]  ;          
+
+//Buffer Level 3:  Ring  Data Buffer for audio port include ssc and spi: 16384 B
+uint8_t ssc0_RingBulkOut[ USB_RINGOUT_SIZE_16K ] ;             //16384B
+uint8_t ssc0_RingBulkIn[ USB_RINGIN_SIZE_16K ] ;               //16384B
+uint8_t ssc1_RingBulkOut[ USB_RINGOUT_SIZE_16K ] ;             //16384B
+uint8_t ssc1_RingBulkIn[ USB_RINGIN_SIZE_16K ] ;               //16384B
+
+uint8_t spi0_RingBulkOut[ SPI_RINGOUT_SIZE_50K ];
+uint8_t spi0_RingBulkIn[ SPI_RINGIN_SIZE_50K];
+uint8_t spi1_RingBulkOut[ SPI_RINGOUT_SIZE_50K ];
+uint8_t spi1_RingBulkIn[ SPI_RINGIN_SIZE_50K ];
+
+//Buffer Level 4:  PingPong buffer for audio data : MAX 48*2*8*2*2 = 3072 B
+//these buffer is private
+uint8_t ssc0_PingPongOut[2][ I2S_PINGPONG_OUT_SIZE_3K ];         // Play
+uint8_t ssc0_PingPongIn[2][ I2S_PINGPONG_IN_SIZE_3K ] ;          // Record
+uint8_t ssc1_PingPongOut[2][ I2S_PINGPONG_OUT_SIZE_3K ];         // Play
+uint8_t ssc1_PingPongIn[2][ I2S_PINGPONG_IN_SIZE_3K ] ;          // Record
+
+uint8_t spi0_2MSOut[2][ I2S_PINGPONG_OUT_SIZE_3K ];
+uint8_t spi0_2MSIn[2][ I2S_PINGPONG_IN_SIZE_3K ];
+uint8_t spi1_2MSOut[2][ I2S_PINGPONG_OUT_SIZE_3K ];
+uint8_t spi1_2MSIn[2][ I2S_PINGPONG_IN_SIZE_3K ];
+
+// gpio has no private ring buffer, it share with ssc0;
+uint8_t gpio_PingPong_bufferOut[2][I2S_PINGPONG_OUT_SIZE_3K];
+uint8_t gpio_PingPong_bufferIn[2][I2S_PINGPONG_IN_SIZE_3K];
+#pragma pack()  
+
+//Ring for ssc
+kfifo_t  ssc0_bulkout_fifo;
+kfifo_t  ssc0_bulkin_fifo;
+kfifo_t  ssc1_bulkout_fifo;
+kfifo_t  ssc1_bulkin_fifo;
+
+//Ring for USB data endpoint
+kfifo_t  ep0BulkOut_fifo;
+kfifo_t  ep0BulkIn_fifo;
+kfifo_t  ep1BulkOut_fifo;
+kfifo_t  ep1BulkIn_fifo;
+kfifo_t  ep2BulkOut_fifo;
+kfifo_t  ep2BulkIn_fifo;
+
+//Ring for USB cmd endpoint
+kfifo_t  cmdEpBulkOut_fifo;
+kfifo_t  cmdEpBulkIn_fifo;
+
+//Ring for Ruler cmd endpoint
+kfifo_t  cmd_ruler_rece_fifo;
+kfifo_t  cmd_ruler_send_fifo;
+
+
+//Ring for spi
+kfifo_t  spi0_bulkOut_fifo;
+kfifo_t  spi0_bulkIn_fifo;
+kfifo_t  spi1_bulkOut_fifo;
+kfifo_t  spi1_bulkIn_fifo;
 
 /*----------------------------------------------------------------------------
  *      External variables
@@ -428,15 +532,21 @@ static struct _tcd_desc tc_counter = {
 };
 
 static  uint8_t usb_serial_read1 = 0;
+static  uint8_t usb_serial_send_ssc1 = 1;
 static int _tc_counter_callback(void* arg, void* arg2)
 {
-	const int div = 4;
+	const int div = 8;
 
         _tick++;
 
 	if (_tick % div == 0)
+        {
 		//printf("time: %us\r\n", (unsigned)_tick / div);
                 usb_serial_read1 = 1;
+                usb_serial_send_ssc1 = 1;
+        }
+        
+        //tcd_stop(&tc_counter);
 	return 0;
 }
 
@@ -559,6 +669,74 @@ static struct _audio_ctx {
 extern struct _ssc_desc ssc_dev_desc[2];
 static bool is_ssc_started = false;
 
+void ssc0_init(void)
+{
+    //initialize ssc0 object and it's operation
+    memset((void *)&source_ssc0, 0, sizeof(DataSource));
+    memset((void *)ssc0_PingPongOut, 0, sizeof(ssc0_PingPongOut));
+    memset((void *)ssc0_PingPongIn, 0, sizeof(ssc0_PingPongIn));
+
+    source_ssc0.dev.direct = (uint8_t)BI;
+    source_ssc0.dev.identify = ID_SSC0;
+    source_ssc0.dev.instanceHandle = (uint32_t)SSC0;
+    source_ssc0.status[IN] = (uint8_t)FREE;
+    source_ssc0.status[OUT] = (uint8_t)FREE;
+    source_ssc0.tx_index = 0;
+    source_ssc0.rx_index = 0;
+    //    source_ssc0.peripheralParameter = ( void * )&Audio_Configure_Instance[0];
+    source_ssc0.warmWaterLevel = 0; //  I2S_PLAY_PRE_BUF_NUM  * source_ssc0.txSize ;
+
+    source_ssc0.txSize = 0;         //(( SAMPLE_RATE_DEFAULT / 1000 ) * ( SAMPLE_LENGTH_DEFAULT / 8 ) * SLOT_NUM_DEFAULT * I2S_PINGPONG_BUF_SIZE_MS );
+    source_ssc0.rxSize = 0;         //(( SAMPLE_RATE_DEFAULT / 1000 ) * ( SAMPLE_LENGTH_DEFAULT / 8 ) * SLOT_NUM_DEFAULT * I2S_PINGPONG_BUF_SIZE_MS );
+
+    source_ssc0.init_source = NULL;
+    source_ssc0.buffer_write = NULL;
+    source_ssc0.buffer_read = NULL;
+    source_ssc0.peripheral_stop = NULL;
+
+    source_ssc0.pRingBulkOut = &ssc0_bulkout_fifo;
+    source_ssc0.pRingBulkIn = &ssc0_bulkin_fifo;
+    source_ssc0.pBufferOut = (uint8_t *)ssc0_PingPongOut;
+    source_ssc0.pBufferIn = (uint8_t *)ssc0_PingPongIn;
+
+    if (NULL != source_ssc0.init_source)
+        source_ssc0.init_source(&source_ssc0, NULL);
+}
+
+void ssc1_init(void)
+{
+    //initialize ssc1 object and it's operation
+    memset((void *)&source_ssc1, 0, sizeof(DataSource));
+    memset((void *)ssc1_PingPongOut, 0, sizeof(ssc1_PingPongOut));
+    memset((void *)ssc1_PingPongIn, 0, sizeof(ssc1_PingPongIn));
+    source_ssc1.dev.direct = (uint8_t)BI;
+    source_ssc1.dev.identify = ID_SSC1;
+    source_ssc1.dev.instanceHandle = (uint32_t)SSC1;
+    source_ssc1.status[IN] = (uint8_t)FREE;
+    source_ssc1.status[OUT] = (uint8_t)FREE;
+    source_ssc1.tx_index = 0;
+    source_ssc1.rx_index = 0;
+    //    source_ssc1.peripheralParameter = ( void * )&Audio_Configure_Instance[1];
+    source_ssc1.warmWaterLevel = 0; //(( SAMPLE_RATE_DEFAULT / 1000 ) * ( SAMPLE_LENGTH_DEFAULT / 8 ) * SLOT_NUM_DEFAULT * 2 ) * 4;
+
+    source_ssc1.txSize = 0;         //(( SAMPLE_RATE_DEFAULT/ 1000 ) * ( SAMPLE_LENGTH_DEFAULT / 8 ) * SLOT_NUM_DEFAULT * 2 );
+    source_ssc1.rxSize = 0;         //(( SAMPLE_RATE_DEFAULT/ 1000 ) * ( SAMPLE_LENGTH_DEFAULT / 8 )* SLOT_NUM_DEFAULT * 2 );
+
+    source_ssc1.init_source = NULL;
+    source_ssc1.buffer_write = NULL;
+    source_ssc1.buffer_read = NULL;
+    source_ssc1.peripheral_stop = NULL;
+
+    source_ssc1.pRingBulkOut = &ssc1_bulkout_fifo;
+    source_ssc1.pRingBulkIn = &ssc1_bulkin_fifo;
+    source_ssc1.pBufferOut = (uint8_t *)ssc1_PingPongOut;
+    source_ssc1.pBufferIn = (uint8_t *)ssc1_PingPongIn;
+
+    if (NULL != source_ssc1.init_source)
+        source_ssc1.init_source(&source_ssc1, NULL);
+}
+
+
 //==============================================================================
 
 void _spi_transfer()
@@ -570,7 +748,7 @@ void _spi_transfer()
 		.attr = BUS_BUF_ATTR_TX | BUS_SPI_BUF_ATTR_RELEASE_CS,
 	};
         
-        printf("%s-%d:running...\r\n",__FILE__,__LINE__);
+//        printf("%s-%d:running...\r\n",__FILE__,__LINE__);
 	for (i = 0; i < DMA_TRANS_SIZE; i++)
         {
 //            if (( i >= 10 ) && ( i <= 21  ))
@@ -650,6 +828,8 @@ unsigned char aic3204_init_default(void)
  */
 int main(void)
 {
+        uint8_t *memory_alloc = NULL;
+        static int alloc_cnt ;
 	uint8_t is_usb_connected = 0;
 	uint8_t usb_serial_read_ssc0 = 1;
         uint8_t usb_serial_read_ssc1 = 1;
@@ -657,6 +837,8 @@ int main(void)
         uint8_t usb_serial_read_cmd = 1;
         //uint8_t usb_serial_read_i2s0 = 1;
         //uint8_t usb_serial_read_i2s1 = 1;
+        
+
 
 	// Output example information 
 	console_example_info("USB Device Test Suite for AB05");
@@ -692,8 +874,22 @@ int main(void)
         //config codec
         init_codec_rst_pin();
         aic3204_init_default();
-        
+
+#if 1        
         list_init(audioQueue, NULL);
+        list_init(&ep2_ssc0_rec, NULL);
+        list_init(&ep4_cmd_rec, NULL);
+        list_init(&ep6_ssc1_rec, NULL);
+        list_init(&ep8_spi_rec, NULL);
+        list_init(&ep9_log_rec, NULL);
+        list_init(&ep11_i2s0_rec, NULL);
+
+        list_init(&ep1_ssc0_play, NULL);
+        list_init(&ep3_cmd_play, NULL);
+        list_init(&ep5_ssc1_play, NULL);
+        list_init(&ep7_spi_play, NULL);
+        list_init(&ep10_i2s0_play, NULL);
+#endif
 
 	// Driver loop 
 	while (1) {                
@@ -720,7 +916,7 @@ int main(void)
                         }
                     }
                     
-                    if( false == is_ssc_started )
+                    if(( false == is_ssc_started ) && ( initial_dealy ++ > 150000 ))
                     {
                        is_ssc_started = true;
                        ssc_enable_receiver(&ssc_dev_desc[1]);
@@ -733,13 +929,24 @@ int main(void)
                 {
                        
                 }
+                //memory_alloc = (uint8_t *)malloc(6144);
+                //if( memory_alloc != NULL )
+                //  alloc_cnt++;
+                //else
+                //  printf("alloc memory failed,here success %d times.\r\n",alloc_cnt);
                 
                 if(usb_serial_read1 == 1) 
                 {
                     usb_serial_read1 = 0;
 		    /* Start receiving data on the USB */
 #if 1
-                    cdcd_serial_driver_WriteAudio_1((char*)"Alive\n\r", 8,NULL, NULL);    //0x86
+                    //if( usb_serial_send_ssc1 == 1 )
+                    {
+                        usb_serial_send_ssc1 = 0;
+                        cdcd_serial_driver_WriteAudio_1(usb_ep6_ssc1_record_data, 
+                                                    sizeof(usb_ep6_ssc1_record_data),
+                                                    usb_ep6_ssc1_record_cb, &usb_serial_send_ssc1);    //0x86
+                    }
                     //if( 1 == usb_serial_read_ssc0 )
                     //{
                     //    cdcd_serial_driver_readAudio_0(usb_ep1_ssc0_play_data, sizeof(usb_ep1_ssc0_play_data),        //0x82-0x01

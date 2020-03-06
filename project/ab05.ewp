@@ -2329,6 +2329,9 @@
             <name>$PROJ_DIR$\..\utils\intmath.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\utils\kfifo.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\utils\rand.c</name>
         </file>
         <file>

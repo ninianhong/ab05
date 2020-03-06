@@ -31,8 +31,6 @@
 #include <string.h>
 #include "kfifo.h"
 #include <stdio.h>
-#include "app.h"
-#include "defined.h"
 
 // Note:
 // The fifo size must be 2^n length.
@@ -75,7 +73,7 @@ uint32_t kfifo_put(kfifo_t *fifo, uint8_t *buffer, uint32_t len)
 #endif
 	if (0 == len)
 		return len; //Here are some defensive code to prevent errors --Leo
-        OS_ENTER_CRITICAL();
+        //OS_ENTER_CRITICAL();
 	uint32_t l;
 	//__disable_interrupt(); //PQ
 	len = min_hh(len, fifo->size - fifo->in + fifo->out);
@@ -86,7 +84,7 @@ uint32_t kfifo_put(kfifo_t *fifo, uint8_t *buffer, uint32_t len)
 	/* then put the rest (if any) at the beginning of the buffer */
 	memmove(fifo->buffer, buffer + l, len - l);
 	fifo->in += len;
-        OS_EXIT_CRITICAL();
+        //OS_EXIT_CRITICAL();
 	//__enable_interrupt(); //PQ
 	return len;
 }
@@ -101,7 +99,7 @@ uint32_t kfifo_get(kfifo_t *fifo, uint8_t *buffer, uint32_t len)
 	if (0 == len)
 		return len; //Here are some defensive code to prevent errors --Leo
         
-        OS_ENTER_CRITICAL();  //Perhaps it should be replaced 
+        //OS_ENTER_CRITICAL();  //Perhaps it should be replaced 
                               //by a more accurate function   --Leo,2018-05-21
 	uint32_t l;
 	//__disable_interrupt(); //PQ
@@ -113,7 +111,7 @@ uint32_t kfifo_get(kfifo_t *fifo, uint8_t *buffer, uint32_t len)
 	memmove(buffer + l, fifo->buffer, len - l);
 	fifo->out += len;
         
-        OS_EXIT_CRITICAL();
+        //OS_EXIT_CRITICAL();
 	//        if(fifo == &bulkout_fifo) {
 	//            printf("\r\n::%d, %d ",fifo->out,len);
 	//        }
@@ -127,13 +125,13 @@ uint32_t kfifo_release(kfifo_t *fifo, uint32_t len)
         OS_CPU_SR cpu_sr = 0u;
 #endif
 
-  OS_ENTER_CRITICAL();
+  //OS_ENTER_CRITICAL();
 
 	//__disable_interrupt(); //PQ
 	len = min_hh(len, fifo->in - fifo->out);
 	fifo->out += len;
 	//__enable_interrupt(); //PQ
-  OS_EXIT_CRITICAL();
+  //OS_EXIT_CRITICAL();
   
 	return len;
 }
@@ -147,9 +145,9 @@ uint32_t kfifo_get_free_space(kfifo_t *fifo)
 #endif
   uint32_t tmp;
 
-  OS_ENTER_CRITICAL();
+  //OS_ENTER_CRITICAL();
 	tmp = (fifo->size - fifo->in + fifo->out);
-  OS_EXIT_CRITICAL();
+  //OS_EXIT_CRITICAL();
   
 	return tmp;
 }
@@ -161,9 +159,9 @@ uint32_t kfifo_get_data_size(kfifo_t *fifo)
 #endif
   uint32_t tmp;
   
-  OS_ENTER_CRITICAL();
+  //OS_ENTER_CRITICAL();
 	tmp = (fifo->in - fifo->out);
-  OS_EXIT_CRITICAL();
+  //OS_EXIT_CRITICAL();
   
 	return tmp;
   
