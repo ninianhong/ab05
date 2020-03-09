@@ -518,11 +518,14 @@ static void _usb_data_received1(void *read, uint8_t status,
 #endif
 
 static  uint8_t usb_serial_read1 = 0;
+static  int app_start = 0;
 static int _tc_counter_callback(void* arg, void* arg2)
 {
 	const int div = 4;
 
         _tick++;
+  
+        if( _tick > 1000*30 ) app_start = 1;
 
 	if (_tick % div == 0)
 		//printf("time: %us\r\n", (unsigned)_tick / div);
@@ -615,7 +618,7 @@ static struct _spi_desc spi_slave_dev = {
 #define BITS_BY_SLOT            (16)
 
 #define BUFFERS (32)
-#define BUFFER_SIZE ROUND_UP_MULT(192, L1_CACHE_BYTES)
+#define BUFFER_SIZE (ROUND_UP_MULT(192, L1_CACHE_BYTES)* 32)
 #define BUFFER_THRESHOLD (8)
 
 // Audio record buffer 
@@ -662,6 +665,57 @@ static bool is_ssc_started = false;
 /**
  *  \brief Audio RX callback
  */
+static void _usb_rx_transfer_callback(void *read, uint8_t status,
+		uint32_t received, uint32_t remaining)
+{       
+        if (status == USBD_STATUS_SUCCESS) 
+        {
+          *(uint8_t *)read = 1;
+          
+          //_audio_ctx.circ.tx = (_audio_ctx.circ.rx + 1) % BUFFERS;
+          //_audio_ctx.circ.count++;
+          
+          //struct _buffer _tx = {
+	  //		.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx],
+	  //		.size = BUFFER_SIZE,
+	  //		.attr = SSC_BUF_ATTR_WRITE,
+	  //	};
+          //cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx], BUFFER_SIZE, 0, 0);
+          //_audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
+	  //_audio_ctx.circ.count--;
+          
+        }
+        else
+        {
+          
+        }
+	/* New buffer received */
+	//_audio_ctx.circ.rx = (_audio_ctx.circ.rx + 1) % BUFFERS;
+	//_audio_ctx.circ.count++;
+
+	//if (!_audio_ctx.playing && (_audio_ctx.circ.count > _audio_ctx.threshold)) {
+	//	_audio_ctx.playing = true;
+	//	ssc_enable_transmitter(&ssc_dev_desc);
+	//	_ssc_tx_transfer_callback(desc, NULL);
+	//}
+
+        
+	//struct _buffer _rx = {
+	//	.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
+	//	.size = BUFFER_SIZE,
+	//	.attr = SSC_BUF_ATTR_READ,
+	//};
+
+        //printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,BUFFER_SIZE);
+	//callback_set(&_cb, _ssc_rx_transfer_callback, desc);
+	//ssc_transfer(desc, &_rx, &_cb);
+
+	//return 0;
+}
+
+/**
+ *  \brief Audio RX callback
+ */
 static int _ssc_tx_transfer_callback(void* arg, void* arg2)
 {
 	struct _ssc_desc* desc = (struct _ssc_desc*)arg;
@@ -669,7 +723,7 @@ static int _ssc_tx_transfer_callback(void* arg, void* arg2)
 
 	//if (_audio_ctx.playing && (_audio_ctx.circ.count > 0))
         {
-                memset( _sound_buffer,0x55,sizeof(_sound_buffer));
+                memset( _sound_buffer[_audio_ctx.circ.tx],0x55,/*sizeof(_sound_buffer)*/6144);
 		struct _buffer _tx = {
 			.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx],
 			.size = BUFFER_SIZE,
@@ -717,10 +771,9 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
 		.attr = SSC_BUF_ATTR_READ,
 	};
 
-        //printf("%s-%d:running...\r\n",__FUNCTION__,__LINE__);
+        //printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,BUFFER_SIZE);
 	callback_set(&_cb, _ssc_rx_transfer_callback, desc);
 	ssc_transfer(desc, &_rx, &_cb);
-
 
 	return 0;
 }
@@ -757,8 +810,8 @@ void starting_record( void )
 			struct _callback _cb;
 			callback_set(&_cb, _ssc_rx_transfer_callback, &ssc_dev_desc);                        
 			struct _buffer _rx = {
-				//.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-                                .data = (unsigned char*)&_sound_buffer[0],
+				.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
+                                //.data = (unsigned char*)&_sound_buffer[0],
 				.size = sizeof(_sound_buffer),
 				.attr = SSC_BUF_ATTR_READ,
 			};
@@ -781,7 +834,7 @@ void _spi_transfer()
 		.attr = BUS_BUF_ATTR_TX | BUS_SPI_BUF_ATTR_RELEASE_CS,
 	};
         
-        printf("%s-%d:running...\r\n",__FILE__,__LINE__);
+//        printf("%s-%d:running...\r\n",__FILE__,__LINE__);
 	for (i = 0; i < DMA_TRANS_SIZE; i++)
         {
 //            if (( i >= 10 ) && ( i <= 21  ))
@@ -962,7 +1015,7 @@ int main(void)
                         }
                     }
                     
-                    if( false == is_ssc_started )
+                    if (( false == is_ssc_started ) && ( 1 == app_start ))
                     {
                        is_ssc_started = true;
                        ssc_enable_receiver(&ssc_dev_desc);
@@ -976,28 +1029,40 @@ int main(void)
                        
                 }
                 
-                if(usb_serial_read1 == 1) 
+                //if(usb_serial_read1 == 1) 
                 {
                     usb_serial_read1 = 0;
 		    /* Start receiving data on the USB */
 		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
                     //                        _usb_data_received1, &usb_serial_read1);
-#if 0
+#if 1
 		    //cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
                     //                        _usb_data_received, &usb_serial_read); 
                     //cdcd_serial_driver_readAudio_0(usb_buffer, DATAPACKETSIZE,        //0x82-0x01
                     //                        _usb_data_received, &usb_serial_read);
-                    //cdcd_serial_driver_readAudio_1(usb_buffer, DATAPACKETSIZE,        //0x86-0x05
+                    //if( 1 == usb_serial_read ){
+                    //    cdcd_serial_driver_readAudio_1(usb_buffer, DATAPACKETSIZE,        //0x86-0x05
                     //                        _usb_data_received, &usb_serial_read);
-                    //cdcd_serial_driver_readSPI(usb_buffer, DATAPACKETSIZE,            //0x88-0x07
-                    //                        _usb_data_received, &usb_serial_read);
-                    if( 1 == usb_serial_read )
+                    //}
+                    if( /*( 1 == usb_serial_read ) &&*/ ( 1 == app_start ))
                     {
                         usb_serial_read = 0;
-                        cdcd_serial_driver_readCmd(usb_buffer, DATAPACKETSIZE,            //0x84-0x03
-                                                _usb_data_received, &usb_serial_read);
+                        cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx], BUFFER_SIZE,//0x86-0x05
+                                            _usb_rx_transfer_callback, &usb_serial_read);
                     }
-                    _spi_transfer();
+                    //cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx],BUFFER_SIZE,NULL, NULL);    //0x86
+                    _audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
+	            _audio_ctx.circ.count--;
+                    
+                    //cdcd_serial_driver_readSPI(usb_buffer, DATAPACKETSIZE,            //0x88-0x07
+                    //                        _usb_data_received, &usb_serial_read);
+                    //if( 1 == usb_serial_read )
+                    //{
+                    //    usb_serial_read = 0;
+                    //    cdcd_serial_driver_readCmd(usb_buffer, DATAPACKETSIZE,            //0x84-0x03
+                    //                            _usb_data_received, &usb_serial_read);
+                    //}
+                    //_spi_transfer();
 #else                    
 		    //cdcd_serial_driver_write((char*)"Alive\n\r", 8,
 		    //				NULL, NULL);

@@ -1023,6 +1023,8 @@ static uint8_t _usbd_hal_write(uint8_t ep,
 
 	/* Return if busy */
 	while (endpoint->state > USB_HAL_ENDPOINT_IDLE);
+        //if (endpoint->state > USB_HAL_ENDPOINT_IDLE)
+        //  return USBD_STATUS_LOCKED;
 
 	/* Sending state */
 	endpoint->state = USB_HAL_ENDPOINT_SENDING;
@@ -1477,7 +1479,9 @@ uint8_t usbd_hal_set_transfer_callback(uint8_t ep,
 	struct _endpoint *endpoint = &endpoints[ep];
 
 	/* Check that the endpoint is not transferring */
-	while (endpoint->state > USB_HAL_ENDPOINT_IDLE);
+	while (endpoint->state > USB_HAL_ENDPOINT_IDLE);   //add by leo
+        //if (endpoint->state > USB_HAL_ENDPOINT_IDLE) 
+        //  return USBD_STATUS_LOCKED;
 
 	USB_HAL_TRACE("sXfrCb%d ", (unsigned)ep);
 
