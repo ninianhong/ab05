@@ -157,6 +157,7 @@
    
 #include "uif_i2s.h"  
 #include "constant.h"
+#include "circbuf.h"
 
 #include <assert.h>
 #include <string.h>
@@ -327,6 +328,8 @@ kfifo_t  ssc0_bulkout_fifo;
 kfifo_t  ssc0_bulkin_fifo;
 kfifo_t  ssc1_bulkout_fifo;
 kfifo_t  ssc1_bulkin_fifo;
+
+CircularBuffer ep6_ssc1_rec_cb;
 
 //Ring for USB data endpoint
 kfifo_t  ep0BulkOut_fifo;
@@ -532,7 +535,7 @@ static struct _tcd_desc tc_counter = {
 };
 
 static  uint8_t usb_serial_read1 = 0;
-static  uint8_t usb_serial_send_ssc1 = 1;
+uint8_t usb_serial_send_ssc1 = 0;
 static int _tc_counter_callback(void* arg, void* arg2)
 {
 	const int div = 8;
@@ -543,7 +546,7 @@ static int _tc_counter_callback(void* arg, void* arg2)
         {
 		//printf("time: %us\r\n", (unsigned)_tick / div);
                 usb_serial_read1 = 1;
-                usb_serial_send_ssc1 = 1;
+                //usb_serial_send_ssc1 = 1;
         }
         
         //tcd_stop(&tc_counter);
@@ -837,7 +840,7 @@ int main(void)
         uint8_t usb_serial_read_cmd = 1;
         //uint8_t usb_serial_read_i2s0 = 1;
         //uint8_t usb_serial_read_i2s1 = 1;
-        
+        cb_init(&ep6_ssc1_rec_cb, usb_ep6_ssc1_record_data, 128, I2S_PINGPONG_SIZE_6K);
 
 
 	// Output example information 
@@ -916,7 +919,7 @@ int main(void)
                         }
                     }
                     
-                    if(( false == is_ssc_started ) && ( initial_dealy ++ > 150000 ))
+                    if(( false == is_ssc_started ) && ( initial_dealy ++ > 1500 ))
                     {
                        is_ssc_started = true;
                        ssc_enable_receiver(&ssc_dev_desc[1]);
@@ -935,17 +938,25 @@ int main(void)
                 //else
                 //  printf("alloc memory failed,here success %d times.\r\n",alloc_cnt);
                 
-                if(usb_serial_read1 == 1) 
+                //if(usb_serial_read1 == 1) 
                 {
                     usb_serial_read1 = 0;
 		    /* Start receiving data on the USB */
 #if 1
-                    //if( usb_serial_send_ssc1 == 1 )
+                    if( usb_serial_send_ssc1 == 1 )
                     {
                         usb_serial_send_ssc1 = 0;
-                        cdcd_serial_driver_WriteAudio_1(usb_ep6_ssc1_record_data, 
-                                                    sizeof(usb_ep6_ssc1_record_data),
-                                                    usb_ep6_ssc1_record_cb, &usb_serial_send_ssc1);    //0x86
+                        uint8_t * ssc1_r_data = NULL;
+                        
+                        ssc1_r_data = cb_readPacket(&ep6_ssc1_rec_cb);
+                        memcpy(ssc1_PingPongIn,ssc1_r_data,sizeof(ssc1_PingPongIn));
+                        cb_doneReadPacket(&ep6_ssc1_rec_cb);
+                        //cdcd_serial_driver_WriteAudio_1(ssc1_PingPongIn, 
+                        //                            sizeof(ssc1_PingPongIn),
+                        //                            NULL,/*usb_ep6_ssc1_record_cb*/NULL);    //0x86
+                        //cdcd_serial_driver_write((char*)"Alive\n\r", 8,
+		        //		                           NULL, NULL);
+                        
                     }
                     //if( 1 == usb_serial_read_ssc0 )
                     //{
@@ -968,7 +979,7 @@ int main(void)
                     //    cdcd_serial_driver_readCmd(usb_ep3_cmd_play_data, sizeof(usb_ep3_cmd_play_data),              //0x84-0x03
                     //                            usb_ep3_cmd_play_cb, &usb_serial_read_cmd);
                     //}
-                    _spi_transfer();
+                    //_spi_transfer();
 #else                    
 		    //cdcd_serial_driver_write((char*)"Alive\n\r", 8,
 		    //				NULL, NULL);

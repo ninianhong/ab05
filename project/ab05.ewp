@@ -2326,6 +2326,9 @@
             <name>$PROJ_DIR$\..\utils\callback.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\utils\circbuf.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\utils\intmath.c</name>
         </file>
         <file>
