@@ -285,6 +285,7 @@
                     <state>CONFIG_HAVE_USART</state>
                     <state>CONFIG_HAVE_USART_FIFO</state>
                     <state>CUSTOM_USB</state>
+                    <state>CONFIG_HAVE_I2C_BUS</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -419,6 +420,7 @@
                     <state>$PROJ_DIR$\..\target\pio</state>
                     <state>$PROJ_DIR$\..\lib\usb\include</state>
                     <state>$PROJ_DIR$\..\app</state>
+                    <state>$PROJ_DIR$\..\middleware</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2228,6 +2230,12 @@
             <name>$PROJ_DIR$\..\drivers\tcd.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\drivers\twi.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\drivers\twid.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\drivers\uart.c</name>
         </file>
         <file>
@@ -2274,6 +2282,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\target\board_timer.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\target\common\board_twi.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\target\chip.c</name>

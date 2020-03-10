@@ -33,11 +33,11 @@
 
 #include "board_twi.h"
 
-#include "peripherals/bus.h"
+#include "bus.h"
 
-#include "gpio/pio.h"
+#include "pio.h"
 
-#include "nvm/i2c/at24.h"
+#include "at24.h"
 
 /*----------------------------------------------------------------------------
  *        Local variables

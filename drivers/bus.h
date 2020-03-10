@@ -42,7 +42,7 @@
 #include "spi/spid.h"
 #endif
 #ifdef CONFIG_HAVE_I2C_BUS
-#include "i2c/twid.h"
+#include "twid.h"
 #endif
 
 /*----------------------------------------------------------------------------

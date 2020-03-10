@@ -2486,6 +2486,12 @@
             <name>$PROJ_DIR$\..\drivers\tcd.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\drivers\twi.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\drivers\twid.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\drivers\uart.c</name>
         </file>
         <file>
@@ -2532,6 +2538,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\target\board_timer.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\target\common\board_twi.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\target\chip.c</name>

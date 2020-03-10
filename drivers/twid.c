@@ -35,18 +35,18 @@
 #include <string.h>
 
 #include "callback.h"
-#include "dma/dma.h"
+#include "dma.h"
 #include "errno.h"
-#include "i2c/twi.h"
-#include "i2c/twid.h"
+#include "twi.h"
+#include "twid.h"
 #include "io.h"
-#include "irq/irq.h"
-#include "mm/cache.h"
-#include "peripherals/bus.h"
+#include "irq.h"
+#include "cache.h"
+#include "bus.h"
 #ifdef CONFIG_HAVE_FLEXCOM
-#include "peripherals/flexcom.h"
+#include "flexcom.h"
 #endif
-#include "peripherals/pmc.h"
+#include "pmc.h"
 #include "timer.h"
 #include "trace.h"
 
