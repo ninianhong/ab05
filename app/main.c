@@ -257,7 +257,7 @@ static uint8_t is_cdc_serial_on = 0;
 static uint8_t is_cdc_echo_on = 0;
 
 /** USB Tx flag */
-static volatile uint8_t tx_done_flag = 0;
+static volatile uint8_t tx_done_flag = 1;
 /** Test buffer */
 CACHE_ALIGNED static uint8_t test_buffer[TEST_BUFFER_SIZE];
 
@@ -396,7 +396,7 @@ static void _usb_data_transfer(void *read, uint8_t status,
 	/* Check that data has been received successfully */
 	if (status == USBD_STATUS_SUCCESS) 
         {
-                printf("-- data received at %d --\n\r",__LINE__);
+                printf("-- data transfered at %d --\n\r",__LINE__);
 		*(uint8_t *)read = 1;
 		/* Send back CDC data */
 		//if (is_cdc_echo_on){
@@ -439,9 +439,17 @@ static void _debug_help(void)
 /**
  * Callback invoked when data has been sent.
  */
+#define PLAIN_1  1
 static void _usb_data_sent(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
 {
+        //printf("%s-%d-- data transfered --\n\r",__FUNCTION__,__LINE__);
+#ifdef PLAIN_1
+        cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
+                                                _usb_data_sent, NULL);
+#else
 	tx_done_flag = 1;
+#endif
+
 }
 
 
@@ -652,9 +660,26 @@ int main(void)
                     //                        _usb_data_received, &usb_serial_read); 
 		    //cdcd_serial_driver_write((char*)"Alive\n\r", 8,
 		    //				NULL, NULL);
-                    cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,
-		    				
-                                             _usb_data_transfer, &usb_serial_read1);
+#ifdef PLAIN_1                    
+                    if( 1 == tx_done_flag )
+                    {
+                        tx_done_flag = 0;
+                        memset( usb_buffer, 0x32, DATAPACKETSIZE );
+
+                        cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
+                                                _usb_data_sent, NULL);
+                    }
+
+#else
+                    {
+                        tx_done_flag = 0;
+                        memset( usb_buffer, 0x32, DATAPACKETSIZE );
+
+                        cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
+                                                _usb_data_sent, NULL);
+                        while( !tx_done_flag );
+                    }
+#endif                        
                 }
 
 #ifdef ORIGIN_CODE                
