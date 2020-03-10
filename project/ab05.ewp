@@ -2268,6 +2268,9 @@
     </group>
     <group>
         <name>middleware</name>
+        <file>
+            <name>$PROJ_DIR$\..\middleware\codec.c</name>
+        </file>
     </group>
     <group>
         <name>target</name>

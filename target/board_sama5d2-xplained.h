@@ -200,6 +200,9 @@
 #define BOARD_ACT8945A_PIN_LBO    { PIO_GROUP_B, PIO_PB13, PIO_INPUT, PIO_PULLUP | PIO_IT_FALL_EDGE }
 #endif
 
+/* ================== PCA9546 I2C SWITCH definition ================= */   
+#define BOARD_PCA9546_TWI_BUS    BUS(BUS_TYPE_I2C, 1)
+#define BOARD_PCA9546_TWI_ADDR   0xe0 
 /* ================== PIN USB definition ======================= */
 
 /** USB VBus pin */
@@ -350,5 +353,8 @@
 #define BOARD_QT1070_TWI_BUS BUS(BUS_TYPE_I2C, 1)
 #define BOARD_QT1070_ADDR    0x1b
 #define BOARD_QT1070_DESC    {"QT1070", 0x00, 00}
+
+#define OS_ERR_NONE          0
+#define NO_ERR               0
 
 #endif /* #ifndef _BOARD_D2_H */
