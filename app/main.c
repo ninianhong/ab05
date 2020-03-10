@@ -623,8 +623,8 @@ static struct _spi_desc spi_slave_dev = {
 #define BUFFER_THRESHOLD (8)
 
 // Audio record buffer 
-CACHE_ALIGNED_DDR static uint16_t _sound_buffer[BUFFERS][BUFFER_SIZE];
-CACHE_ALIGNED_DDR static uint16_t _sound_buffer1[BUFFERS][BUFFER_SIZE];
+CACHE_ALIGNED_DDR static uint16_t _sound_buffer[BUFFERS][DATAPACKETSIZE];
+CACHE_ALIGNED_DDR static uint16_t _sound_buffer1[BUFFERS][DATAPACKETSIZE];
 
 static struct _audio_ctx {
 	uint32_t threshold;
@@ -681,10 +681,10 @@ static void _usb_rx_transfer_callback(void *read, uint8_t status,
           
           //struct _buffer _tx = {
 	  //		.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx],
-	  //		.size = BUFFER_SIZE,
+	  //		.size = DATAPACKETSIZE,
 	  //		.attr = SSC_BUF_ATTR_WRITE,
 	  //	};
-          //cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx], BUFFER_SIZE, 0, 0);
+          //cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx], DATAPACKETSIZE, 0, 0);
           //_audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
 	  //_audio_ctx.circ.count--;
           
@@ -706,11 +706,11 @@ static void _usb_rx_transfer_callback(void *read, uint8_t status,
         
 	//struct _buffer _rx = {
 	//	.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-	//	.size = BUFFER_SIZE,
+	//	.size = DATAPACKETSIZE,
 	//	.attr = SSC_BUF_ATTR_READ,
 	//};
 
-        //printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,BUFFER_SIZE);
+        //printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,DATAPACKETSIZE);
 	//callback_set(&_cb, _ssc_rx_transfer_callback, desc);
 	//ssc_transfer(desc, &_rx, &_cb);
 
@@ -730,7 +730,7 @@ static int _ssc_tx_transfer_callback(void* arg, void* arg2)
                 memset( _sound_buffer[_audio_ctx.circ.tx],0x55,/*sizeof(_sound_buffer)*/6144);
 		struct _buffer _tx = {
 			.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx],
-			.size = BUFFER_SIZE,
+			.size = DATAPACKETSIZE,
 			.attr = SSC_BUF_ATTR_WRITE,
 		};
 
@@ -775,7 +775,7 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
         {
           usb_serial_read = 0;
           cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx],  //0x86-0x05
-                                                        BUFFER_SIZE,
+                                                        DATAPACKETSIZE,
                                             _usb_rx_transfer_callback, &usb_serial_read);
                         //while( !usb_serial_read );
           _audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
@@ -785,11 +785,11 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
         
 	struct _buffer _rx = {
 		.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-		.size = BUFFER_SIZE,
+		.size = DATAPACKETSIZE,
 		.attr = SSC_BUF_ATTR_READ,
 	};
 
-        //printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,BUFFER_SIZE);
+        //printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,DATAPACKETSIZE);
 	callback_set(&_cb, _ssc_rx_transfer_callback, desc);
 	ssc_transfer(desc, &_rx, &_cb);
 
@@ -1056,7 +1056,7 @@ int main(void)
                     {
                         usb_serial_read = 0;
                         cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx],  //0x86-0x05
-                                                        BUFFER_SIZE,
+                                                        DATAPACKETSIZE,
                                             _usb_rx_transfer_callback, NULL/*&usb_serial_read*/);
                         //while( !usb_serial_read );
                         _audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
@@ -1064,7 +1064,7 @@ int main(void)
                     }
 #if 0
                     //cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx],    //0x86
-                                                        //BUFFER_SIZE,NULL, NULL);    
+                                                        //DATAPACKETSIZE,NULL, NULL);    
                     //_audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
 	            //_audio_ctx.circ.count--;
 #endif
@@ -1664,8 +1664,8 @@ unsigned char aic3204_init_default(void)
 #define BUFFER_THRESHOLD (8)
 
 // Audio record buffer 
-CACHE_ALIGNED_DDR static uint16_t _sound_buffer[BUFFERS][BUFFER_SIZE];
-CACHE_ALIGNED_DDR static uint16_t _sound_buffer1[BUFFERS][BUFFER_SIZE];
+CACHE_ALIGNED_DDR static uint16_t _sound_buffer[BUFFERS][DATAPACKETSIZE];
+CACHE_ALIGNED_DDR static uint16_t _sound_buffer1[BUFFERS][DATAPACKETSIZE];
 
 static struct _audio_ctx {
 	uint32_t threshold;
@@ -1709,7 +1709,7 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
 	struct _callback _cb;
 
 	/* New buffer received */
-        memset( _sound_buffer[_audio_ctx.circ.rx],0x55,/*sizeof(_sound_buffer)*/6144);
+        memset( _sound_buffer[_audio_ctx.circ.rx],0x55,DATAPACKETSIZE);
 	_audio_ctx.circ.rx = (_audio_ctx.circ.rx + 1) % BUFFERS;
 	_audio_ctx.circ.count++;
         
@@ -1726,7 +1726,7 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
         {
           usb_serial_read = 0;
           cdcd_serial_driver_WriteAudio_1(_sound_buffer[_audio_ctx.circ.tx],  //0x86-0x05
-                                                        BUFFER_SIZE,
+                                                        DATAPACKETSIZE,
                                             _usb_rx_transfer_callback, &usb_serial_read);
                         //while( !usb_serial_read );
           _audio_ctx.circ.tx = (_audio_ctx.circ.tx + 1) % BUFFERS;
@@ -1736,11 +1736,11 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
         
 	struct _buffer _rx = {
 		.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-		.size = BUFFER_SIZE,
+		.size = DATAPACKETSIZE,
 		.attr = SSC_BUF_ATTR_READ,
 	};
 
-        printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,BUFFER_SIZE);
+        printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,DATAPACKETSIZE);
 	callback_set(&_cb, _ssc_rx_transfer_callback, desc);
 	ssc_transfer(desc, &_rx, &_cb);
 
@@ -1758,7 +1758,7 @@ void starting_record( void )
 			callback_set(&_cb, _ssc_rx_transfer_callback, &ssc_dev_desc);                        
 			struct _buffer _rx = {
 				.data = (unsigned char*)&_sound_buffer[_audio_ctx.circ.rx],
-				.size = sizeof(_sound_buffer)>>5,
+				.size = DATAPACKETSIZE,
 				.attr = SSC_BUF_ATTR_READ,
 			};
 
@@ -1879,9 +1879,10 @@ int main(void)
 #else
                     {
                         tx_done_flag = 0;
-                        memset( usb_buffer, 0x32, DATAPACKETSIZE );
+                        memset( (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx], 0x32, DATAPACKETSIZE );
 
-                        cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
+                        cdcd_serial_driver_write((unsigned char*)&_sound_buffer[_audio_ctx.circ.tx]/*usb_buffer*/, 
+                                                 DATAPACKETSIZE,		    				
                                                 _usb_data_sent, NULL);
                         while( !tx_done_flag );
                     }
