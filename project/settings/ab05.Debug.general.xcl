@@ -1,12 +1,14 @@
 "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\bin\armproc.dll" 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\bin\armsim2.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\bin\armjlink2.dll" 
 
-"E:\AB05-Test\github-atmel\ab05-usb-device\project\Debug\Exe\ab05.out" 
+"E:\AB05-Test\github-atmel\usb_device\ab05\project\Debug\Exe\ab05.out" 
 
 --plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\bin\armbat.dll" 
 
 --device_macro "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\config\debugger\Atmel\SAMA5D2.dmac" 
+
+--macro "E:\AB05-Test\atmel-software-package\target\sama5d2\toolchain\iar\ddram.mac" 
 
 
 
