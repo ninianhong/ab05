@@ -2492,6 +2492,9 @@
             <name>$PROJ_DIR$\..\drivers\usart.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\drivers\usartd.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\drivers\usbd_udphs.c</name>
         </file>
         <file>
@@ -2506,6 +2509,12 @@
         <file>
             <name>$PROJ_DIR$\..\iar\cstartup.s</name>
         </file>
+    </group>
+    <group>
+        <name>lib</name>
+        <group>
+            <name>include</name>
+        </group>
     </group>
     <group>
         <name>middleware</name>
