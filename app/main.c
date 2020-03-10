@@ -361,16 +361,6 @@ static void _usb_data_received(void *read, uint8_t status,
         {
                 printf("-- data received at %d --\n\r",__LINE__);
 		*(uint8_t *)read = 1;
-		/* Send back CDC data */
-		//if (is_cdc_echo_on){
-
-			//cdcd_serial_driver_write(usb_buffer, received, 0, 0);
-		//}
-		/* Send data through USART */
-		//if (is_cdc_serial_on) {
-
-		//	_usart_dma_tx( usb_buffer, received );
-		//}
 
 		/* Check if bytes have been discarded 
 		if ((received == DATAPACKETSIZE) && (remaining > 0)) 
@@ -398,25 +388,6 @@ static void _usb_data_transfer(void *read, uint8_t status,
         {
                 printf("-- data transfered at %d --\n\r",__LINE__);
 		*(uint8_t *)read = 1;
-		/* Send back CDC data */
-		//if (is_cdc_echo_on){
-
-			//cdcd_serial_driver_write(usb_buffer, received, 0, 0);
-		//}
-		/* Send data through USART */
-		//if (is_cdc_serial_on) {
-
-		//	_usart_dma_tx( usb_buffer, received );
-		//}
-
-		/* Check if bytes have been discarded 
-		if ((received == DATAPACKETSIZE) && (remaining > 0)) 
-                {
-
-			trace_warning(
-				"_usb_data_received: %u bytes discarded\n\r",
-					(unsigned int)remaining);
-		}*/
           } 
           else 
           {
@@ -440,16 +411,21 @@ static void _debug_help(void)
  * Callback invoked when data has been sent.
  */
 #define PLAIN_1  1
-static void _usb_data_sent(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
+static void _usb_ep2_ssc0_rec(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
 {
         //printf("%s-%d-- data transfered --\n\r",__FUNCTION__,__LINE__);
 #ifdef PLAIN_1
         cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
-                                                _usb_data_sent, NULL);
+                                                _usb_ep2_ssc0_rec, NULL);
 #else
 	tx_done_flag = 1;
 #endif
 
+}
+
+static void _usb_data_sent(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
+{
+	tx_done_flag = 1;  
 }
 
 
@@ -466,37 +442,6 @@ static void _configure_usart(void)
 	usart_enable_it(usart, US_IER_RXRDY);
 	irq_add_handler(id, usart_irq_handler, NULL);
 	irq_enable(id);
-}
-
-/**
- * Test USB CDC Serial
- */
-static void _send_text(void)
-{
-	uint32_t i, test_cnt;
-
-	if (!is_cdc_serial_on) {
-
-		printf("\n\r!! Host serial program not ready!\n\r");
-		return;
-	}
-	printf("\n\r- USB CDC Serial writing ...\n\r");
-
-	/* Test data initialize */
-	for (i = 0; i < TEST_BUFFER_SIZE; i ++) test_buffer[i] = (i % 10) + '0';
-
-	printf("- Send 0,1,2 ... to host:\n\r");
-	for (test_cnt = 0; test_cnt < TEST_COUNT; test_cnt ++) {
-
-		tx_done_flag = 0;
-		cdcd_serial_driver_write(test_buffer, TEST_BUFFER_SIZE,
-				_usb_data_sent, NULL);
-		while(!tx_done_flag);
-	}
-
-	/* Finish sending */
-	cdcd_serial_driver_write(NULL, 0, NULL, NULL);
-	_usart_dma_tx(test_buffer, TEST_BUFFER_SIZE);
 }
 
 /** define timer/counter */
@@ -603,8 +548,6 @@ int main(void)
 	/* connect if needed */
 	usb_vbus_configure();
         
-        //_tc_counter_initialize(COUNTER_FREQ);
-
 	/* Driver loop */
 	while (1) {
 
@@ -618,21 +561,6 @@ int main(void)
 
 		} else if (is_usb_connected == 0) {
 				is_usb_connected = 1;
-                                /*
-                                if( 1 == is_usb_connected )
-                                {
-                                  if( false == is_Tc_started )
-                                  {
-                                    if(initial_dealy++ > 100){
-                                          _tc_counter_initialize(COUNTER_FREQ);
-                                          is_Tc_started = true;
-                                      }
-                                  }
-                                }
-                                else
-                                {
-                  
-                                }*/
 		}
                 
                 if( 1 == is_usb_connected )
@@ -667,7 +595,7 @@ int main(void)
                         memset( usb_buffer, 0x32, DATAPACKETSIZE );
 
                         cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
-                                                _usb_data_sent, NULL);
+                                                _usb_ep2_ssc0_rec, NULL);
                     }
 
 #else
@@ -680,68 +608,7 @@ int main(void)
                         while( !tx_done_flag );
                     }
 #endif                        
-                }
-
-#ifdef ORIGIN_CODE                
-		// Serial port ON/OFF 
-		if (cdcd_serial_driver_get_control_line_state()
-					& CDCControlLineState_DTR) {
-			if (!is_cdc_serial_on) {
-				is_cdc_serial_on = 1;
-				}
-			if(usb_serial_read == 1) {
-				usb_serial_read = 0;
-				/* Start receiving data on the USB */
-				cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
-							_usb_data_received, &usb_serial_read);
-			}
-			if(usart_rx_flag == true) {
-				usart_rx_flag = false;
-				cdcd_serial_driver_write((void *)&char_recv, 1, 0, 0);
-				if(is_cdc_echo_on) {
-					_usart_dma_tx((uint8_t*)&char_recv, 1);
-				}
-			}
-		} else if (is_cdc_serial_on) {
-			is_cdc_serial_on = 0;
-		}
-
-		if (console_is_rx_ready()) {
-			uint8_t key = console_get_char();
-			/* ESC: CDC Echo ON/OFF */
-			if (key == 27) {
-
-				printf("** CDC Echo %s\n\r",
-						is_cdc_echo_on ? "OFF" : "ON");
-				is_cdc_echo_on = !is_cdc_echo_on;
-
-			} else if (key == 't') {
-				/* 't': Test CDC writing  */
-				_send_text();
-
-			} else {
-				printf("Alive\n\r");
-				cdcd_serial_driver_write((char*)"Alive\n\r", 8,
-						NULL, NULL);
-				_usart_dma_tx((uint8_t*)"Alive\n\r", 8);
-				_debug_help();
-			}
-		}//if (console_is_rx_ready())
-#else    
-                //uint8_t key = console_get_char();
-                //printf("input char = %d\n",key);
-                //if ('n'==key) {
-                  /*
-			if(usb_serial_read == 1) {
-				usb_serial_read = 0;
-				// Start receiving data on the USB 
-				cdcd_serial_driver_read(usb_buffer, DATAPACKETSIZE,
-							_usb_data_received, &usb_serial_read);
-			}*/
-                //  	cdcd_serial_driver_write((char*)"aaaaa\n\r", 8,
-		//				NULL, NULL);
-                //}
-#endif                
+                }           
 	}//while(1)
 }
 /** \endcond */
