@@ -1879,7 +1879,7 @@ int main(void)
 #else
                     {
                         tx_done_flag = 0;
-                        memset( (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx], 0x32, DATAPACKETSIZE );
+                        //memset( (unsigned char*)&_sound_buffer[_audio_ctx.circ.tx], 0x32, DATAPACKETSIZE );
 
                         cdcd_serial_driver_write((unsigned char*)&_sound_buffer[_audio_ctx.circ.tx]/*usb_buffer*/, 
                                                  DATAPACKETSIZE,		    				
