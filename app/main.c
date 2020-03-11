@@ -1253,7 +1253,7 @@ int main(void)
  *----------------------------------------------------------------------------*/
 
 /** Size in bytes of the packet used for reading data from the USB & USART */
-#define DATAPACKETSIZE (64)
+#define DATAPACKETSIZE (128)
 
 /** Size in bytes of the buffer used for reading data from the USB & USART */
 #define DATABUFFERSIZE (DATAPACKETSIZE+2)
@@ -1507,7 +1507,7 @@ static void _debug_help(void)
 /**
  * Callback invoked when data has been sent.
  */
-//#define PLAIN_1  1
+#define PLAIN_1  1
 static void _usb_ep2_ssc0_rec(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
 {
         //printf("%s-%d-- data transfered --\n\r",__FUNCTION__,__LINE__);
@@ -1704,13 +1704,14 @@ static struct _ssc_desc ssc_dev_desc = {
 	.rx_start_selection = SSC_RCMR_START_RF_EDGE,
 };
 
+static int content = 0x01;
 static int _ssc_rx_transfer_callback(void* arg, void* arg2)
 {
 	struct _ssc_desc* desc = (struct _ssc_desc*)arg;
 	struct _callback _cb;
 
 	/* New buffer received */
-        memset( _sound_buffer[_audio_ctx.circ.rx],0x55,DATAPACKETSIZE);
+        memset( _sound_buffer[_audio_ctx.circ.rx],(content++)/128,DATAPACKETSIZE);
 	_audio_ctx.circ.rx = (_audio_ctx.circ.rx + 1) % BUFFERS;
 	_audio_ctx.circ.count++;
         
@@ -1872,10 +1873,10 @@ int main(void)
                     if( 1 == tx_done_flag )
                     {
                         tx_done_flag = 0;
-                        memset( usb_buffer, 0x32, DATAPACKETSIZE );
-
-                        err = cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
-                                                            _usb_ep2_ssc0_rec, NULL);
+                        err = cdcd_serial_driver_WriteAudio_0((unsigned char*)&_sound_buffer[_audio_ctx.circ.tx], 
+                                                                        DATAPACKETSIZE,		    				
+                                                                        _usb_ep2_ssc0_rec, 
+                                                                        NULL);
                         if( 0 != err )
                           tx_done_flag = 1;
                     }
