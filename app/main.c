@@ -1512,8 +1512,9 @@ static void _usb_ep2_ssc0_rec(void *arg, uint8_t status, uint32_t transferred, u
 {
         //printf("%s-%d-- data transfered --\n\r",__FUNCTION__,__LINE__);
 #ifdef PLAIN_1
-        cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
-                                                _usb_ep2_ssc0_rec, NULL);
+        //cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
+        //                                        _usb_ep2_ssc0_rec, NULL);
+        tx_done_flag = 1;
 #else
 	tx_done_flag = 1;
 #endif
@@ -1786,6 +1787,7 @@ int main(void)
 {
 	uint8_t is_usb_connected = 0;
 	uint8_t usb_serial_read = 1;
+        uint8_t err = 0;
 
 	/* Output example information */
 	console_example_info("USB Device CDC Serial Example");
@@ -1872,8 +1874,10 @@ int main(void)
                         tx_done_flag = 0;
                         memset( usb_buffer, 0x32, DATAPACKETSIZE );
 
-                        cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
-                                                _usb_ep2_ssc0_rec, NULL);
+                        err = cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
+                                                            _usb_ep2_ssc0_rec, NULL);
+                        if( 0 != err )
+                          tx_done_flag = 1;
                     }
 
 #else
