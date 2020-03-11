@@ -70,6 +70,8 @@
 
 #undef USB_HAL_DEBUG
 
+#define USB_BLOCK
+
 #ifdef USB_HAL_DEBUG
 #define USB_HAL_TRACE(...) trace_debug_wp(__VA_ARGS__)
 #else
@@ -1022,7 +1024,13 @@ static uint8_t _usbd_hal_write(uint8_t ep,
 	struct _single_xfer *xfer = &endpoint->transfer.single;
 
 	/* Return if busy */
+#ifdef USB_BLOCK
 	while (endpoint->state > USB_HAL_ENDPOINT_IDLE);
+#else
+        if (endpoint->state > USB_HAL_ENDPOINT_IDLE)
+          return USBD_STATUS_LOCKED;
+          
+#endif        
 
 	/* Sending state */
 	endpoint->state = USB_HAL_ENDPOINT_SENDING;
@@ -1477,7 +1485,13 @@ uint8_t usbd_hal_set_transfer_callback(uint8_t ep,
 	struct _endpoint *endpoint = &endpoints[ep];
 
 	/* Check that the endpoint is not transferring */
+#ifdef USB_BLOCK
 	while (endpoint->state > USB_HAL_ENDPOINT_IDLE);
+#else
+        if (endpoint->state > USB_HAL_ENDPOINT_IDLE)
+            return USBD_STATUS_LOCKED;
+          
+#endif
 
 	USB_HAL_TRACE("sXfrCb%d ", (unsigned)ep);
 
@@ -1506,7 +1520,13 @@ uint8_t usbd_hal_setup_multi_transfer(uint8_t ep,
 	int i;
 
 	/* Check that the endpoint is not transferring */
+#ifdef USB_BLOCK
 	while (endpoint->state > USB_HAL_ENDPOINT_IDLE);
+#else
+        if (endpoint->state > USB_HAL_ENDPOINT_IDLE)
+            return USBD_STATUS_LOCKED;
+          
+#endif
 
 	USB_HAL_TRACE("sMblXfr ");
 
@@ -1605,7 +1625,13 @@ uint8_t usbd_hal_write_with_header(uint8_t ep,
 		return USBD_STATUS_HW_NOT_SUPPORTED;
 
 	/* Return if busy */
+#ifdef USB_BLOCK
 	while (endpoint->state > USB_HAL_ENDPOINT_IDLE);
+#else
+        if (endpoint->state > USB_HAL_ENDPOINT_IDLE)
+          return USBD_STATUS_LOCKED;
+          
+#endif
 
 	/* Sending state */
 	endpoint->state = USB_HAL_ENDPOINT_SENDING;
