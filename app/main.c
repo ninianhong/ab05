@@ -403,18 +403,7 @@ static void _debug_help(void)
  * Callback invoked when data has been sent.
  */
 #define PLAIN_1  1
-static void _usb_ep2_ssc0_rec(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
-{
-        //printf("%s-%d-- data transfered --\n\r",__FUNCTION__,__LINE__);
-#ifdef PLAIN_1
-        //cdcd_serial_driver_write(usb_buffer, DATAPACKETSIZE,		    				
-        //                                        _usb_ep2_ssc0_rec, NULL);
-        tx_done_flag = 1;
-#else
-	tx_done_flag = 1;
-#endif
 
-}
 
 static void _usb_data_sent(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
 {
@@ -635,6 +624,27 @@ static struct _ssc_desc ssc_dev_desc = {
 	.rx_start_selection = SSC_RCMR_START_RF_EDGE,
 };
 
+
+static void _usb_ep2_ssc0_rec(void *arg, uint8_t status, uint32_t transferred, uint32_t remaining)
+{
+        //printf("%s-%d-- data transfered --\n\r",__FUNCTION__,__LINE__);
+#ifdef PLAIN_1
+        _audio_ctx_rec[0].circ.tx = (_audio_ctx_rec[0].circ.tx + 1) % BUFFERS;
+        _audio_ctx_rec[0].circ.count--; 
+        if( _audio_ctx_rec[0].circ.count > 0/*_audio_ctx_rec[0].threshold*/ )
+        {
+            cdcd_serial_driver_write((unsigned char*)&_sound_buffer[_audio_ctx_rec[0].circ.tx], 
+                                                DATAPACKETSIZE,		    				
+                                                _usb_ep2_ssc0_rec, NULL);
+        }
+        else
+            tx_done_flag = 1;
+#else
+	tx_done_flag = 1;
+#endif
+
+}
+
 static int content = 0x01;
 static int _ssc_rx_transfer_callback(void* arg, void* arg2)
 {
@@ -645,9 +655,14 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
         memset( _sound_buffer[_audio_ctx_rec[0].circ.rx],(content++)/128,DATAPACKETSIZE);
 	_audio_ctx_rec[0].circ.rx = (_audio_ctx_rec[0].circ.rx + 1) % BUFFERS;
 	_audio_ctx_rec[0].circ.count++;
-        
-        //printf("%s-%d:buffer size = %d...\r\n",__FUNCTION__,
-        //                                        __LINE__,_audio_ctx_rec[0].circ.count);
+
+        //if( _audio_ctx_rec[0].circ.count > 20 )
+        {
+          printf("%s-%d:_audio_ctx_rec[0].circ.count=%d\r\n",__FUNCTION__,
+                                                            __LINE__,
+                                                            _audio_ctx_rec[0].circ.count); 
+          //assert( 0 );
+        }
 
 	//if (!_audio_ctx_rec[0].playing && (_audio_ctx_rec[0].circ.count > _audio_ctx_rec[0].threshold)) {
 	//	_audio_ctx_rec[0].playing = true;
@@ -673,7 +688,7 @@ static int _ssc_rx_transfer_callback(void* arg, void* arg2)
 		.attr = SSC_BUF_ATTR_READ,
 	};
 
-        printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,DATAPACKETSIZE);
+        //printf("%s-%d:tranfers size:%d...\r\n",__FUNCTION__,__LINE__,DATAPACKETSIZE);
 	callback_set(&_cb, _ssc_rx_transfer_callback, desc);
 	ssc_transfer(desc, &_rx, &_cb);
 
@@ -810,6 +825,12 @@ int main(void)
                                                                         NULL);
                         if( 0 != err )
                           tx_done_flag = 1;
+                        else
+                        {
+                              _audio_ctx_rec[0].circ.tx = (_audio_ctx_rec[0].circ.tx + 1) % BUFFERS;
+                              _audio_ctx_rec[0].circ.count--;                          
+                        }
+                        
                     }
 
 #else
