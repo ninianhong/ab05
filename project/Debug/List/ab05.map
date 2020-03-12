@@ -1,12 +1,12 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.20.1.14183/W32 for ARM                11/Mar/2020  17:51:52
+# IAR ELF Linker V8.20.1.14183/W32 for ARM                12/Mar/2020  15:05:43
 # Copyright 2007-2017 IAR Systems AB.
 #
 #    Output file  =  E:\AB05-Test\ab05-sample2\ab05\project\Debug\Exe\ab05.out
 #    Map file     =  E:\AB05-Test\ab05-sample2\ab05\project\Debug\List\ab05.map
 #    Command line =  
-#        -f C:\Users\Leo\AppData\Local\Temp\EWE7CC.tmp
+#        -f C:\Users\Leo\AppData\Local\Temp\EW1C8A.tmp
 #        (E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\aic5.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\board_audio.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\board_console.o
@@ -22,6 +22,8 @@
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\chip_common.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\codec.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\console.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\cpu_a.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\cpu_core.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\cstartup.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\ddram.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\dma.o
@@ -32,6 +34,11 @@
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\irq.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\l1cache_cp15.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\l2cache_l2cc.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\lib_ascii.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\lib_math.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\lib_mem.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\lib_mem_a.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\lib_str.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\main.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\main_descriptors.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\main_usb_common.o
@@ -40,6 +47,25 @@
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\mpddrc.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\mutex.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\nfc.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_cfg_app.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_core.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_cpu_a_vfp-d32.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_cpu_c.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_dbg.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_flag.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_mem.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_mon.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_msg.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_mutex.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_prio.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_q.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_sem.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_stat.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_task.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_tick.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_time.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_tmr.o
+#        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\os_var.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\pio4.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\piobu.o
 #        E:\AB05-Test\ab05-sample2\ab05\project\Debug\Obj\pit.o

@@ -24,6 +24,14 @@ E:\AB05-Test\ab05-sample2\ab05\project\..\app
 -I
 E:\AB05-Test\github-atmel\usb_device\ab05\middleware
 -I
+E:\AB05-Test\ab05-sample2\ab05\Software\uC-CPU\ARM-Cortex-A\IAR
+-I
+E:\AB05-Test\ab05-sample2\ab05\Software\uC-CPU
+-I
+D:\workspace\atmel\sama5d2x-ucosIII\sample1\ucosiii-sama5d27\Software\uC-LIB
+-I
+D:\workspace\atmel\sama5d2x-ucosIII\sample1\ucosiii-sama5d27\Software\uCOS-III\Ports\ARM-Cortex-A\Generic\IAR
+-I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\inc\c
@@ -49,6 +57,14 @@ E:\AB05-Test\ab05-sample2\ab05\lib\usb\include
 E:\AB05-Test\ab05-sample2\ab05\app
 -I
 E:\AB05-Test\github-atmel\usb_device\ab05\middleware
+-I
+E:\AB05-Test\ab05-sample2\ab05\Software\uC-CPU\ARM-Cortex-A\IAR
+-I
+E:\AB05-Test\ab05-sample2\ab05\Software\uC-CPU
+-I
+D:\workspace\atmel\sama5d2x-ucosIII\sample1\ucosiii-sama5d27\Software\uC-LIB
+-I
+D:\workspace\atmel\sama5d2x-ucosIII\sample1\ucosiii-sama5d27\Software\uCOS-III\Ports\ARM-Cortex-A\Generic\IAR
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

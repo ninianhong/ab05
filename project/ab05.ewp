@@ -423,6 +423,10 @@
                     <state>$PROJ_DIR$\..\lib\usb\include</state>
                     <state>$PROJ_DIR$\..\app</state>
                     <state>E:\AB05-Test\github-atmel\usb_device\ab05\middleware</state>
+                    <state>E:\AB05-Test\ab05-sample2\ab05\Software\uC-CPU\ARM-Cortex-A\IAR</state>
+                    <state>E:\AB05-Test\ab05-sample2\ab05\Software\uC-CPU</state>
+                    <state>D:\workspace\atmel\sama5d2x-ucosIII\sample1\ucosiii-sama5d27\Software\uC-LIB</state>
+                    <state>D:\workspace\atmel\sama5d2x-ucosIII\sample1\ucosiii-sama5d27\Software\uCOS-III\Ports\ARM-Cortex-A\Generic\IAR</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2318,12 +2322,159 @@
     </group>
     <group>
         <name>uC/CPU</name>
+        <group>
+            <name>ARM-Cortex-A</name>
+            <group>
+                <name>IAR</name>
+                <file>
+                    <name>$PROJ_DIR$\..\Software\uC-CPU\ARM-Cortex-A\IAR\cpu.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Software\uC-CPU\ARM-Cortex-A\IAR\cpu_a.asm</name>
+                </file>
+            </group>
+        </group>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-CPU\cpu_cache.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-CPU\cpu_core.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-CPU\cpu_core.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-CPU\cpu_def.h</name>
+        </file>
     </group>
     <group>
         <name>uC/LIB</name>
+        <group>
+            <name>Ports</name>
+            <group>
+                <name>ARM</name>
+                <group>
+                    <name>IAR</name>
+                    <file>
+                        <name>$PROJ_DIR$\..\Software\uC-LIB\Ports\ARM\IAR\lib_mem_a.asm</name>
+                    </file>
+                </group>
+            </group>
+        </group>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_ascii.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_ascii.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_def.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_math.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_math.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_mem.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_mem.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_str.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Software\uC-LIB\lib_str.h</name>
+        </file>
     </group>
     <group>
         <name>uC/OS-II</name>
+        <group>
+            <name>Ports</name>
+            <group>
+                <name>ARM-Cortex-A</name>
+                <group>
+                    <name>Generic</name>
+                    <group>
+                        <name>IAR</name>
+                        <file>
+                            <name>$PROJ_DIR$\..\Software\uCOS-III\Ports\ARM-Cortex-A\Generic\IAR\os_cpu.h</name>
+                        </file>
+                        <file>
+                            <name>$PROJ_DIR$\..\Software\uCOS-III\Ports\ARM-Cortex-A\Generic\IAR\os_cpu_a_vfp-d32.asm</name>
+                        </file>
+                        <file>
+                            <name>$PROJ_DIR$\..\Software\uCOS-III\Ports\ARM-Cortex-A\Generic\IAR\os_cpu_c.c</name>
+                        </file>
+                    </group>
+                </group>
+            </group>
+        </group>
+        <group>
+            <name>Sources</name>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_cfg_app.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_core.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_dbg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_flag.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_mem.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_mon.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_msg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_mutex.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_prio.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_q.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_sem.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_stat.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_tick.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_time.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_tmr.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_trace.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_type.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Software\uCOS-III\Source\os_var.c</name>
+            </file>
+        </group>
     </group>
     <group>
         <name>utils</name>
