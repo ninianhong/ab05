@@ -2143,6 +2143,9 @@
         </file>
     </group>
     <group>
+        <name>BSP</name>
+    </group>
+    <group>
         <name>drivers</name>
         <file>
             <name>$PROJ_DIR$\..\drivers\aic5.c</name>
@@ -2312,6 +2315,15 @@
         <file>
             <name>$PROJ_DIR$\..\target\chip_common.c</name>
         </file>
+    </group>
+    <group>
+        <name>uC/CPU</name>
+    </group>
+    <group>
+        <name>uC/LIB</name>
+    </group>
+    <group>
+        <name>uC/OS-II</name>
     </group>
     <group>
         <name>utils</name>
